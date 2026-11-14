@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Palette: ccd5ae, e9edc9, fefae0, faedcd, d4a373 */
+    --background: 44 48% 97%; /* #FAF8F2 derived from #FEFAE0 */
+    --foreground: 28 20% 14%; /* Deep warm espresso charcoal */
+
+    --card: 0 0% 100%;
+    --card-foreground: 28 20% 14%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 28 20% 14%;
+
+    /* Primary: Warm Ochre #D4A373 */
+    --primary: 30 52% 64%;
+    --primary-foreground: 28 35% 12%;
+
+    /* Secondary: Biscuit Champagne #FAEDCD */
+    --secondary: 39 77% 89%;
+    --secondary-foreground: 28 35% 16%;
+
+    /* Muted: Soft cream celery tint #E9EDC9 */
+    --muted: 66 38% 92%;
+    --muted-foreground: 30 12% 42%;
+
+    /* Accent: Sage #CCD5AE */
+    --accent: 74 30% 75%;
+    --accent-foreground: 85 30% 18%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 38 25% 86%;
+    --input: 38 25% 86%;
+    --ring: 30 52% 64%;
+
+    --radius: 0.75rem;
+
+    /* Custom Palette Tokens */
+    --c-sage: #CCD5AE;
+    --c-celery: #E9EDC9;
+    --c-parchment: #FEFAE0;
+    --c-bisque: #FAEDCD;
+    --c-ochre: #D4A373;
+  }
+
+  .dark {
+    --background: 28 15% 10%; /* #1A1715 deep roasted warm charcoal */
+    --foreground: 44 30% 94%;
+
+    --card: 28 14% 13%;
+    --card-foreground: 44 30% 94%;
+
+    --popover: 28 14% 13%;
+    --popover-foreground: 44 30% 94%;
+
+    --primary: 30 60% 68%;
+    --primary-foreground: 28 35% 10%;
+
+    --secondary: 28 18% 20%;
+    --secondary-foreground: 44 30% 90%;
+
+    --muted: 28 15% 18%;
+    --muted-foreground: 30 15% 65%;
+
+    --accent: 74 25% 40%;
+    --accent-foreground: 44 40% 96%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 28 15% 22%;
+    --input: 28 15% 22%;
+    --ring: 30 60% 68%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased font-sans selection:bg-[#FAEDCD] selection:text-[#586938];
+  }
+}
+
+/* Bespoke subtle glass and border utilities */
+.luxury-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 3px 0 rgba(44, 34, 20, 0.04), 0 8px 24px -4px rgba(44, 34, 20, 0.03);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-card-interactive:hover {
+  border-color: rgba(212, 163, 115, 0.45);
+  box-shadow: 0 4px 12px 0 rgba(44, 34, 20, 0.06), 0 16px 32px -6px rgba(44, 34, 20, 0.06);
+  transform: translateY(-1px);
+}
+
+.luxury-gradient {
+  background: linear-gradient(135deg, #FEFAE0 0%, #FAEDCD 50%, #E9EDC9 100%);
+}
+
+.luxury-gradient-dark {
+  background: linear-gradient(135deg, #221E19 0%, #2A241E 50%, #20231B 100%);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 163, 115, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 163, 115, 0.5);
+}

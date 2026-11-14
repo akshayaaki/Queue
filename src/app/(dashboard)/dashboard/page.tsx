@@ -1,0 +1,277 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import {
+  Users,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  Activity,
+  Layers,
+  PlusCircle,
+  Megaphone,
+  ArrowRight,
+  TrendingUp,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { KpiCard } from "@/components/analytics/kpi-card";
+import { QueueCard } from "@/components/queues/queue-card";
+import { CreateQueueModal } from "@/components/queues/create-queue-modal";
+import { EditQueueModal } from "@/components/queues/edit-queue-modal";
+import { AddCustomerModal } from "@/components/tokens/add-customer-modal";
+import { QueueSummary, AnalyticsOverview, QueueEventItem } from "@/types";
+import { formatDuration, formatDateTime, formatTime } from "@/lib/utils";
+import { playCallChime } from "@/components/audio/chime";
+import { toast } from "sonner";
+
+export default function DashboardPage() {
+  const [queues, setQueues] = useState<QueueSummary[]>([]);
+  const [overview, setOverview] = useState<AnalyticsOverview | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Modals state
+  const [createQueueOpen, setCreateQueueOpen] = useState(false);
+  const [editQueueOpen, setEditQueueOpen] = useState(false);
+  const [selectedQueue, setSelectedQueue] = useState<QueueSummary | null>(null);
+  const [addCustomerOpen, setAddCustomerOpen] = useState(false);
+  const [callingNext, setCallingNext] = useState(false);
+
+  const fetchDashboardData = async () => {
+    try {
+      const [queuesRes, analyticsRes] = await Promise.all([
+        fetch("/api/queues"),
+        fetch("/api/analytics?period=today"),
+      ]);
+
+      const queuesData = await queuesRes.json();
+      const analyticsData = await analyticsRes.json();
+
+      if (queuesData.queues) {
+        setQueues(queuesData.queues);
+      }
+      if (analyticsData.data) {
+        setOverview(analyticsData.data);
+      }
+    } catch (err) {
+      console.error("[Dashboard Fetch Error]:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+
+    // Listen to real-time events on global channel
+    const eventSource = new EventSource("/api/events?queueId=*");
+    eventSource.onmessage = (e) => {
+      try {
+        const payload = JSON.parse(e.data);
+        if (payload.type === "CONNECTED") return;
+        // Background refresh
+        fetchDashboardData();
+      } catch {}
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
+
+  const handleQuickCallNext = async (queueId: string) => {
+    try {
+      setCallingNext(true);
+      const res = await fetch(`/api/queues/${queueId}/call-next`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to call next");
+
+      if (data.token) {
+        playCallChime();
+        toast.success(`Called Token ${data.token.tokenNumber}!`);
+      } else {
+        toast.info("No waiting customers in this queue");
+      }
+      fetchDashboardData();
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setCallingNext(false);
+    }
+  };
+
+  const primaryQueue = queues[0] || null;
+
+  return (
+    <div className="space-y-8">
+      {/* Welcome Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 sm:p-8 rounded-3xl border border-border bg-gradient-to-br from-[#FEFAE0]/80 via-card to-[#FAEDCD]/50 shadow-bespoke relative overflow-hidden dark:from-[#231E18] dark:to-[#1C1814]">
+        <div className="space-y-1.5 z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-palette-sage/30 border border-palette-sage/50 text-[11px] font-semibold text-[#30401C] dark:text-[#C5D5A0]">
+            <span className="w-2 h-2 rounded-full bg-[#586938]" />
+            Live Queue Command Center
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground font-serif">
+            Queue Performance Overview
+          </h1>
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-xl">
+            Real-time multi-counter status, live token sequence generation, and atomic queue dispatch.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 z-10">
+          <Button
+            variant="outline"
+            onClick={() => setCreateQueueOpen(true)}
+            className="gap-2 text-xs font-semibold"
+          >
+            <PlusCircle className="w-4 h-4 text-palette-ochreDark" />
+            New Queue
+          </Button>
+
+          {primaryQueue && (
+            <Button
+              variant="hero"
+              disabled={callingNext || (primaryQueue.metrics?.waitingCount ?? 0) === 0}
+              onClick={() => handleQuickCallNext(primaryQueue.id)}
+              className="gap-2 text-xs font-bold shadow-md"
+            >
+              <Megaphone className="w-4 h-4" />
+              <span>Call Next ({primaryQueue.queueCode})</span>
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* KPI Cards Grid (6 Cards) */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
+        <KpiCard
+          title="Total Served"
+          value={overview?.totalServed ?? 0}
+          subtitle="Customers Completed"
+          icon={CheckCircle2}
+          badge="Today"
+          trend="up"
+        />
+        <KpiCard
+          title="Now Waiting"
+          value={overview?.currentWaiting ?? 0}
+          subtitle="Active in Queue"
+          icon={Users}
+          badge="Live"
+          trend="neutral"
+        />
+        <KpiCard
+          title="Avg Wait Time"
+          value={formatDuration(overview?.avgWaitTimeMs)}
+          subtitle="Called - Created"
+          icon={Clock}
+        />
+        <KpiCard
+          title="Avg Service"
+          value={formatDuration(overview?.avgServiceTimeMs)}
+          subtitle="Start to Finish"
+          icon={Activity}
+        />
+        <KpiCard
+          title="Cancelled"
+          value={overview?.totalCancelled ?? 0}
+          subtitle="Removed Tokens"
+          icon={XCircle}
+        />
+        <KpiCard
+          title="Completion"
+          value={`${overview?.completionRate ?? 0}%`}
+          subtitle="Served Ratio"
+          icon={TrendingUp}
+          badge={overview && overview.completionRate >= 80 ? "Optimal" : "Standard"}
+          trend="up"
+        />
+      </div>
+
+      {/* Active Queues Section */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-bold tracking-tight text-foreground font-serif">
+              Active Queues & Counters
+            </h2>
+            <p className="text-xs text-muted-foreground">
+              Direct counter status, live waiting volume, and queue actions.
+            </p>
+          </div>
+          <Link
+            href="/queues"
+            className="text-xs font-bold text-palette-ochreDark hover:underline flex items-center gap-1"
+          >
+            <span>Manage All Queues</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {queues.length === 0 ? (
+          <div className="p-12 text-center rounded-3xl border border-dashed border-border bg-card">
+            <Layers className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
+            <h3 className="text-base font-bold text-foreground">No Queues Configured</h3>
+            <p className="text-xs text-muted-foreground max-w-sm mx-auto mt-1 mb-4">
+              Create your first service queue to begin adding customers and issuing numbered tokens.
+            </p>
+            <Button onClick={() => setCreateQueueOpen(true)} variant="default">
+              Create First Queue
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {queues.map((q) => (
+              <QueueCard
+                key={q.id}
+                queue={q}
+                onEdit={(queue) => {
+                  setSelectedQueue(queue);
+                  setEditQueueOpen(true);
+                }}
+                onDelete={async (queueId) => {
+                  if (confirm("Are you sure you want to delete this queue and its records?")) {
+                    await fetch(`/api/queues/${queueId}`, { method: "DELETE" });
+                    fetchDashboardData();
+                  }
+                }}
+                onAddCustomer={(queue) => {
+                  setSelectedQueue(queue);
+                  setAddCustomerOpen(true);
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Modals */}
+      <CreateQueueModal
+        open={createQueueOpen}
+        onOpenChange={setCreateQueueOpen}
+        onQueueCreated={fetchDashboardData}
+      />
+
+      <EditQueueModal
+        queue={selectedQueue}
+        open={editQueueOpen}
+        onOpenChange={setEditQueueOpen}
+        onQueueUpdated={fetchDashboardData}
+      />
+
+      {selectedQueue && (
+        <AddCustomerModal
+          open={addCustomerOpen}
+          onOpenChange={setAddCustomerOpen}
+          queueId={selectedQueue.id}
+          queueCode={selectedQueue.queueCode}
+          nextTokenNumber={selectedQueue.nextTokenNumber}
+          onCustomerAdded={fetchDashboardData}
+        />
+      )}
+    </div>
+  );
+}

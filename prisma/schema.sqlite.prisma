@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String       @id @default(cuid())
+  name         String
+  email        String       @unique
+  passwordHash String
+  role         String       @default("MANAGER")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  queues       Queue[]
+  events       QueueEvent[]
+
+  @@map("users")
+}
+
+model Queue {
+  id              String       @id @default(cuid())
+  name            String
+  description     String?
+  queueCode       String
+  status          String       @default("ACTIVE")
+  ownerId         String
+  owner           User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  nextTokenNumber Int          @default(1)
+  capacity        Int?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  tokens          Token[]
+  events          QueueEvent[]
+
+  @@unique([ownerId, queueCode])
+  @@index([ownerId])
+  @@index([status])
+  @@map("queues")
+}
+
+model Token {
+  id                 String       @id @default(cuid())
+  queueId            String
+  queue              Queue        @relation(fields: [queueId], references: [id], onDelete: Cascade)
+  tokenNumber        String
+  customerName       String
+  phone              String?
+  email              String?
+  notes              String?
+  status             String       @default("WAITING")
+  position           Int          @default(0)
+  cancellationReason String?
+  createdAt          DateTime     @default(now())
+  calledAt           DateTime?
+  serviceStartedAt   DateTime?
+  completedAt        DateTime?
+  cancelledAt        DateTime?
+  skippedAt          DateTime?
+  events             QueueEvent[]
+
+  @@index([queueId, status])
+  @@index([queueId, position])
+  @@index([createdAt])
+  @@map("tokens")
+}
+
+model QueueEvent {
+  id        String   @id @default(cuid())
+  queueId   String
+  queue     Queue    @relation(fields: [queueId], references: [id], onDelete: Cascade)
+  tokenId   String?
+  token     Token?   @relation(fields: [tokenId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventType String
+  eventData String?
+  createdAt DateTime @default(now())
+
+  @@index([queueId])
+  @@index([tokenId])
+  @@index([createdAt])
+  @@map("queue_events")
+}
