@@ -43,8 +43,7 @@ export default function LoginPage() {
       }
 
       toast.success(`Welcome back, ${data.user.name}!`);
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message || "An error occurred during login");
     } finally {
@@ -72,8 +71,7 @@ export default function LoginPage() {
       }
 
       toast.success(`Welcome back, ${data.user.name}!`);
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message || "An error occurred during login");
     } finally {

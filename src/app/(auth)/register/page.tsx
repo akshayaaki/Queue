@@ -55,8 +55,7 @@ export default function RegisterPage() {
       }
 
       toast.success(`Account created for ${data.user.name}!`);
-      router.push("/dashboard");
-      router.refresh();
+      window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message || "An error occurred during registration");
     } finally {

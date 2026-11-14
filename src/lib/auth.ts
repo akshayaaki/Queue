@@ -55,36 +55,43 @@ export async function getSession(): Promise<UserSession | null> {
   }
 }
 
-export async function setSessionCookie(token: string) {
-  const cookieStore = cookies();
-  const isHttps =
-    process.env.NEXTAUTH_URL?.startsWith("https://") ||
-    process.env.VERCEL_URL?.startsWith("https://") ||
-    false;
+export function getCookieOptions(isHttps?: boolean) {
+  const isProd = process.env.NODE_ENV === "production";
+  const secure =
+    isHttps ??
+    (isProd ||
+      process.env.NEXTAUTH_URL?.startsWith("https://") ||
+      process.env.VERCEL_URL?.startsWith("https://") ||
+      Boolean(process.env.NETLIFY));
 
-  cookieStore.set(COOKIE_NAME, token, {
+  return {
     httpOnly: true,
-    secure: isHttps,
-    sameSite: "lax",
+    secure,
+    sameSite: "lax" as const,
     path: "/",
     maxAge: 60 * 60 * 24 * 7, // 7 days
-  });
+  };
+}
+
+export async function setSessionCookie(token: string) {
+  try {
+    const cookieStore = cookies();
+    cookieStore.set(COOKIE_NAME, token, getCookieOptions());
+  } catch {
+    // Cookie store may not be mutable in some execution contexts
+  }
 }
 
 export async function clearSessionCookie() {
-  const cookieStore = cookies();
-  const isHttps =
-    process.env.NEXTAUTH_URL?.startsWith("https://") ||
-    process.env.VERCEL_URL?.startsWith("https://") ||
-    false;
-
-  cookieStore.set(COOKIE_NAME, "", {
-    httpOnly: true,
-    secure: isHttps,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 0,
-  });
+  try {
+    const cookieStore = cookies();
+    cookieStore.set(COOKIE_NAME, "", {
+      ...getCookieOptions(),
+      maxAge: 0,
+    });
+  } catch {
+    // Cookie store may not be mutable in some execution contexts
+  }
 }
 
 /**

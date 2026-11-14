@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { registerSchema } from "@/schemas";
-import { hashPassword, createSessionToken, setSessionCookie } from "@/lib/auth";
+import {
+  hashPassword,
+  createSessionToken,
+  setSessionCookie,
+  getCookieOptions,
+} from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,10 +24,22 @@ export async function POST(req: NextRequest) {
 
     const { name, email, password } = validated.data;
 
-    // Check duplicate
-    const existing = await prisma.user.findUnique({
-      where: { email },
-    });
+    let existing = null;
+    try {
+      existing = await prisma.user.findUnique({
+        where: { email: email.toLowerCase() },
+      });
+    } catch (dbErr: any) {
+      const isMissingUrl = !process.env.DATABASE_URL;
+      return NextResponse.json(
+        {
+          error: isMissingUrl
+            ? "DATABASE_URL is not configured in Netlify environment variables. Please add your PostgreSQL DATABASE_URL to enable manager registration."
+            : `Database error: ${dbErr.message || "Failed to reach database"}.`,
+        },
+        { status: 500 }
+      );
+    }
 
     if (existing) {
       return NextResponse.json(
@@ -34,7 +53,7 @@ export async function POST(req: NextRequest) {
     const user = await prisma.user.create({
       data: {
         name,
-        email,
+        email: email.toLowerCase(),
         passwordHash,
         role: "MANAGER",
       },
@@ -62,17 +81,30 @@ export async function POST(req: NextRequest) {
     const token = await createSessionToken(sessionUser);
     await setSessionCookie(token);
 
-    return NextResponse.json(
+    const isHttps =
+      req.headers.get("x-forwarded-proto") === "https" ||
+      req.url.startsWith("https://") ||
+      process.env.NODE_ENV === "production";
+
+    const response = NextResponse.json(
       {
         message: "Registration successful",
         user: sessionUser,
       },
       { status: 201 }
     );
+
+    response.cookies.set({
+      name: "queueflow_session",
+      value: token,
+      ...getCookieOptions(isHttps),
+    });
+
+    return response;
   } catch (error: any) {
     console.error("[Register API Error]:", error);
     return NextResponse.json(
-      { error: "An unexpected error occurred during registration" },
+      { error: error.message || "An unexpected error occurred during registration" },
       { status: 500 }
     );
   }
