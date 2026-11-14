@@ -3,6 +3,8 @@ import prisma from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { createQueueSchema } from "@/schemas";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   const session = await getSession();
   if (!session) {
