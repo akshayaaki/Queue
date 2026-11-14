@@ -36,7 +36,7 @@ export class QueueEngine {
   }) {
     const { queueId, userId, customerName, phone, email, notes } = params;
 
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: any) => {
       // 1. Lock/fetch queue
       const queue = await tx.queue.findUnique({
         where: { id: queueId },
@@ -117,7 +117,7 @@ export class QueueEngine {
    * Atomically assigns the first WAITING token in position order.
    */
   static async callNext(queueId: string, userId: string) {
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: any) => {
       // Find the first waiting customer
       const candidate = await tx.token.findFirst({
         where: {
@@ -199,7 +199,7 @@ export class QueueEngine {
   }) {
     const { queueId, tokenId, userId, direction } = params;
 
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: any) => {
       const target = await tx.token.findUnique({
         where: { id: tokenId },
       });
@@ -290,7 +290,7 @@ export class QueueEngine {
    * Start Service
    */
   static async startService(tokenId: string, userId: string) {
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: any) => {
       const token = await tx.token.findUnique({ where: { id: tokenId } });
       if (!token) throw new Error("TOKEN_NOT_FOUND");
 
@@ -329,7 +329,7 @@ export class QueueEngine {
    * Complete Service
    */
   static async completeService(tokenId: string, userId: string) {
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: any) => {
       const token = await tx.token.findUnique({ where: { id: tokenId } });
       if (!token) throw new Error("TOKEN_NOT_FOUND");
 
@@ -368,7 +368,7 @@ export class QueueEngine {
    * Skip Token
    */
   static async skipToken(tokenId: string, userId: string) {
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: any) => {
       const token = await tx.token.findUnique({ where: { id: tokenId } });
       if (!token) throw new Error("TOKEN_NOT_FOUND");
 
@@ -407,7 +407,7 @@ export class QueueEngine {
    * Cancel Token (Non-destructive)
    */
   static async cancelToken(tokenId: string, userId: string, reason?: string | null) {
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: any) => {
       const token = await tx.token.findUnique({ where: { id: tokenId } });
       if (!token) throw new Error("TOKEN_NOT_FOUND");
 
@@ -464,7 +464,7 @@ export class QueueEngine {
    * Recall a skipped or called token back into active call
    */
   static async recallToken(tokenId: string, userId: string) {
-    return await prisma.$transaction(async (tx) => {
+    return await prisma.$transaction(async (tx: any) => {
       const token = await tx.token.findUnique({ where: { id: tokenId } });
       if (!token) throw new Error("TOKEN_NOT_FOUND");
 

@@ -16,8 +16,16 @@ export async function GET(req: NextRequest) {
   const status = searchParams.get("status")?.trim();
 
   try {
+    const effectiveUserId =
+      session.id === "demo-manager-alex" ? "usr_alex_vance" :
+      session.id === "demo-manager-sarah" ? "usr_sarah_chen" :
+      session.id;
+
     const whereClause: any = {
-      ownerId: session.id,
+      OR: [
+        { ownerId: effectiveUserId },
+        { ownerId: session.id },
+      ],
     };
 
     if (status && status !== "ALL") {
@@ -25,10 +33,14 @@ export async function GET(req: NextRequest) {
     }
 
     if (search) {
-      whereClause.OR = [
-        { name: { contains: search } },
-        { queueCode: { contains: search } },
-        { description: { contains: search } },
+      whereClause.AND = [
+        {
+          OR: [
+            { name: { contains: search } },
+            { queueCode: { contains: search } },
+            { description: { contains: search } },
+          ],
+        },
       ];
     }
 
@@ -43,8 +55,9 @@ export async function GET(req: NextRequest) {
     });
 
     // Compute live metrics for each queue
+    const queuesList = (queues as any[]) || [];
     const queuesWithMetrics = await Promise.all(
-      queues.map(async (queue) => {
+      queuesList.map(async (queue: any) => {
         const [waitingCount, servingCount, completedCount, cancelledCount] =
           await Promise.all([
             prisma.token.count({ where: { queueId: queue.id, status: "WAITING" } }),
@@ -56,15 +69,15 @@ export async function GET(req: NextRequest) {
           ]);
 
         // Calculate average wait time for completed/called tokens
-        const calledTokens = await prisma.token.findMany({
+        const calledTokens = (await prisma.token.findMany({
           where: { queueId: queue.id, calledAt: { not: null } },
           select: { createdAt: true, calledAt: true },
           take: 50,
-        });
+        })) as any[];
 
         let avgWaitTimeMs = 0;
-        if (calledTokens.length > 0) {
-          const totalMs = calledTokens.reduce((sum, t) => {
+        if (calledTokens && calledTokens.length > 0) {
+          const totalMs = calledTokens.reduce((sum: number, t: any) => {
             return sum + (new Date(t.calledAt!).getTime() - new Date(t.createdAt).getTime());
           }, 0);
           avgWaitTimeMs = Math.round(totalMs / calledTokens.length);

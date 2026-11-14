@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       // Resilient fallback: allow demo managers to log in even if PostgreSQL is pending connection
       if (isDemoAccount) {
         user = {
-          id: isAlex ? "demo-manager-alex" : "demo-manager-sarah",
+          id: isAlex ? "usr_alex_vance" : "usr_sarah_chen",
           name: isAlex ? "Alex Vance" : "Dr. Sarah Chen",
           email: email.toLowerCase(),
           passwordHash: null,

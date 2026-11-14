@@ -55,6 +55,28 @@ export default function LiveQueuePage() {
 
   useEffect(() => {
     fetchQueueData();
+
+    let eventSource: EventSource | null = null;
+    try {
+      eventSource = new EventSource(`/api/events?queueId=${queueId}`);
+      eventSource.onmessage = (e) => {
+        try {
+          const payload = JSON.parse(e.data);
+          if (payload.type === "CONNECTED") return;
+          fetchQueueData();
+        } catch {}
+      };
+      eventSource.onerror = () => {
+        eventSource?.close();
+      };
+    } catch {}
+
+    const interval = setInterval(fetchQueueData, 5000);
+
+    return () => {
+      if (eventSource) eventSource.close();
+      clearInterval(interval);
+    };
   }, [queueId]);
 
   const handleOpenCancelModal = (token: TokenItem) => {

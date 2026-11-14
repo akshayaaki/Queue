@@ -64,18 +64,27 @@ export default function DashboardPage() {
     fetchDashboardData();
 
     // Listen to real-time events on global channel
-    const eventSource = new EventSource("/api/events?queueId=*");
-    eventSource.onmessage = (e) => {
-      try {
-        const payload = JSON.parse(e.data);
-        if (payload.type === "CONNECTED") return;
-        // Background refresh
-        fetchDashboardData();
-      } catch {}
-    };
+    let eventSource: EventSource | null = null;
+    try {
+      eventSource = new EventSource("/api/events?queueId=*");
+      eventSource.onmessage = (e) => {
+        try {
+          const payload = JSON.parse(e.data);
+          if (payload.type === "CONNECTED") return;
+          // Background refresh
+          fetchDashboardData();
+        } catch {}
+      };
+      eventSource.onerror = () => {
+        eventSource?.close();
+      };
+    } catch {}
+
+    const interval = setInterval(fetchDashboardData, 8000);
 
     return () => {
-      eventSource.close();
+      if (eventSource) eventSource.close();
+      clearInterval(interval);
     };
   }, []);
 

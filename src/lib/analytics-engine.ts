@@ -45,15 +45,23 @@ export class AnalyticsEngine {
     const { from, to } = this.getDateRange(period, startDate, endDate);
 
     // Tenant check: only include queues belonging to this owner
-    const managerQueues = await prisma.queue.findMany({
+    const effectiveOwnerId =
+      ownerId === "demo-manager-alex" ? "usr_alex_vance" :
+      ownerId === "demo-manager-sarah" ? "usr_sarah_chen" :
+      ownerId;
+
+    const managerQueues = ((await prisma.queue.findMany({
       where: {
-        ownerId,
+        OR: [
+          { ownerId: effectiveOwnerId },
+          { ownerId },
+        ],
         ...(queueId ? { id: queueId } : {}),
       },
       select: { id: true, name: true, queueCode: true },
-    });
+    })) as any[]) || [];
 
-    const queueIds = managerQueues.map((q) => q.id);
+    const queueIds = managerQueues.map((q: any) => q.id);
 
     if (queueIds.length === 0) {
       return {
@@ -80,7 +88,7 @@ export class AnalyticsEngine {
     });
 
     // 2. Tokens created in period
-    const tokensInPeriod = await prisma.token.findMany({
+    const tokensInPeriod = ((await prisma.token.findMany({
       where: {
         queueId: { in: queueIds },
         createdAt: { gte: from, lte: to },
@@ -95,16 +103,16 @@ export class AnalyticsEngine {
         completedAt: true,
         cancelledAt: true,
       },
-    });
+    })) as any[]) || [];
 
     const totalTokens = tokensInPeriod.length;
 
     // Completed tokens
-    const completedTokens = tokensInPeriod.filter((t) => t.status === "COMPLETED");
+    const completedTokens = tokensInPeriod.filter((t: any) => t.status === "COMPLETED");
     const totalServed = completedTokens.length;
 
     // Cancelled tokens
-    const cancelledTokens = tokensInPeriod.filter((t) => t.status === "CANCELLED");
+    const cancelledTokens = tokensInPeriod.filter((t: any) => t.status === "CANCELLED");
     const totalCancelled = cancelledTokens.length;
 
     // Completion Rate (avoid divide by zero)
@@ -116,7 +124,7 @@ export class AnalyticsEngine {
     let totalWaitTimeMs = 0;
     let waitTokensCount = 0;
 
-    tokensInPeriod.forEach((t) => {
+    tokensInPeriod.forEach((t: any) => {
       if (t.calledAt) {
         const diff = new Date(t.calledAt).getTime() - new Date(t.createdAt).getTime();
         if (diff >= 0) {
@@ -132,7 +140,7 @@ export class AnalyticsEngine {
     let totalServiceTimeMs = 0;
     let serviceTokensCount = 0;
 
-    completedTokens.forEach((t) => {
+    completedTokens.forEach((t: any) => {
       if (t.completedAt && t.serviceStartedAt) {
         const diff =
           new Date(t.completedAt).getTime() - new Date(t.serviceStartedAt).getTime();
@@ -152,7 +160,7 @@ export class AnalyticsEngine {
       hourlyMap[h] = 0;
     }
 
-    tokensInPeriod.forEach((t) => {
+    tokensInPeriod.forEach((t: any) => {
       const h = new Date(t.createdAt).getHours();
       hourlyMap[h] = (hourlyMap[h] || 0) + 1;
     });
@@ -174,7 +182,7 @@ export class AnalyticsEngine {
     // Wait Time Trends by Day
     const dayMap: Record<string, { totalMs: number; count: number }> = {};
 
-    tokensInPeriod.forEach((t) => {
+    tokensInPeriod.forEach((t: any) => {
       if (t.calledAt) {
         const dayStr = new Date(t.createdAt).toLocaleDateString("en-US", {
           month: "short",
@@ -199,7 +207,7 @@ export class AnalyticsEngine {
 
     // Queue Performance Comparison
     const queueComparisons = await Promise.all(
-      managerQueues.map(async (q) => {
+      managerQueues.map(async (q: any) => {
         const [waiting, completed, cancelled] = await Promise.all([
           prisma.token.count({ where: { queueId: q.id, status: "WAITING" } }),
           prisma.token.count({

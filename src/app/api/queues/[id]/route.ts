@@ -26,19 +26,23 @@ export async function GET(
       ],
     });
 
-    const waitingTokens = tokens.filter((t) => t.status === "WAITING").sort((a, b) => a.position - b.position);
-    const currentlyServing = tokens.find((t) => t.status === "SERVING" || t.status === "CALLED") || null;
+    const tokenList = (tokens as any[]) || [];
+    const waitingTokens = tokenList
+      .filter((t: any) => t.status === "WAITING")
+      .sort((a: any, b: any) => a.position - b.position);
+    const currentlyServing =
+      tokenList.find((t: any) => t.status === "SERVING" || t.status === "CALLED") || null;
     const nextUp = waitingTokens[0] || null;
 
-    const completedCount = tokens.filter((t) => t.status === "COMPLETED").length;
-    const cancelledCount = tokens.filter((t) => t.status === "CANCELLED").length;
+    const completedCount = tokenList.filter((t: any) => t.status === "COMPLETED").length;
+    const cancelledCount = tokenList.filter((t: any) => t.status === "CANCELLED").length;
     const waitingCount = waitingTokens.length;
 
     // Average wait time
-    const calledTokens = tokens.filter((t) => t.calledAt !== null);
+    const calledTokens = tokenList.filter((t: any) => t.calledAt !== null);
     let avgWaitTimeMs = 0;
     if (calledTokens.length > 0) {
-      const totalWait = calledTokens.reduce((acc, t) => {
+      const totalWait = calledTokens.reduce((acc: number, t: any) => {
         return acc + (new Date(t.calledAt!).getTime() - new Date(t.createdAt).getTime());
       }, 0);
       avgWaitTimeMs = Math.round(totalWait / calledTokens.length);
