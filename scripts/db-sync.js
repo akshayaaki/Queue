@@ -1,6 +1,21 @@
 const { execSync } = require('child_process');
 const path = require('path');
-require('dotenv').config();
+const fs = require('fs');
+
+// Read .env if DATABASE_URL is not set
+if (!process.env.DATABASE_URL && fs.existsSync('.env')) {
+  const content = fs.readFileSync('.env', 'utf8');
+  for (const line of content.split('\n')) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+      const [key, ...rest] = trimmed.split('=');
+      const val = rest.join('=').trim().replace(/^["']|["']$/g, '');
+      if (key && !process.env[key.trim()]) {
+        process.env[key.trim()] = val;
+      }
+    }
+  }
+}
 
 const dbUrl = process.env.DATABASE_URL || 'file:./dev.db';
 const isPostgres = dbUrl.startsWith('postgres://') || dbUrl.startsWith('postgresql://');
