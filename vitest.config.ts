@@ -2,6 +2,8 @@ import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
+process.env.DATABASE_URL = "file:./test.db";
+
 export default defineConfig({
   plugins: [react()],
   resolve: {

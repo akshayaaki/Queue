@@ -17,9 +17,35 @@ export async function POST(req: NextRequest) {
 
     const { email, password } = validated.data;
 
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { email },
     });
+
+    // Auto-provision demo manager if not found or if database was reset
+    if (!user && (email === "alex@queueflow.com" || email === "sarah@queueflow.com") && password === "password123") {
+      const passwordHash = await hashPassword("password123");
+      const isAlex = email === "alex@queueflow.com";
+      user = await prisma.user.create({
+        data: {
+          name: isAlex ? "Alex Vance" : "Dr. Sarah Chen",
+          email,
+          passwordHash,
+          role: "MANAGER",
+        },
+      });
+
+      // Create initial queue for demo manager
+      await prisma.queue.create({
+        data: {
+          name: isAlex ? "General Enquiry" : "Clinical Consultation",
+          description: isAlex ? "Front-desk general intake and visitor registration" : "Specialist appointments",
+          queueCode: isAlex ? "GEN" : "MED",
+          status: "ACTIVE",
+          ownerId: user.id,
+          nextTokenNumber: 1,
+        },
+      });
+    }
 
     if (!user) {
       return NextResponse.json(
