@@ -87,7 +87,7 @@ export default function LiveQueuePage() {
   if (loading) {
     return (
       <div className="py-24 text-center">
-        <RefreshCw className="w-8 h-8 text-brand-gold animate-spin mx-auto mb-3" />
+        <RefreshCw className="w-8 h-8 text-brand-fern animate-spin mx-auto mb-3" />
         <p className="text-sm font-semibold text-foreground">Connecting to Live Queue...</p>
       </div>
     );
@@ -120,14 +120,14 @@ export default function LiveQueuePage() {
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-md bg-brand-navy text-brand-gold font-mono font-bold text-xs border border-brand-navy shadow-2xs">
+              <span className="px-2.5 py-0.5 rounded-md bg-brand-forest text-brand-stone font-mono font-bold text-xs border border-brand-pine shadow-2xs">
                 {queue.queueCode}
               </span>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                 {queue.name}
               </h1>
-              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-brand-fern/15 text-brand-forest border border-brand-fern/40">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-fern animate-pulse" />
                 Live
               </span>
             </div>

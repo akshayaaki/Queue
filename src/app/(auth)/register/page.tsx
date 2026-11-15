@@ -74,7 +74,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Register Card */}
-        <div className="rounded-2xl border border-brand-platinum bg-white p-7 sm:p-8 shadow-card relative overflow-hidden dark:border-brand-navyLight dark:bg-brand-navyDark">
+        <div className="rounded-2xl border border-brand-stone bg-white p-7 sm:p-8 shadow-card relative overflow-hidden dark:border-brand-pine dark:bg-brand-forest">
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5 dark:bg-red-950/40 dark:text-red-300">
               <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
@@ -86,7 +86,7 @@ export default function RegisterPage() {
             <div>
               <Label htmlFor="name">Full Name</Label>
               <div className="relative mt-1.5">
-                <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
+                <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-forest/40 dark:text-brand-stone/40" />
                 <Input
                   id="name"
                   placeholder="e.g. Jordan Miller"
@@ -101,7 +101,7 @@ export default function RegisterPage() {
             <div>
               <Label htmlFor="email">Work Email</Label>
               <div className="relative mt-1.5">
-                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
+                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-forest/40 dark:text-brand-stone/40" />
                 <Input
                   id="email"
                   type="email"
@@ -118,7 +118,7 @@ export default function RegisterPage() {
               <div>
                 <Label htmlFor="password">Password</Label>
                 <div className="relative mt-1.5">
-                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
+                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-forest/40 dark:text-brand-stone/40" />
                   <Input
                     id="password"
                     type="password"
@@ -133,7 +133,7 @@ export default function RegisterPage() {
               <div>
                 <Label htmlFor="confirmPassword">Confirm</Label>
                 <div className="relative mt-1.5">
-                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
+                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-forest/40 dark:text-brand-stone/40" />
                   <Input
                     id="confirmPassword"
                     type="password"
@@ -147,8 +147,8 @@ export default function RegisterPage() {
             </div>
 
             <div className="pt-1">
-              <div className="p-3 rounded-xl bg-brand-gold/15 border border-brand-gold/40 text-[11px] font-semibold text-brand-navy flex items-center gap-2 dark:text-brand-gold">
-                <ShieldCheck className="w-4 h-4 shrink-0 text-brand-gold" />
+              <div className="p-3 rounded-xl bg-brand-sage/25 border border-brand-sage text-[11px] font-semibold text-brand-forest flex items-center gap-2 dark:text-brand-stone">
+                <ShieldCheck className="w-4 h-4 shrink-0 text-brand-fern" />
                 <span>Default service queue will be provisioned automatically.</span>
               </div>
             </div>
@@ -158,7 +158,7 @@ export default function RegisterPage() {
               variant="default"
               size="lg"
               disabled={loading}
-              className="w-full mt-3 font-bold shadow-gold"
+              className="w-full mt-3 font-bold shadow-pine"
             >
               {loading ? "Creating Account..." : "Create Manager Workspace"}
               {!loading && <ArrowRight className="w-4 h-4 ml-2" />}
@@ -166,9 +166,9 @@ export default function RegisterPage() {
           </form>
         </div>
 
-        <p className="text-center text-xs text-brand-navy/60 mt-6 dark:text-brand-platinum/60">
+        <p className="text-center text-xs text-brand-forest/60 mt-6 dark:text-brand-stone/60">
           Already have an account?{" "}
-          <Link href="/login" className="font-bold text-brand-navy hover:text-brand-gold hover:underline dark:text-brand-gold">
+          <Link href="/login" className="font-bold text-brand-forest hover:text-brand-fern hover:underline dark:text-brand-sage">
             Sign In here
           </Link>
         </p>

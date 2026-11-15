@@ -24,7 +24,7 @@ export function KpiCard({
   return (
     <div
       className={cn(
-        "rounded-xl border border-brand-platinum bg-white p-4 sm:p-5 shadow-card transition-all hover:border-brand-gold/60 dark:bg-brand-navy dark:border-brand-navyLight flex flex-col justify-between",
+        "rounded-xl border border-brand-platinum bg-white p-4 sm:p-5 shadow-card transition-all hover:border-brand-fern/60 dark:bg-brand-navy dark:border-brand-navyLight flex flex-col justify-between",
         className
       )}
     >
@@ -33,7 +33,7 @@ export function KpiCard({
           {title}
         </span>
         <div className="w-8 h-8 rounded-lg bg-brand-platinumLight text-brand-navy flex items-center justify-center border border-brand-platinum dark:bg-brand-navyDark dark:text-brand-gold dark:border-brand-navyLight">
-          <Icon className="w-4 h-4 text-brand-gold" />
+          <Icon className="w-4 h-4 text-brand-fern" />
         </div>
       </div>
 
@@ -48,7 +48,7 @@ export function KpiCard({
                 className={cn(
                   "px-2 py-0.5 rounded-full text-[10px] font-bold font-mono",
                   trend === "up"
-                    ? "bg-brand-gold/20 text-brand-navy border border-brand-gold/50 dark:text-brand-gold"
+                    ? "bg-brand-sage/25 text-brand-forest border border-brand-sage dark:text-brand-stone"
                     : trend === "down"
                     ? "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300 border border-rose-200/60"
                     : "bg-brand-platinum text-brand-navy border border-brand-platinum dark:bg-brand-navyDark dark:text-brand-platinum"

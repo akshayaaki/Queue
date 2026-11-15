@@ -100,8 +100,8 @@ export default function QueuesPage() {
               onClick={() => setStatusFilter(st)}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 statusFilter === st
-                  ? "bg-brand-gold text-brand-navy shadow-xs font-bold"
-                  : "bg-brand-platinum text-brand-navy/70 hover:bg-brand-platinum/80 hover:text-brand-navy"
+                  ? "bg-brand-pine text-white shadow-xs font-bold"
+                  : "bg-brand-stone/40 text-brand-forest hover:bg-brand-stone/70"
               }`}
             >
               {st}

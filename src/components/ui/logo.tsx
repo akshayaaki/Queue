@@ -24,7 +24,7 @@ export function QueueFlowLogo({
     <div className={cn("inline-flex items-center gap-2.5 select-none", className)}>
       <div
         className={cn(
-          "relative flex items-center justify-center rounded-lg bg-brand-navy text-brand-gold shadow-xs p-1.5 border border-brand-navyDark",
+          "relative flex items-center justify-center rounded-lg bg-brand-forest text-brand-fern shadow-xs p-1.5 border border-brand-pine",
           iconSizes
         )}
       >
@@ -43,17 +43,17 @@ export function QueueFlowLogo({
       <div className="flex flex-col">
         <span
           className={cn(
-            "font-extrabold tracking-tight text-brand-navy dark:text-white leading-none flex items-center gap-1",
+            "font-extrabold tracking-tight text-brand-forest dark:text-white leading-none flex items-center gap-1",
             textSizes
           )}
         >
           <span>Queue</span>
-          <span className="text-brand-gold">Flow</span>
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-brand-gold/20 text-brand-navy border border-brand-gold/50 dark:text-brand-gold">
+          <span className="text-brand-fern">Flow</span>
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-brand-sage/25 text-brand-forest border border-brand-sage dark:text-brand-stone">
             PRO
           </span>
         </span>
-        <span className="text-[10px] text-brand-navy/60 font-semibold tracking-wider uppercase mt-0.5 dark:text-brand-platinum/60">
+        <span className="text-[10px] text-brand-forest/60 font-semibold tracking-wider uppercase mt-0.5 dark:text-brand-stone/60">
           Enterprise
         </span>
       </div>

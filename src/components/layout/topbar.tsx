@@ -75,7 +75,7 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
                 onClick={() => setSwitcherOpen(!switcherOpen)}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-brand-platinum bg-white hover:bg-brand-platinumLight text-xs font-semibold text-brand-navy transition-all shadow-xs dark:bg-brand-navyDark dark:border-brand-navyLight dark:text-white"
               >
-                <Layers className="w-3.5 h-3.5 text-brand-gold" />
+                <Layers className="w-3.5 h-3.5 text-brand-fern" />
                 <span className="font-bold text-brand-navy dark:text-white">
                   {currentQueue ? currentQueue.name : "Select Queue"}
                 </span>
@@ -100,7 +100,7 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
                         className={cn(
                           "flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors",
                           q.id === activeQueueId
-                            ? "bg-brand-gold/15 text-brand-navy font-bold dark:text-brand-gold dark:bg-brand-gold/10"
+                            ? "bg-brand-sage/25 text-brand-forest font-bold dark:text-brand-stone dark:bg-brand-pine/20"
                             : "hover:bg-brand-platinumLight text-brand-navy font-medium dark:text-brand-platinum dark:hover:bg-brand-navyLight"
                         )}
                       >
@@ -145,11 +145,11 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
           className={cn(
             "p-2 rounded-lg border transition-all text-xs flex items-center gap-1.5 font-semibold",
             soundOn
-              ? "border-brand-gold/40 bg-brand-gold/15 text-brand-navy hover:bg-brand-gold/25 dark:text-brand-gold"
+              ? "border-brand-sage bg-brand-sage/20 text-brand-forest hover:bg-brand-sage/30 dark:text-brand-stone"
               : "border-brand-platinum bg-white text-brand-navy/60 hover:bg-brand-platinumLight dark:bg-brand-navyDark dark:border-brand-navyLight dark:text-brand-platinum/60"
           )}
         >
-          {soundOn ? <Volume2 className="w-4 h-4 text-brand-navy dark:text-brand-gold" /> : <VolumeX className="w-4 h-4" />}
+          {soundOn ? <Volume2 className="w-4 h-4 text-brand-fern dark:text-brand-stone" /> : <VolumeX className="w-4 h-4" />}
           <span className="hidden xl:inline text-[11px]">
             {soundOn ? "Chime On" : "Muted"}
           </span>
@@ -161,12 +161,12 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
           title="Toggle Light / Dark Mode"
           className="p-2 rounded-lg border border-brand-platinum bg-white text-brand-navy hover:bg-brand-platinumLight transition-all dark:bg-brand-navyDark dark:border-brand-navyLight dark:text-brand-platinum"
         >
-          {theme === "dark" ? <Sun className="w-4 h-4 text-brand-gold" /> : <Moon className="w-4 h-4" />}
+          {theme === "dark" ? <Sun className="w-4 h-4 text-brand-fern" /> : <Moon className="w-4 h-4" />}
         </button>
 
         {/* User Avatar */}
         <div className="hidden sm:flex items-center gap-2 pl-2 border-l border-brand-platinum dark:border-brand-navyLight">
-          <div className="w-8 h-8 rounded-full bg-brand-navy text-brand-gold border border-brand-navyDark flex items-center justify-center font-bold text-xs shadow-xs">
+          <div className="w-8 h-8 rounded-full bg-brand-forest text-brand-stone border border-brand-pine flex items-center justify-center font-bold text-xs shadow-xs">
             {user?.name ? user.name.charAt(0).toUpperCase() : "M"}
           </div>
         </div>

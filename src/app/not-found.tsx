@@ -11,12 +11,12 @@ export default function NotFound() {
           <QueueFlowLogo size="lg" />
         </div>
 
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-navy border border-brand-navy text-brand-gold font-mono text-2xl font-bold shadow-md">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand-forest border border-brand-pine text-brand-stone font-mono text-2xl font-bold shadow-md">
           404
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight text-brand-navy font-serif">
+          <h1 className="text-2xl font-bold tracking-tight text-brand-forest font-serif">
             Page Not Found
           </h1>
           <p className="text-sm text-muted-foreground">

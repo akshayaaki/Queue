@@ -68,7 +68,7 @@ export default function AnalyticsPage() {
       {/* Page Header & Filter Bar */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-6 rounded-2xl border border-border bg-card shadow-card">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-gold mb-1">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-fern mb-1">
             <BarChart3 className="w-4 h-4" />
             Operational Intelligence
           </div>
@@ -87,7 +87,7 @@ export default function AnalyticsPage() {
             <select
               value={selectedQueueId}
               onChange={(e) => setSelectedQueueId(e.target.value)}
-              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/40 focus-visible:border-brand-gold transition-all shadow-xs"
+              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-pine/40 focus-visible:border-brand-pine transition-all shadow-xs"
             >
               <option value="">All My Queues</option>
               {queues.map((q) => (
@@ -113,7 +113,7 @@ export default function AnalyticsPage() {
                   onClick={() => setPeriod(p)}
                   className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                     period === p
-                      ? "bg-brand-gold text-brand-navy shadow-xs font-bold"
+                      ? "bg-brand-pine text-white shadow-xs font-bold"
                       : "text-muted-foreground hover:text-foreground font-medium"
                   }`}
                 >
@@ -182,7 +182,7 @@ export default function AnalyticsPage() {
                 Distribution of queue token arrivals across operating hours.
               </p>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-navy text-brand-gold border border-brand-navy">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-forest text-brand-stone border border-brand-pine">
               Hourly Influx
             </span>
           </div>
@@ -200,7 +200,7 @@ export default function AnalyticsPage() {
                 Daily average minutes from arrival until customer was called.
               </p>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-gold/15 text-brand-navy border border-brand-gold/30">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-sage/25 text-brand-forest border border-brand-sage">
               Speed Trend
             </span>
           </div>
@@ -218,7 +218,7 @@ export default function AnalyticsPage() {
                 Comparison of served, active waiting, and cancelled tokens per queue.
               </p>
             </div>
-            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-platinum text-brand-navy">
+            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-stone/40 text-brand-forest">
               Counter Comparison
             </span>
           </div>

@@ -147,12 +147,12 @@ export function LiveTokenTable({
   const FILTERS = ["ALL", "WAITING", "SERVING", "CALLED", "COMPLETED", "CANCELLED", "SKIPPED"];
 
   return (
-    <div className="rounded-xl border border-brand-platinum bg-white shadow-card overflow-hidden dark:bg-brand-navy dark:border-brand-navyLight">
+    <div className="rounded-xl border border-brand-stone bg-white shadow-card overflow-hidden dark:bg-brand-forest dark:border-brand-pine">
       {/* Controls Bar: Search + Status Filter Pills */}
-      <div className="p-4 border-b border-brand-platinum bg-white flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between dark:bg-brand-navy dark:border-brand-navyLight">
+      <div className="p-4 border-b border-brand-stone bg-white flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between dark:bg-brand-forest dark:border-brand-pine">
         {/* Search Input */}
         <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-brand-forest/40 dark:text-brand-stone/40" />
           <Input
             placeholder="Search token # or name..."
             value={search}
@@ -163,7 +163,7 @@ export function LiveTokenTable({
 
         {/* Filter Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-          <span className="text-[11px] font-bold text-brand-navy/50 uppercase tracking-wider mr-1 hidden sm:inline dark:text-brand-platinum/50">
+          <span className="text-[11px] font-bold text-brand-forest/50 uppercase tracking-wider mr-1 hidden sm:inline dark:text-brand-stone/50">
             Status:
           </span>
           {FILTERS.map((f) => (
@@ -172,8 +172,8 @@ export function LiveTokenTable({
               onClick={() => setStatusFilter(f)}
               className={`px-2.5 py-1 rounded-md text-xs font-bold whitespace-nowrap transition-all ${
                 statusFilter === f
-                  ? "bg-brand-gold text-brand-navy shadow-xs border border-brand-gold"
-                  : "bg-brand-platinum text-brand-navy hover:bg-brand-platinumLight dark:bg-brand-navyDark dark:text-brand-platinum dark:hover:bg-brand-navyLight"
+                  ? "bg-brand-pine text-white shadow-xs border border-brand-pine"
+                  : "bg-brand-stone/40 text-brand-forest hover:bg-brand-stone/70 dark:bg-brand-pine dark:text-brand-stone"
               }`}
             >
               {f === "ALL" ? "All Tokens" : f.charAt(0) + f.slice(1).toLowerCase()}
@@ -186,7 +186,7 @@ export function LiveTokenTable({
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm border-collapse">
           <thead>
-            <tr className="border-b border-brand-platinum bg-brand-platinumLight/60 text-[11px] uppercase tracking-wider text-brand-navy/70 font-bold dark:bg-brand-navyDark/60 dark:border-brand-navyLight dark:text-brand-platinum/70">
+            <tr className="border-b border-brand-stone bg-brand-platinumLight/60 text-[11px] uppercase tracking-wider text-brand-forest/70 font-bold dark:bg-brand-forest/60 dark:border-brand-pine dark:text-brand-stone/70">
               <th className="py-3 px-4 w-16 text-center">Order</th>
               <th className="py-3 px-4">Token</th>
               <th className="py-3 px-4">Customer</th>

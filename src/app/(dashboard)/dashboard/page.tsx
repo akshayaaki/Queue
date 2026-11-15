@@ -116,16 +116,16 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 sm:p-7 rounded-2xl border border-brand-platinum bg-white shadow-card dark:border-brand-navyLight dark:bg-brand-navy">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 sm:p-7 rounded-2xl border border-brand-stone bg-white shadow-card dark:border-brand-pine dark:bg-brand-forest">
         <div className="space-y-1 z-10">
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-brand-gold/15 border border-brand-gold/40 text-[11px] font-bold text-brand-navy dark:text-brand-gold dark:bg-brand-gold/10">
-            <span className="w-2 h-2 rounded-full bg-brand-gold animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-brand-sage/25 border border-brand-sage text-[11px] font-bold text-brand-forest dark:text-brand-stone dark:bg-brand-sage/20">
+            <span className="w-2 h-2 rounded-full bg-brand-fern animate-pulse" />
             Live Queue Command Center
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-brand-navy dark:text-white">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-brand-forest dark:text-white">
             Queue Performance Overview
           </h1>
-          <p className="text-xs sm:text-sm text-brand-navy/60 max-w-xl dark:text-brand-platinum/60">
+          <p className="text-xs sm:text-sm text-brand-forest/60 max-w-xl dark:text-brand-stone/60">
             Real-time multi-counter status, live token sequence generation, and atomic queue dispatch.
           </p>
         </div>
@@ -136,7 +136,7 @@ export default function DashboardPage() {
             onClick={() => setCreateQueueOpen(true)}
             className="gap-2 text-xs font-bold"
           >
-            <PlusCircle className="w-4 h-4 text-brand-gold" />
+            <PlusCircle className="w-4 h-4 text-brand-fern" />
             New Queue
           </Button>
 
@@ -145,7 +145,7 @@ export default function DashboardPage() {
               variant="default"
               disabled={callingNext || (primaryQueue.metrics?.waitingCount ?? 0) === 0}
               onClick={() => handleQuickCallNext(primaryQueue.id)}
-              className="gap-2 text-xs font-bold shadow-gold"
+              className="gap-2 text-xs font-bold shadow-pine"
             >
               <Megaphone className="w-4 h-4" />
               <span>Call Next ({primaryQueue.queueCode})</span>

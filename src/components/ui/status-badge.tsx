@@ -29,12 +29,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-semibold rounded-full bg-brand-gold/15 text-brand-navy border border-brand-gold/50 dark:bg-brand-gold/20 dark:text-brand-gold",
+            "inline-flex items-center font-semibold rounded-full bg-brand-sage/20 text-brand-forest border border-brand-sage/40 dark:bg-brand-sage/20 dark:text-brand-stone",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <Clock className="w-3 h-3 text-brand-navy dark:text-brand-gold" />}
+          {showIcon && <Clock className="w-3 h-3 text-brand-forest dark:text-brand-stone" />}
           Waiting
         </span>
       );
@@ -43,12 +43,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-bold rounded-full bg-brand-navy text-brand-gold border border-brand-navyDark shadow-xs animate-pulse dark:bg-brand-navyLight dark:text-brand-gold",
+            "inline-flex items-center font-bold rounded-full bg-brand-forest text-brand-stone border border-brand-pine shadow-xs animate-pulse dark:bg-brand-pine dark:text-white",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <Megaphone className="w-3 h-3 text-brand-gold" />}
+          {showIcon && <Megaphone className="w-3 h-3 text-brand-sage" />}
           Called
         </span>
       );
@@ -57,15 +57,15 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-bold rounded-full bg-brand-gold text-brand-navy border border-brand-goldHover shadow-xs",
+            "inline-flex items-center font-bold rounded-full bg-brand-pine text-white border border-brand-forest shadow-xs",
             sizeClasses,
             className
           )}
         >
           {showIcon && (
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-navy opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-navy"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-sage opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-sage"></span>
             </span>
           )}
           Serving Now
@@ -76,12 +76,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-semibold rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900/60",
+            "inline-flex items-center font-semibold rounded-full bg-brand-fern/15 text-brand-forest border border-brand-fern/40 dark:bg-brand-fern/20 dark:text-brand-stone",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />}
+          {showIcon && <CheckCircle2 className="w-3 h-3 text-brand-fern dark:text-brand-sage" />}
           Completed
         </span>
       );
@@ -104,12 +104,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-brand-platinum text-brand-navy/70 border border-brand-platinum dark:bg-brand-navy dark:text-brand-platinum/70 dark:border-brand-navyLight",
+            "inline-flex items-center font-medium rounded-full bg-brand-stone/40 text-brand-forest/70 border border-brand-stone dark:bg-brand-forest dark:text-brand-stone/70 dark:border-brand-pine",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <FastForward className="w-3 h-3 text-brand-navy/60 dark:text-brand-platinum/60" />}
+          {showIcon && <FastForward className="w-3 h-3 text-brand-forest/60 dark:text-brand-stone/60" />}
           Skipped
         </span>
       );
@@ -118,7 +118,7 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-brand-platinum text-brand-navy border border-brand-platinum",
+            "inline-flex items-center font-medium rounded-full bg-brand-stone/30 text-brand-forest border border-brand-stone",
             sizeClasses,
             className
           )}

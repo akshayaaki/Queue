@@ -67,7 +67,7 @@ export function Sidebar({ user }: { user?: { name: string; email: string } }) {
               className={cn(
                 "group flex items-center justify-between px-3 py-2.5 rounded-lg text-sm transition-all duration-150",
                 isActive
-                  ? "bg-brand-gold/15 text-brand-navy font-bold border-l-2 border-brand-gold dark:text-brand-gold dark:bg-brand-gold/10"
+                  ? "bg-brand-sage/25 text-brand-forest font-bold border-l-2 border-brand-pine dark:text-brand-stone dark:bg-brand-pine/20"
                   : "text-brand-navy/70 hover:bg-brand-platinumLight hover:text-brand-navy font-medium dark:text-brand-platinum/70 dark:hover:bg-brand-navyLight dark:hover:text-white"
               )}
             >
@@ -76,14 +76,14 @@ export function Sidebar({ user }: { user?: { name: string; email: string } }) {
                   className={cn(
                     "w-4 h-4 transition-colors",
                     isActive
-                      ? "text-brand-gold"
+                      ? "text-brand-fern"
                       : "text-brand-navy/40 group-hover:text-brand-navy dark:text-brand-platinum/40 dark:group-hover:text-brand-platinum"
                   )}
                 />
                 <span>{item.label}</span>
               </div>
               {isActive && (
-                <div className="w-1.5 h-1.5 rounded-full bg-brand-gold" />
+                <div className="w-1.5 h-1.5 rounded-full bg-brand-fern" />
               )}
             </Link>
           );
@@ -93,7 +93,7 @@ export function Sidebar({ user }: { user?: { name: string; email: string } }) {
       {/* User Footer & Logout */}
       <div className="p-4 border-t border-brand-platinum bg-brand-platinumLight/60 dark:border-brand-navyLight dark:bg-brand-navyDark">
         <div className="flex items-center gap-3 p-2 rounded-lg mb-2">
-          <div className="w-8 h-8 rounded-full bg-brand-navy text-brand-gold border border-brand-navyDark flex items-center justify-center font-bold text-xs shadow-xs">
+          <div className="w-8 h-8 rounded-full bg-brand-forest text-brand-stone border border-brand-pine flex items-center justify-center font-bold text-xs shadow-xs">
             {user?.name ? user.name.charAt(0).toUpperCase() : "M"}
           </div>
           <div className="flex-1 min-w-0">

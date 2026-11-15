@@ -183,22 +183,22 @@ export function CallNextHero({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-8">
       {/* Hero Call Next Action Card (5 columns) */}
-      <div className="lg:col-span-5 rounded-xl border border-brand-platinum bg-white p-6 flex flex-col justify-between shadow-card dark:bg-brand-navy dark:border-brand-navyLight">
+      <div className="lg:col-span-5 rounded-xl border border-brand-stone bg-white p-6 flex flex-col justify-between shadow-card dark:bg-brand-forest dark:border-brand-pine">
         <div>
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-brand-navy dark:text-brand-gold flex items-center gap-1.5">
-              <Megaphone className="w-3.5 h-3.5 text-brand-gold" />
+            <span className="text-xs font-bold uppercase tracking-widest text-brand-forest dark:text-brand-stone flex items-center gap-1.5">
+              <Megaphone className="w-3.5 h-3.5 text-brand-fern" />
               Counter Dispatch
             </span>
-            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-brand-gold/15 text-brand-navy font-bold border border-brand-gold/40 dark:text-brand-gold">
+            <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-brand-sage/25 text-brand-forest font-bold border border-brand-sage dark:text-brand-stone">
               {waitingCount} waiting
             </span>
           </div>
 
-          <h2 className="text-xl font-extrabold tracking-tight text-brand-navy dark:text-white">
+          <h2 className="text-xl font-extrabold tracking-tight text-brand-forest dark:text-white">
             Call Next Customer
           </h2>
-          <p className="text-xs text-brand-navy/70 dark:text-brand-platinum/70 mt-1 leading-relaxed">
+          <p className="text-xs text-brand-forest/70 dark:text-brand-stone/70 mt-1 leading-relaxed">
             Atomically summons the first customer in sequence. Plays counter acoustic chime and updates display.
           </p>
         </div>
@@ -210,47 +210,47 @@ export function CallNextHero({
             variant="hero"
             disabled={calling || waitingCount === 0}
             onClick={handleCallNext}
-            className="w-full flex items-center justify-center gap-2.5 text-base font-extrabold shadow-gold"
+            className="w-full flex items-center justify-center gap-2.5 text-base font-extrabold shadow-pine"
           >
             <Megaphone className={cn("w-5 h-5", calling ? "animate-spin" : "")} />
             <span>{calling ? "Calling Token..." : "CALL NEXT CUSTOMER"}</span>
             <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
-          <div className="mt-2 text-center text-[11px] text-brand-navy/50 dark:text-brand-platinum/50 flex items-center justify-center gap-1.5">
+          <div className="mt-2 text-center text-[11px] text-brand-forest/50 dark:text-brand-stone/50 flex items-center justify-center gap-1.5">
             <span>Quick shortcut:</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-brand-platinum border border-brand-platinum text-[10px] font-mono font-bold text-brand-navy">
+            <kbd className="px-1.5 py-0.5 rounded bg-brand-stone/40 border border-brand-stone text-[10px] font-mono font-bold text-brand-forest">
               Alt + N
             </kbd>
           </div>
         </div>
 
         {/* Next Up Preview */}
-        <div className="p-3 rounded-lg bg-brand-platinumLight border border-brand-platinum flex items-center justify-between dark:bg-brand-navyDark dark:border-brand-navyLight">
+        <div className="p-3 rounded-lg bg-brand-platinumLight border border-brand-stone flex items-center justify-between dark:bg-brand-forest dark:border-brand-pine">
           <div className="flex items-center gap-2">
-            <Clock className="w-3.5 h-3.5 text-brand-navy/50 dark:text-brand-platinum/50" />
-            <span className="text-xs text-brand-navy/70 font-semibold dark:text-brand-platinum/70">Next in line:</span>
+            <Clock className="w-3.5 h-3.5 text-brand-forest/50 dark:text-brand-stone/50" />
+            <span className="text-xs text-brand-forest/70 font-semibold dark:text-brand-stone/70">Next in line:</span>
           </div>
           {nextUp ? (
             <div className="flex items-center gap-2">
-              <span className="font-mono font-bold text-xs text-brand-gold">
+              <span className="font-mono font-bold text-xs text-brand-fern">
                 {nextUp.tokenNumber}
               </span>
-              <span className="text-xs text-brand-navy font-bold truncate max-w-[140px] dark:text-white">
+              <span className="text-xs text-brand-forest font-bold truncate max-w-[140px] dark:text-white">
                 {nextUp.customerName}
               </span>
             </div>
           ) : (
-            <span className="text-xs text-brand-navy/40 italic dark:text-brand-platinum/40">Queue is clear</span>
+            <span className="text-xs text-brand-forest/40 italic dark:text-brand-stone/40">Queue is clear</span>
           )}
         </div>
       </div>
 
       {/* Currently Serving Spotlight Card (7 columns) */}
-      <div className="lg:col-span-7 rounded-xl border border-brand-platinum bg-white p-6 shadow-card flex flex-col justify-between dark:bg-brand-navy dark:border-brand-navyLight">
+      <div className="lg:col-span-7 rounded-xl border border-brand-stone bg-white p-6 shadow-card flex flex-col justify-between dark:bg-brand-forest dark:border-brand-pine">
         <div>
-          <div className="flex items-center justify-between mb-4 border-b border-brand-platinum pb-3 dark:border-brand-navyLight">
+          <div className="flex items-center justify-between mb-4 border-b border-brand-stone pb-3 dark:border-brand-pine">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-brand-navy dark:text-white">
+              <span className="text-xs font-bold uppercase tracking-widest text-brand-forest dark:text-white">
                 Currently Serving
               </span>
               {currentlyServing && (

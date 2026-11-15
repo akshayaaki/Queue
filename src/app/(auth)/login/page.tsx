@@ -66,10 +66,10 @@ export default function LoginPage() {
         </div>
 
         {/* Login Card */}
-        <div className="rounded-2xl border border-brand-platinum bg-white p-7 sm:p-8 shadow-card relative overflow-hidden dark:border-brand-navyLight dark:bg-brand-navyDark">
+        <div className="rounded-2xl border border-brand-stone bg-white p-7 sm:p-8 shadow-card relative overflow-hidden dark:border-brand-pine dark:bg-brand-forest">
           {/* Universal Access Notice */}
-          <div className="mb-5 p-3 rounded-xl bg-brand-gold/15 border border-brand-gold/40 text-[11px] font-semibold text-brand-navy flex items-center gap-2 dark:text-brand-gold">
-            <Sparkles className="w-4 h-4 text-brand-gold shrink-0" />
+          <div className="mb-5 p-3 rounded-xl bg-brand-sage/25 border border-brand-sage text-[11px] font-semibold text-brand-forest flex items-center gap-2 dark:text-brand-stone">
+            <Sparkles className="w-4 h-4 text-brand-fern shrink-0" />
             <span>Universal Login Enabled • Enter any email and password.</span>
           </div>
 
@@ -84,7 +84,7 @@ export default function LoginPage() {
             <div>
               <Label htmlFor="email">Manager Email</Label>
               <div className="relative mt-1.5">
-                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
+                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-forest/40 dark:text-brand-stone/40" />
                 <Input
                   id="email"
                   type="email"
@@ -107,13 +107,13 @@ export default function LoginPage() {
                     e.preventDefault();
                     toast.info("Universal access is active. Any password will log you in.");
                   }}
-                  className="text-xs text-brand-navy/70 hover:text-brand-gold font-bold transition-colors dark:text-brand-platinum/70 dark:hover:text-brand-gold"
+                  className="text-xs text-brand-forest/70 hover:text-brand-fern font-bold transition-colors dark:text-brand-stone/70 dark:hover:text-brand-sage"
                 >
                   Forgot password?
                 </a>
               </div>
               <div className="relative mt-1.5">
-                <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
+                <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-forest/40 dark:text-brand-stone/40" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -125,7 +125,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 hover:text-brand-navy dark:text-brand-platinum/40 dark:hover:text-white"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-forest/40 hover:text-brand-forest dark:text-brand-stone/40 dark:hover:text-white"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -133,12 +133,12 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center justify-between text-xs pt-1">
-              <label className="flex items-center gap-2 cursor-pointer select-none text-brand-navy/70 dark:text-brand-platinum/70 font-medium">
+              <label className="flex items-center gap-2 cursor-pointer select-none text-brand-forest/70 dark:text-brand-stone/70 font-medium">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded border-brand-platinum text-brand-gold focus:ring-brand-gold"
+                  className="rounded border-brand-stone text-brand-pine focus:ring-brand-pine"
                 />
                 <span>Remember this terminal</span>
               </label>
@@ -149,7 +149,7 @@ export default function LoginPage() {
               variant="default"
               size="lg"
               disabled={loading}
-              className="w-full mt-2 font-bold shadow-gold"
+              className="w-full mt-2 font-bold shadow-pine"
             >
               {loading ? "Authenticating..." : "Sign In to Dashboard"}
               {!loading && <ArrowRight className="w-4 h-4 ml-2" />}
@@ -158,9 +158,9 @@ export default function LoginPage() {
         </div>
 
         {/* Footer Link */}
-        <p className="text-center text-xs text-brand-navy/60 mt-6 dark:text-brand-platinum/60">
+        <p className="text-center text-xs text-brand-forest/60 mt-6 dark:text-brand-stone/60">
           Want a new manager workspace?{" "}
-          <Link href="/register" className="font-bold text-brand-navy hover:text-brand-gold hover:underline dark:text-brand-gold">
+          <Link href="/register" className="font-bold text-brand-forest hover:text-brand-fern hover:underline dark:text-brand-sage">
             Register Manager
           </Link>
         </p>

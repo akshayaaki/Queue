@@ -54,8 +54,8 @@ export default function SettingsPage() {
       {/* Profile Card */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
         <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-brand-gold/15 text-brand-navy flex items-center justify-center border border-brand-gold/30">
-            <User className="w-5 h-5 text-brand-navy" />
+          <div className="w-9 h-9 rounded-xl bg-brand-sage/20 text-brand-forest flex items-center justify-center border border-brand-sage/40">
+            <User className="w-5 h-5 text-brand-forest" />
           </div>
           <div>
             <h2 className="text-base font-bold text-foreground font-serif">Manager Profile</h2>
@@ -78,7 +78,7 @@ export default function SettingsPage() {
       {/* Audio & Counter Dispatch Settings */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
         <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-brand-navy text-brand-gold flex items-center justify-center border border-brand-navy">
+          <div className="w-9 h-9 rounded-xl bg-brand-forest text-brand-stone flex items-center justify-center border border-brand-pine">
             <Volume2 className="w-5 h-5" />
           </div>
           <div>
@@ -121,7 +121,7 @@ export default function SettingsPage() {
       {/* Database & Production Health */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
         <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-brand-platinum text-brand-navy flex items-center justify-center border border-border">
+          <div className="w-9 h-9 rounded-xl bg-brand-stone/40 text-brand-forest flex items-center justify-center border border-brand-stone">
             <Database className="w-5 h-5" />
           </div>
           <div>
@@ -140,7 +140,7 @@ export default function SettingsPage() {
 
           <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border">
             <span className="text-muted-foreground">Health Status:</span>
-            <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-700 dark:text-emerald-300">
+            <span className="inline-flex items-center gap-1.5 font-semibold text-brand-fern">
               <CheckCircle2 className="w-3.5 h-3.5" />
               {health?.database?.status === "healthy" ? "Healthy (0ms latency)" : "Active"}
             </span>
@@ -148,7 +148,7 @@ export default function SettingsPage() {
 
           <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border">
             <span className="text-muted-foreground">Real-time Stream:</span>
-            <span className="font-mono text-brand-gold font-bold">
+            <span className="font-mono text-brand-fern font-bold">
               Server-Sent Events (SSE) Bus Active
             </span>
           </div>

@@ -135,7 +135,7 @@ export default function TokenHistoryPage() {
             <select
               value={selectedQueueId}
               onChange={(e) => setSelectedQueueId(e.target.value)}
-              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/40 focus-visible:border-brand-gold transition-all shadow-xs"
+              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-pine/40 focus-visible:border-brand-pine transition-all shadow-xs"
             >
               <option value="ALL">All Queues</option>
               {queues.map((q) => (
@@ -151,7 +151,7 @@ export default function TokenHistoryPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/40 focus-visible:border-brand-gold transition-all shadow-xs"
+              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-pine/40 focus-visible:border-brand-pine transition-all shadow-xs"
             >
               <option value="ALL">All Statuses</option>
               <option value="COMPLETED">Completed</option>
@@ -216,7 +216,7 @@ export default function TokenHistoryPage() {
                         {t.calledAt ? (
                           <div>
                             <div>{formatTime(t.calledAt)}</div>
-                            <div className="text-[10px] text-brand-gold font-bold">
+                            <div className="text-[10px] text-brand-fern font-bold">
                               waited {formatDuration(waitMs)}
                             </div>
                           </div>
