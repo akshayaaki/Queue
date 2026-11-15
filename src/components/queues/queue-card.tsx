@@ -8,11 +8,9 @@ import {
   Users,
   Clock,
   ArrowRight,
-  MoreVertical,
   Edit2,
   Trash2,
   PlusCircle,
-  Activity,
 } from "lucide-react";
 import { formatDuration } from "@/lib/utils";
 
@@ -41,21 +39,21 @@ export function QueueCard({
     switch (queue.status) {
       case "ACTIVE":
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-palette-celery text-[#2D3F1D] border border-palette-sage dark:bg-palette-sage/20 dark:text-[#D1E2A5]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#586938]" />
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             Active
           </span>
         );
       case "PAUSED":
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
             Paused
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-stone-100 text-stone-600 border border-stone-200">
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
             Inactive
           </span>
         );
@@ -63,29 +61,29 @@ export function QueueCard({
   };
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6 shadow-bespoke hover:shadow-bespoke-hover transition-all duration-200 flex flex-col justify-between group">
+    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-xs hover:shadow-card-hover hover:border-slate-300 transition-all duration-200 flex flex-col justify-between group dark:bg-slate-900 dark:border-slate-800">
       <div>
         {/* Header: Code & Status */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 rounded-lg bg-palette-bisque text-palette-charcoal font-mono font-bold text-xs border border-palette-ochre/30 shadow-2xs dark:bg-palette-ochre/20 dark:text-palette-ochre">
+            <span className="px-2 py-0.5 rounded font-mono font-bold text-xs bg-slate-100 text-slate-800 border border-slate-200/80 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700">
               {queue.queueCode}
             </span>
             {getStatusBadge()}
           </div>
 
-          <div className="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
+          <div className="flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
             <button
               onClick={() => onEdit(queue)}
               title="Edit Queue"
-              className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+              className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors dark:hover:bg-slate-800 dark:hover:text-slate-200"
             >
               <Edit2 className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => onDelete(queue.id)}
               title="Delete Queue"
-              className="p-1.5 rounded-lg text-muted-foreground hover:bg-red-50 hover:text-red-600 transition-colors"
+              className="p-1 rounded text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors dark:hover:bg-rose-950/40"
             >
               <Trash2 className="w-3.5 h-3.5" />
             </button>
@@ -93,64 +91,64 @@ export function QueueCard({
         </div>
 
         {/* Title & Description */}
-        <h3 className="text-lg font-bold text-foreground tracking-tight group-hover:text-palette-ochreDark transition-colors">
+        <h3 className="text-base font-bold text-slate-900 dark:text-white tracking-tight group-hover:text-blue-600 transition-colors">
           {queue.name}
         </h3>
-        <p className="text-xs text-muted-foreground mt-1 line-clamp-2 min-h-[32px]">
-          {queue.description || "No description provided."}
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 min-h-[32px]">
+          {queue.description || "No department description provided."}
         </p>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-3 gap-2 py-4 my-3 border-y border-border/70 text-center">
-          <div className="p-2 rounded-xl bg-palette-bisque/30 dark:bg-palette-ochre/10">
-            <div className="text-xl font-bold font-mono text-palette-ochreDark dark:text-palette-ochre">
+        <div className="grid grid-cols-3 gap-2 py-3.5 my-3 border-y border-slate-100 text-center dark:border-slate-800">
+          <div className="p-2 rounded-lg bg-amber-50/70 border border-amber-100 dark:bg-amber-950/20 dark:border-amber-900/40">
+            <div className="text-xl font-bold font-mono text-amber-700 dark:text-amber-400">
               {metrics.waitingCount}
             </div>
-            <div className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wider">
+            <div className="text-[10px] uppercase font-semibold text-amber-800/80 tracking-wider">
               Waiting
             </div>
           </div>
 
-          <div className="p-2 rounded-xl bg-palette-celery/30 dark:bg-palette-sage/10">
-            <div className="text-xl font-bold font-mono text-[#405624] dark:text-[#C5D5A0]">
+          <div className="p-2 rounded-lg bg-indigo-50/70 border border-indigo-100 dark:bg-indigo-950/20 dark:border-indigo-900/40">
+            <div className="text-xl font-bold font-mono text-indigo-700 dark:text-indigo-400">
               {metrics.servingCount}
             </div>
-            <div className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wider">
+            <div className="text-[10px] uppercase font-semibold text-indigo-800/80 tracking-wider">
               Serving
             </div>
           </div>
 
-          <div className="p-2 rounded-xl bg-muted/40">
-            <div className="text-xl font-bold font-mono text-foreground">
+          <div className="p-2 rounded-lg bg-slate-50 border border-slate-100 dark:bg-slate-800/40 dark:border-slate-700/60">
+            <div className="text-xl font-bold font-mono text-slate-900 dark:text-white">
               {metrics.completedCount}
             </div>
-            <div className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wider">
+            <div className="text-[10px] uppercase font-semibold text-slate-500 tracking-wider">
               Served
             </div>
           </div>
         </div>
 
         {/* Average wait time notice */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
+        <div className="flex items-center justify-between text-xs text-slate-500 mb-4">
           <div className="flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-palette-ochreDark" />
+            <Clock className="w-3.5 h-3.5 text-slate-400" />
             <span>Avg Wait:</span>
           </div>
-          <span className="font-mono font-medium text-foreground">
+          <span className="font-mono font-medium text-slate-900 dark:text-slate-200">
             {formatDuration(metrics.avgWaitTimeMs)}
           </span>
         </div>
       </div>
 
       {/* Action Footer */}
-      <div className="flex items-center gap-2 pt-2">
+      <div className="flex items-center gap-2 pt-1">
         <Button
           size="sm"
           variant="outline"
           onClick={() => onAddCustomer(queue)}
           className="flex-1 gap-1.5 text-xs font-semibold"
         >
-          <PlusCircle className="w-3.5 h-3.5 text-palette-ochreDark" />
+          <PlusCircle className="w-3.5 h-3.5 text-blue-600" />
           Add Customer
         </Button>
         <Button size="sm" variant="default" asChild className="flex-1">

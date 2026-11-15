@@ -45,17 +45,9 @@ export class AnalyticsEngine {
     const { from, to } = this.getDateRange(period, startDate, endDate);
 
     // Tenant check: only include queues belonging to this owner
-    const effectiveOwnerId =
-      ownerId === "demo-manager-alex" ? "usr_alex_vance" :
-      ownerId === "demo-manager-sarah" ? "usr_sarah_chen" :
-      ownerId;
-
     const managerQueues = ((await prisma.queue.findMany({
       where: {
-        OR: [
-          { ownerId: effectiveOwnerId },
-          { ownerId },
-        ],
+        ownerId,
         ...(queueId ? { id: queueId } : {}),
       },
       select: { id: true, name: true, queueCode: true },

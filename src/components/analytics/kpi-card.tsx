@@ -24,21 +24,21 @@ export function KpiCard({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-border bg-card p-5 shadow-bespoke flex flex-col justify-between transition-all hover:border-palette-ochre/30",
+        "rounded-xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs transition-all hover:border-slate-300 dark:bg-slate-900 dark:border-slate-800 flex flex-col justify-between",
         className
       )}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           {title}
         </span>
-        <div className="w-8 h-8 rounded-xl bg-palette-bisque/70 text-palette-ochreDark flex items-center justify-center border border-palette-ochre/20 shadow-2xs dark:bg-palette-ochre/15 dark:text-palette-ochre">
+        <div className="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center border border-slate-200/60 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700">
           <Icon className="w-4 h-4" />
         </div>
       </div>
 
       <div>
-        <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground font-mono">
+        <div className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white font-mono">
           {value}
         </div>
         {(subtitle || badge) && (
@@ -48,17 +48,17 @@ export function KpiCard({
                 className={cn(
                   "px-2 py-0.5 rounded-full text-[10px] font-bold font-mono",
                   trend === "up"
-                    ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+                    ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200/60"
                     : trend === "down"
-                    ? "bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300"
-                    : "bg-muted text-muted-foreground"
+                    ? "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300 border border-rose-200/60"
+                    : "bg-slate-100 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:text-slate-400"
                 )}
               >
                 {badge}
               </span>
             )}
             {subtitle && (
-              <span className="text-xs text-muted-foreground truncate">
+              <span className="text-xs text-slate-500 dark:text-slate-400 truncate">
                 {subtitle}
               </span>
             )}

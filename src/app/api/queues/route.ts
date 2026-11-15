@@ -16,16 +16,8 @@ export async function GET(req: NextRequest) {
   const status = searchParams.get("status")?.trim();
 
   try {
-    const effectiveUserId =
-      session.id === "demo-manager-alex" ? "usr_alex_vance" :
-      session.id === "demo-manager-sarah" ? "usr_sarah_chen" :
-      session.id;
-
     const whereClause: any = {
-      OR: [
-        { ownerId: effectiveUserId },
-        { ownerId: session.id },
-      ],
+      ownerId: session.id,
     };
 
     if (status && status !== "ALL") {
@@ -98,36 +90,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ queues: queuesWithMetrics });
   } catch (error: any) {
-    console.warn("[GET Queues Notice]:", error.message);
-    // If database is unavailable, provide default queue so dashboard is immediately accessible
-    if (session.email === "alex@queueflow.com" || session.email === "sarah@queueflow.com" || !process.env.DATABASE_URL) {
-      const isSarah = session.email === "sarah@queueflow.com";
-      return NextResponse.json({
-        queues: [
-          {
-            id: isSarah ? "queue-med-demo" : "queue-gen-demo",
-            name: isSarah ? "Clinical Consultation" : "General Enquiry",
-            description: isSarah ? "Specialist appointments and physician reviews" : "Front-desk general intake and visitor registration",
-            queueCode: isSarah ? "MED" : "GEN",
-            status: "ACTIVE",
-            capacity: 50,
-            nextTokenNumber: 6,
-            ownerId: session.id,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            _count: { tokens: 4 },
-            metrics: {
-              waitingCount: 3,
-              servingCount: 1,
-              completedCount: 18,
-              cancelledCount: 1,
-              avgWaitTimeMs: 380000,
-            },
-          },
-        ],
-      });
-    }
-
+    console.error("[GET Queues Error]:", error);
     return NextResponse.json(
       { error: "Failed to fetch queues" },
       { status: 500 }
@@ -158,13 +121,13 @@ export async function POST(req: NextRequest) {
     const existing = await prisma.queue.findFirst({
       where: {
         ownerId: session.id,
-        queueCode,
+        queueCode: queueCode.toUpperCase(),
       },
     });
 
     if (existing) {
       return NextResponse.json(
-        { error: `You already have a queue with code '${queueCode}'. Please choose another code.` },
+        { error: `You already have a queue with code '${queueCode.toUpperCase()}'. Please choose another code.` },
         { status: 409 }
       );
     }
@@ -173,7 +136,7 @@ export async function POST(req: NextRequest) {
       data: {
         name,
         description: description || null,
-        queueCode,
+        queueCode: queueCode.toUpperCase(),
         capacity: capacity || null,
         ownerId: session.id,
         status: "ACTIVE",

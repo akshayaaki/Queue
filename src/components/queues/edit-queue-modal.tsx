@@ -84,7 +84,7 @@ export function EditQueueModal({
       <DialogContent onClose={() => onOpenChange(false)}>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <div className="flex items-center gap-2 text-palette-ochreDark">
+            <div className="flex items-center gap-2 text-blue-600">
               <Edit3 className="w-5 h-5" />
               <DialogTitle>Edit Queue: {queue.name}</DialogTitle>
             </div>
@@ -94,7 +94,7 @@ export function EditQueueModal({
           </DialogHeader>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+            <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
@@ -119,7 +119,7 @@ export function EditQueueModal({
                   id="editStatus"
                   value={status}
                   onChange={(e) => setStatus(e.target.value as QueueStatus)}
-                  className="flex h-10 w-full rounded-lg border border-border bg-card px-3.5 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-palette-ochre mt-1.5"
+                  className="flex h-10 w-full rounded-lg border border-border bg-card px-3.5 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 focus-visible:border-blue-600 mt-1.5 transition-all shadow-xs"
                 >
                   <option value="ACTIVE">ACTIVE (Open)</option>
                   <option value="PAUSED">PAUSED (Hold intake)</option>

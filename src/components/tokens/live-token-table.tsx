@@ -12,12 +12,8 @@ import {
   Filter,
   Play,
   CheckCircle2,
-  FastForward,
   RotateCcw,
   XCircle,
-  Clock,
-  MoreVertical,
-  Megaphone,
 } from "lucide-react";
 import { formatTime, formatDuration, calculateWaitTimeMs, calculateServiceTimeMs } from "@/lib/utils";
 import { playCallChime } from "@/components/audio/chime";
@@ -54,12 +50,10 @@ export function LiveTokenTable({
           const payload = JSON.parse(e.data);
           if (payload.type === "CONNECTED") return;
 
-          // If a token was called remotely, play chime
           if (payload.type === "TOKEN_CALLED") {
             playCallChime();
           }
 
-          // Refresh the queue dataset
           onRefresh();
         } catch (err) {
           console.debug("[SSE] Parse error", err);
@@ -67,7 +61,7 @@ export function LiveTokenTable({
       };
 
       eventSource.onerror = () => {
-        // EventSource automatically retries connection
+        eventSource?.close();
       };
     } catch (err) {
       console.error("[SSE Error]:", err);
@@ -139,19 +133,8 @@ export function LiveTokenTable({
     }
   };
 
-  const handleSkip = async (tokenId: string) => {
-    try {
-      const res = await fetch(`/api/tokens/${tokenId}/skip`, { method: "POST" });
-      if (!res.ok) throw new Error("Failed to skip token");
-      toast.info("Token marked as skipped");
-      onRefresh();
-    } catch (err: any) {
-      toast.error(err.message);
-    }
-  };
-
   // Filter and sort tokens
-  const filteredTokens = tokens.filter((t) => {
+  const filteredTokens = (tokens || []).filter((t) => {
     const matchesStatus =
       statusFilter === "ALL" ? true : t.status === statusFilter;
     const matchesSearch =
@@ -161,19 +144,15 @@ export function LiveTokenTable({
     return matchesStatus && matchesSearch;
   });
 
-  const waitingTokens = filteredTokens.filter((t) => t.status === "WAITING");
-  const otherTokens = filteredTokens.filter((t) => t.status !== "WAITING");
-
-  // Filter buttons list
   const FILTERS = ["ALL", "WAITING", "SERVING", "CALLED", "COMPLETED", "CANCELLED", "SKIPPED"];
 
   return (
-    <div className="rounded-2xl border border-border bg-card shadow-bespoke overflow-hidden">
+    <div className="rounded-xl border border-slate-200 bg-white shadow-xs overflow-hidden dark:bg-slate-900 dark:border-slate-800">
       {/* Controls Bar: Search + Status Filter Pills */}
-      <div className="p-4 sm:p-5 border-b border-border bg-card/60 flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+      <div className="p-4 border-b border-slate-200 bg-white flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between dark:bg-slate-900 dark:border-slate-800">
         {/* Search Input */}
         <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <Input
             placeholder="Search token # or name..."
             value={search}
@@ -184,17 +163,17 @@ export function LiveTokenTable({
 
         {/* Filter Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-          <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider mr-1 hidden sm:inline">
+          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1 hidden sm:inline">
             Status:
           </span>
           {FILTERS.map((f) => (
             <button
               key={f}
               onClick={() => setStatusFilter(f)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-2.5 py-1 rounded-md text-xs font-semibold whitespace-nowrap transition-all ${
                 statusFilter === f
-                  ? "bg-palette-ochre text-[#221B13] shadow-xs"
-                  : "bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  ? "bg-blue-600 text-white shadow-xs"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
               }`}
             >
               {f === "ALL" ? "All Tokens" : f.charAt(0) + f.slice(1).toLowerCase()}
@@ -207,7 +186,7 @@ export function LiveTokenTable({
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm border-collapse">
           <thead>
-            <tr className="border-b border-border bg-muted/30 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
+            <tr className="border-b border-slate-200 bg-slate-50/60 text-[11px] uppercase tracking-wider text-slate-500 font-semibold dark:bg-slate-800/40 dark:border-slate-800">
               <th className="py-3 px-4 w-16 text-center">Order</th>
               <th className="py-3 px-4">Token</th>
               <th className="py-3 px-4">Customer</th>
@@ -217,21 +196,23 @@ export function LiveTokenTable({
               <th className="py-3 px-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-border/60">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             {filteredTokens.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-12 text-center text-muted-foreground">
+                <td colSpan={7} className="py-12 text-center text-slate-400">
                   <div className="flex flex-col items-center justify-center">
-                    <Filter className="w-8 h-8 text-muted-foreground/40 mb-2" />
-                    <p className="text-sm font-medium">No tokens match your current filter</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
+                    <Filter className="w-7 h-7 text-slate-300 dark:text-slate-600 mb-2" />
+                    <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                      No tokens match your current filter
+                    </p>
+                    <p className="text-xs text-slate-400 mt-0.5">
                       Try adjusting the search query or status filter.
                     </p>
                   </div>
                 </td>
               </tr>
             ) : (
-              filteredTokens.map((t, idx) => {
+              filteredTokens.map((t) => {
                 const isWaiting = t.status === "WAITING";
                 const waitMs = calculateWaitTimeMs(t.createdAt, t.calledAt);
                 const serviceMs = calculateServiceTimeMs(t.serviceStartedAt, t.completedAt);
@@ -239,19 +220,13 @@ export function LiveTokenTable({
                 return (
                   <tr
                     key={t.id}
-                    className={`transition-colors hover:bg-muted/40 ${
-                      t.status === "CALLED"
-                        ? "bg-palette-parchment/60 dark:bg-palette-ochre/10"
-                        : t.status === "SERVING"
-                        ? "bg-palette-celery/30 dark:bg-palette-sage/10"
-                        : ""
-                    }`}
+                    className="transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/50"
                   >
                     {/* Position & Reorder Buttons */}
                     <td className="py-3 px-4 text-center">
                       {isWaiting ? (
                         <div className="flex items-center justify-center gap-1">
-                          <span className="font-mono font-bold text-xs text-muted-foreground w-4 text-center">
+                          <span className="font-mono font-bold text-xs text-slate-400 w-4 text-center">
                             #{t.position}
                           </span>
                           <div className="flex flex-col">
@@ -259,7 +234,7 @@ export function LiveTokenTable({
                               title="Move Up in Queue"
                               disabled={reorderingId !== null || t.position === 1}
                               onClick={() => handleReorder(t.id, "UP")}
-                              className="p-1 rounded hover:bg-palette-bisque text-muted-foreground hover:text-palette-ochreDark disabled:opacity-20 transition-colors"
+                              className="p-0.5 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-800 disabled:opacity-20 transition-colors"
                             >
                               <ArrowUp className="w-3 h-3" />
                             </button>
@@ -267,53 +242,53 @@ export function LiveTokenTable({
                               title="Move Down in Queue"
                               disabled={reorderingId !== null}
                               onClick={() => handleReorder(t.id, "DOWN")}
-                              className="p-1 rounded hover:bg-palette-bisque text-muted-foreground hover:text-palette-ochreDark disabled:opacity-20 transition-colors"
+                              className="p-0.5 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-800 disabled:opacity-20 transition-colors"
                             >
                               <ArrowDown className="w-3 h-3" />
                             </button>
                           </div>
                         </div>
                       ) : (
-                        <span className="text-xs text-muted-foreground/40 font-mono">—</span>
+                        <span className="text-xs text-slate-300 font-mono">—</span>
                       )}
                     </td>
 
                     {/* Token Number */}
                     <td className="py-3 px-4">
-                      <div className="font-mono font-bold text-sm sm:text-base text-foreground tracking-tight">
+                      <div className="font-mono font-bold text-sm text-slate-900 dark:text-white tracking-tight">
                         {t.tokenNumber}
                       </div>
                     </td>
 
                     {/* Customer Info */}
                     <td className="py-3 px-4">
-                      <div className="font-medium text-foreground text-sm">
+                      <div className="font-medium text-slate-900 dark:text-white text-sm">
                         {t.customerName}
                       </div>
-                      <div className="text-xs text-muted-foreground flex items-center gap-2">
+                      <div className="text-xs text-slate-500 flex items-center gap-2">
                         {t.phone && <span>{t.phone}</span>}
                         {t.phone && t.email && <span>•</span>}
                         {t.email && <span className="truncate max-w-[140px]">{t.email}</span>}
                       </div>
                       {t.notes && (
-                        <div className="text-[11px] text-muted-foreground/80 italic mt-0.5 line-clamp-1">
+                        <div className="text-[11px] text-slate-400 italic mt-0.5 line-clamp-1">
                           "{t.notes}"
                         </div>
                       )}
                     </td>
 
                     {/* Joined At */}
-                    <td className="py-3 px-4 hidden sm:table-cell text-xs text-muted-foreground font-mono">
+                    <td className="py-3 px-4 hidden sm:table-cell text-xs text-slate-500 font-mono">
                       {formatTime(t.createdAt)}
                     </td>
 
                     {/* Wait Time */}
                     <td className="py-3 px-4">
-                      <div className="font-mono text-xs text-foreground font-medium">
+                      <div className="font-mono text-xs text-slate-900 dark:text-slate-200 font-medium">
                         {formatDuration(waitMs)}
                       </div>
                       {serviceMs !== null && (
-                        <div className="text-[10px] text-muted-foreground font-mono">
+                        <div className="text-[10px] text-slate-400 font-mono">
                           svc: {formatDuration(serviceMs)}
                         </div>
                       )}
@@ -330,9 +305,9 @@ export function LiveTokenTable({
                         {t.status === "CALLED" && (
                           <Button
                             size="sm"
-                            variant="sage"
+                            variant="default"
                             onClick={() => handleStartService(t.id)}
-                            className="h-7 text-xs px-2 gap-1"
+                            className="h-7 text-xs px-2.5 gap-1"
                           >
                             <Play className="w-3 h-3 fill-current" />
                             Serve
@@ -342,9 +317,9 @@ export function LiveTokenTable({
                         {t.status === "SERVING" && (
                           <Button
                             size="sm"
-                            variant="default"
+                            variant="success"
                             onClick={() => handleCompleteService(t.id)}
-                            className="h-7 text-xs px-2 gap-1 bg-[#586938] hover:bg-[#45542C] text-white"
+                            className="h-7 text-xs px-2.5 gap-1"
                           >
                             <CheckCircle2 className="w-3 h-3" />
                             Complete
@@ -356,7 +331,7 @@ export function LiveTokenTable({
                             size="sm"
                             variant="outline"
                             onClick={() => handleRecall(t.id)}
-                            className="h-7 text-xs px-2 gap-1"
+                            className="h-7 text-xs px-2.5 gap-1"
                           >
                             <RotateCcw className="w-3 h-3" />
                             Recall
@@ -366,9 +341,9 @@ export function LiveTokenTable({
                         {isWaiting && (
                           <Button
                             size="sm"
-                            variant="outline"
+                            variant="destructive"
                             onClick={() => onOpenCancelModal(t)}
-                            className="h-7 text-xs px-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40"
+                            className="h-7 text-xs px-2.5"
                           >
                             <XCircle className="w-3 h-3 mr-1" />
                             Cancel

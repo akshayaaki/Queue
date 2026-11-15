@@ -11,7 +11,6 @@ import {
   RotateCcw,
   XCircle,
   Clock,
-  User,
   Phone,
   FileText,
   Sparkles,
@@ -20,7 +19,7 @@ import {
 import { TokenItem } from "@/types";
 import { playCallChime } from "@/components/audio/chime";
 import { toast } from "sonner";
-import { cn, formatDuration } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface CallNextHeroProps {
   queueId: string;
@@ -66,7 +65,7 @@ export function CallNextHero({
     return () => clearInterval(interval);
   }, [currentlyServing]);
 
-  // Keyboard shortcut: Press Alt+N or Space (when not focusing an input) to Call Next
+  // Keyboard shortcut: Press Alt+N or Space to Call Next
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const activeTag = (document.activeElement?.tagName || "").toLowerCase();
@@ -184,26 +183,23 @@ export function CallNextHero({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-8">
       {/* Hero Call Next Action Card (5 columns) */}
-      <div className="lg:col-span-5 rounded-2xl border border-border bg-gradient-to-br from-[#FEFAE0]/80 via-card to-[#FAEDCD]/40 p-6 flex flex-col justify-between shadow-bespoke relative overflow-hidden dark:from-[#231E18] dark:to-[#1C1814]">
-        {/* Subtle decorative background watermarks */}
-        <div className="absolute -right-8 -bottom-8 w-40 h-40 rounded-full bg-palette-ochre/10 blur-2xl pointer-events-none" />
-
+      <div className="lg:col-span-5 rounded-xl border border-slate-200 bg-white p-6 flex flex-col justify-between shadow-xs dark:bg-slate-900 dark:border-slate-800">
         <div>
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-palette-ochreDark flex items-center gap-1.5">
-              <Megaphone className="w-3.5 h-3.5 text-palette-ochre" />
+            <span className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+              <Megaphone className="w-3.5 h-3.5" />
               Counter Dispatch
             </span>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-palette-bisque/80 text-palette-charcoal font-semibold border border-palette-ochre/30 dark:bg-palette-ochre/20 dark:text-palette-ochre">
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700">
               {waitingCount} waiting
             </span>
           </div>
 
-          <h2 className="text-2xl font-bold tracking-tight text-foreground font-serif">
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
             Call Next Customer
           </h2>
-          <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-            Atomically summons the first customer in sequence. Plays acoustic chime and updates all counters.
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+            Atomically summons the first customer in sequence. Plays counter acoustic chime and updates display.
           </p>
         </div>
 
@@ -211,50 +207,50 @@ export function CallNextHero({
         <div className="my-6">
           <Button
             size="xl"
-            variant="hero"
+            variant="default"
             disabled={calling || waitingCount === 0}
             onClick={handleCallNext}
-            className="w-full flex items-center justify-center gap-3 text-base sm:text-lg group"
+            className="w-full flex items-center justify-center gap-2.5 text-base font-bold shadow-sm"
           >
-            <Megaphone className={cn("w-5 h-5", calling ? "animate-spin" : "group-hover:rotate-12 transition-transform")} />
+            <Megaphone className={cn("w-5 h-5", calling ? "animate-spin" : "")} />
             <span>{calling ? "Calling Token..." : "CALL NEXT CUSTOMER"}</span>
-            <ArrowRight className="w-4 h-4 ml-1 opacity-70 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
-          <div className="mt-2 text-center text-[11px] text-muted-foreground/80 flex items-center justify-center gap-1.5">
-            <span>Shortcut:</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-muted border border-border text-[10px] font-mono font-semibold">
+          <div className="mt-2 text-center text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
+            <span>Quick shortcut:</span>
+            <kbd className="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-[10px] font-mono font-semibold dark:bg-slate-800 dark:border-slate-700">
               Alt + N
             </kbd>
           </div>
         </div>
 
-        {/* Next Up Sneak Peek */}
-        <div className="p-3 rounded-xl bg-card/80 border border-border/80 flex items-center justify-between">
+        {/* Next Up Preview */}
+        <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-between dark:bg-slate-800/40 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <Clock className="w-3.5 h-3.5 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Next in line:</span>
+            <Clock className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-xs text-slate-500">Next in line:</span>
           </div>
           {nextUp ? (
             <div className="flex items-center gap-2">
-              <span className="font-mono font-bold text-xs text-palette-ochreDark">
+              <span className="font-mono font-bold text-xs text-blue-600 dark:text-blue-400">
                 {nextUp.tokenNumber}
               </span>
-              <span className="text-xs text-foreground font-medium truncate max-w-[120px]">
+              <span className="text-xs text-slate-800 font-medium truncate max-w-[140px] dark:text-slate-200">
                 {nextUp.customerName}
               </span>
             </div>
           ) : (
-            <span className="text-xs text-muted-foreground italic">Queue is clear</span>
+            <span className="text-xs text-slate-400 italic">Queue is clear</span>
           )}
         </div>
       </div>
 
       {/* Currently Serving Spotlight Card (7 columns) */}
-      <div className="lg:col-span-7 rounded-2xl border border-border bg-card p-6 shadow-bespoke flex flex-col justify-between relative">
+      <div className="lg:col-span-7 rounded-xl border border-slate-200 bg-white p-6 shadow-xs flex flex-col justify-between dark:bg-slate-900 dark:border-slate-800">
         <div>
-          <div className="flex items-center justify-between mb-4 border-b border-border/60 pb-3">
+          <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3 dark:border-slate-800">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
                 Currently Serving
               </span>
               {currentlyServing && (
@@ -263,7 +259,7 @@ export function CallNextHero({
             </div>
 
             {currentlyServing && (
-              <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-palette-celery/70 border border-palette-sage text-[#243516] font-mono font-bold text-xs shadow-2xs dark:bg-palette-sage/20 dark:text-[#C5D5A0]">
+              <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-mono font-bold text-xs dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-900">
                 <Clock className="w-3.5 h-3.5" />
                 <span>Elapsed: {timerFormatted}</span>
               </div>
@@ -274,19 +270,19 @@ export function CallNextHero({
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <div className="text-3xl sm:text-4xl font-extrabold font-mono tracking-tight text-palette-ochreDark dark:text-palette-ochre">
+                  <div className="text-3xl sm:text-4xl font-extrabold font-mono tracking-tight text-blue-600 dark:text-blue-400">
                     {currentlyServing.tokenNumber}
                   </div>
-                  <div className="text-lg font-bold text-foreground mt-0.5">
+                  <div className="text-lg font-bold text-slate-900 dark:text-white mt-0.5">
                     {currentlyServing.customerName}
                   </div>
                 </div>
 
-                {/* Contact Pill */}
-                <div className="space-y-1 text-xs text-muted-foreground bg-muted/40 p-2.5 rounded-xl border border-border/60">
+                {/* Contact Information */}
+                <div className="space-y-1 text-xs text-slate-500 bg-slate-50 p-2.5 rounded-lg border border-slate-100 dark:bg-slate-800/50 dark:border-slate-800">
                   {currentlyServing.phone && (
-                    <div className="flex items-center gap-1.5 font-medium">
-                      <Phone className="w-3 h-3 text-palette-ochreDark" />
+                    <div className="flex items-center gap-1.5 font-medium text-slate-700 dark:text-slate-300">
+                      <Phone className="w-3 h-3 text-blue-600" />
                       <span>{currentlyServing.phone}</span>
                     </div>
                   )}
@@ -296,28 +292,28 @@ export function CallNextHero({
                     </div>
                   )}
                   {!currentlyServing.phone && !currentlyServing.email && (
-                    <div className="italic text-muted-foreground">No contact details provided</div>
+                    <div className="italic text-slate-400">No contact provided</div>
                   )}
                 </div>
               </div>
 
               {currentlyServing.notes && (
-                <div className="p-3 rounded-xl bg-palette-parchment/60 border border-palette-ochre/20 text-xs text-[#523F27] flex items-start gap-2 dark:bg-[#2A231C] dark:text-[#E2C7A5]">
-                  <FileText className="w-3.5 h-3.5 shrink-0 mt-0.5 text-palette-ochreDark" />
+                <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 text-xs text-slate-700 flex items-start gap-2 dark:bg-slate-800/40 dark:border-slate-800 dark:text-slate-300">
+                  <FileText className="w-3.5 h-3.5 shrink-0 mt-0.5 text-blue-600" />
                   <p className="line-clamp-2">{currentlyServing.notes}</p>
                 </div>
               )}
             </div>
           ) : (
-            <div className="py-12 flex flex-col items-center justify-center text-center text-muted-foreground">
-              <div className="w-12 h-12 rounded-2xl bg-muted/60 flex items-center justify-center mb-3">
-                <Sparkles className="w-6 h-6 text-muted-foreground/60" />
+            <div className="py-12 flex flex-col items-center justify-center text-center text-slate-400">
+              <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center mb-2.5 dark:bg-slate-800">
+                <Sparkles className="w-5 h-5 text-slate-400" />
               </div>
-              <h3 className="text-base font-semibold text-foreground">
+              <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                 No Customer Active
               </h3>
-              <p className="text-xs text-muted-foreground max-w-xs mt-1">
-                Click "Call Next Customer" or choose a token from the waiting list to begin service.
+              <p className="text-xs text-slate-400 max-w-xs mt-1">
+                Click "Call Next Customer" or select a ticket from the waiting roster to begin service.
               </p>
             </div>
           )}
@@ -325,12 +321,12 @@ export function CallNextHero({
 
         {/* Counter Action Controls */}
         {currentlyServing && (
-          <div className="mt-6 pt-4 border-t border-border flex flex-wrap items-center justify-between gap-2">
+          <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 dark:border-slate-800">
             <div className="flex flex-wrap items-center gap-2">
               {currentlyServing.status === "CALLED" && (
                 <Button
                   size="sm"
-                  variant="sage"
+                  variant="default"
                   disabled={acting}
                   onClick={handleStartService}
                   className="gap-1.5"
@@ -343,10 +339,10 @@ export function CallNextHero({
               {(currentlyServing.status === "SERVING" || currentlyServing.status === "CALLED") && (
                 <Button
                   size="sm"
-                  variant="default"
+                  variant="success"
                   disabled={acting}
                   onClick={handleCompleteService}
-                  className="gap-1.5 bg-[#586938] hover:bg-[#45542C] text-white"
+                  className="gap-1.5"
                 >
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   Complete Service

@@ -16,16 +16,6 @@ module.exports = {
     },
     extend: {
       colors: {
-        palette: {
-          sage: "#CCD5AE",
-          celery: "#E9EDC9",
-          parchment: "#FEFAE0",
-          bisque: "#FAEDCD",
-          ochre: "#D4A373",
-          ochreDark: "#B88554",
-          oliveDark: "#586938",
-          charcoal: "#1F2421",
-        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -79,9 +69,10 @@ module.exports = {
         "badge-ping": "badge-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite",
       },
       boxShadow: {
-        bespoke: "0 1px 3px 0 rgba(40, 32, 20, 0.05), 0 10px 25px -5px rgba(40, 32, 20, 0.04)",
-        "bespoke-hover": "0 4px 6px -1px rgba(40, 32, 20, 0.07), 0 20px 30px -10px rgba(40, 32, 20, 0.08)",
-        card: "0 0 0 1px rgba(212, 163, 115, 0.15), 0 2px 4px rgba(40, 32, 20, 0.04)",
+        xs: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        card: "0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.06)",
+        "card-hover": "0 4px 12px 0 rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06)",
+        dropdown: "0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05)",
       },
     },
   },

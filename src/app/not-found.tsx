@@ -5,21 +5,21 @@ import { Home, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
+    <div className="min-h-screen bg-slate-50/50 flex flex-col items-center justify-center p-6 text-center dark:bg-slate-950">
       <div className="max-w-md w-full space-y-6">
         <div className="flex justify-center mb-2">
           <QueueFlowLogo size="lg" />
         </div>
-        
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-palette-sage/20 border border-palette-sage text-palette-sageDark font-serif text-2xl font-bold">
+
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 font-mono text-2xl font-bold dark:bg-blue-950/40 dark:border-blue-900 dark:text-blue-400">
           404
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold font-serif text-foreground">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
             Page Not Found
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             The page or queue terminal you are trying to access does not exist or has been relocated.
           </p>
         </div>

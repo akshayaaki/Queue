@@ -10,7 +10,6 @@ import {
   VolumeX,
   Sun,
   Moon,
-  Radio,
   Layers,
   ChevronDown,
 } from "lucide-react";
@@ -32,13 +31,11 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [queues, setQueues] = useState<QueueSummary[]>([]);
   const [switcherOpen, setSwitcherOpen] = useState(false);
-  const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
     setSoundOn(isSoundEnabled());
 
-    // Fetch user's queues for fast switcher
     fetch("/api/queues")
       .then((res) => res.json())
       .then((data) => {
@@ -57,18 +54,18 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
   const currentQueue = queues.find((q) => q.id === activeQueueId);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-border bg-card/75 px-4 sm:px-6 backdrop-blur-md">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white/90 px-4 sm:px-6 backdrop-blur-md dark:bg-slate-900/90 dark:border-slate-800">
       {/* Left: Mobile Toggle & Page Title */}
       <div className="flex items-center gap-3">
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 rounded-lg text-muted-foreground hover:bg-muted"
+          className="lg:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
 
         <div className="flex items-center gap-2">
-          <h1 className="text-base sm:text-lg font-semibold tracking-tight text-foreground capitalize">
+          <h1 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-white capitalize">
             {title || "Dashboard"}
           </h1>
 
@@ -77,13 +74,13 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
             <div className="relative hidden md:block">
               <button
                 onClick={() => setSwitcherOpen(!switcherOpen)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-background/80 hover:bg-muted text-xs font-medium text-foreground transition-all shadow-2xs"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-medium text-slate-800 transition-all shadow-xs dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200"
               >
-                <Layers className="w-3.5 h-3.5 text-palette-ochreDark" />
-                <span className="font-semibold text-palette-ochreDark">
+                <Layers className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                <span className="font-semibold text-slate-900 dark:text-white">
                   {currentQueue ? currentQueue.name : "Select Queue"}
                 </span>
-                <ChevronDown className="w-3 h-3 text-muted-foreground" />
+                <ChevronDown className="w-3 h-3 text-slate-400" />
               </button>
 
               {switcherOpen && (
@@ -92,8 +89,8 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
                     className="fixed inset-0 z-40"
                     onClick={() => setSwitcherOpen(false)}
                   />
-                  <div className="absolute left-0 mt-1.5 w-60 rounded-xl border border-border bg-card p-1.5 shadow-xl z-50 animate-in fade-in zoom-in-95 duration-100">
-                    <div className="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  <div className="absolute left-0 mt-1.5 w-60 rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg z-50 animate-in fade-in zoom-in-95 duration-100 dark:bg-slate-900 dark:border-slate-800">
+                    <div className="px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
                       Switch Active Queue
                     </div>
                     {queues.map((q) => (
@@ -104,21 +101,21 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
                         className={cn(
                           "flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors",
                           q.id === activeQueueId
-                            ? "bg-palette-bisque text-palette-charcoal font-semibold dark:bg-palette-ochre/20 dark:text-palette-ochre"
-                            : "hover:bg-muted text-foreground"
+                            ? "bg-blue-50 text-blue-700 font-semibold dark:bg-blue-950/50 dark:text-blue-300"
+                            : "hover:bg-slate-50 text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
                         )}
                       >
                         <span className="truncate">{q.name}</span>
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-muted text-muted-foreground">
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
                           {q.queueCode}
                         </span>
                       </Link>
                     ))}
-                    <div className="border-t border-border mt-1 pt-1">
+                    <div className="border-t border-slate-100 dark:border-slate-800 mt-1 pt-1">
                       <Link
                         href="/queues"
                         onClick={() => setSwitcherOpen(false)}
-                        className="block px-2.5 py-1.5 text-center text-xs text-palette-ochreDark hover:underline font-medium"
+                        className="block px-2.5 py-1.5 text-center text-xs text-blue-600 hover:underline font-medium dark:text-blue-400"
                       >
                         + Manage all queues
                       </Link>
@@ -131,15 +128,15 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
         </div>
       </div>
 
-      {/* Right Controls: Realtime indicator, Audio chime toggle, Theme toggle, User */}
+      {/* Right Controls */}
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Live Sync Status Pill */}
-        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-palette-sage/20 border border-palette-sage/40 text-[11px] font-medium text-[#384824] dark:bg-palette-sage/10 dark:text-[#C5D5A0]">
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900/60">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#586938] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#586938]"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span className="font-semibold">Live Sync</span>
+          <span className="font-semibold">Live Connected</span>
         </div>
 
         {/* Audio Chime Toggle */}
@@ -147,10 +144,10 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
           onClick={handleSoundToggle}
           title={soundOn ? "Mute Call Chime" : "Enable Call Chime"}
           className={cn(
-            "p-2 rounded-xl border transition-all text-xs flex items-center gap-1.5",
+            "p-2 rounded-lg border transition-all text-xs flex items-center gap-1.5",
             soundOn
-              ? "border-palette-ochre/30 bg-palette-bisque/60 text-palette-ochreDark hover:bg-palette-bisque"
-              : "border-border bg-card text-muted-foreground hover:bg-muted"
+              ? "border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-blue-950/40 dark:border-blue-900 dark:text-blue-300"
+              : "border-slate-200 bg-white text-slate-500 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400"
           )}
         >
           {soundOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
@@ -163,14 +160,14 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
         <button
           onClick={toggleTheme}
           title="Toggle Light / Dark Mode"
-          className="p-2 rounded-xl border border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
+          className="p-2 rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-800 transition-all dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 dark:hover:text-white"
         >
           {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
 
-        {/* User Mini Avatar */}
-        <div className="hidden sm:flex items-center gap-2 pl-2 border-l border-border">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-palette-parchment to-palette-ochre text-[#1E1914] flex items-center justify-center font-bold text-xs shadow-xs border border-palette-ochre/30">
+        {/* User Avatar */}
+        <div className="hidden sm:flex items-center gap-2 pl-2 border-l border-slate-200 dark:border-slate-800">
+          <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
             {user?.name ? user.name.charAt(0).toUpperCase() : "M"}
           </div>
         </div>
@@ -178,51 +175,51 @@ export function Topbar({ user, title, activeQueueId }: TopbarProps) {
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 top-16 z-50 bg-background/95 backdrop-blur-md lg:hidden p-6 space-y-4 animate-in slide-in-from-top-4 duration-200">
+        <div className="fixed inset-0 top-16 z-50 bg-white/98 backdrop-blur-md lg:hidden p-6 space-y-4 animate-in slide-in-from-top-4 duration-200 dark:bg-slate-900/98">
           <div className="space-y-1">
             <Link
               href="/dashboard"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 rounded-xl text-sm font-medium hover:bg-muted"
+              className="block px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
             >
               Dashboard
             </Link>
             <Link
               href="/queues"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 rounded-xl text-sm font-medium hover:bg-muted"
+              className="block px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
             >
               My Queues
             </Link>
             <Link
               href="/tokens"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 rounded-xl text-sm font-medium hover:bg-muted"
+              className="block px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
             >
               Token History
             </Link>
             <Link
               href="/analytics"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 rounded-xl text-sm font-medium hover:bg-muted"
+              className="block px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
             >
               Analytics
             </Link>
             <Link
               href="/settings"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-3 rounded-xl text-sm font-medium hover:bg-muted"
+              className="block px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800"
             >
               Settings
             </Link>
           </div>
-          <div className="pt-4 border-t border-border">
+          <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
             <button
               onClick={async () => {
                 await fetch("/api/auth/logout", { method: "POST" });
                 router.push("/login");
               }}
-              className="w-full py-2.5 text-center text-sm font-semibold text-red-600 bg-red-50 dark:bg-red-950/40 rounded-xl"
+              className="w-full py-2.5 text-center text-sm font-semibold text-rose-600 bg-rose-50 dark:bg-rose-950/40 rounded-lg"
             >
               Log Out
             </button>

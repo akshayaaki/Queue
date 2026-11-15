@@ -1,9 +1,9 @@
-# QueueFlow Enterprise 2.0
+# QueueFlow Pro
 
-> **A Bespoke, High-Throughput Queue Management Platform**  
-> Engineered with Next.js 14 App Router, TypeScript, Prisma ORM, Server-Sent Events (SSE) Real-Time Synchronization, and Native Multi-Tenant Manager Isolation.
+> **A Precision, High-Throughput Queue Management Platform**  
+> Engineered with Next.js 14 App Router, TypeScript, Prisma ORM, Server-Sent Events (SSE) Real-Time Synchronization, and Multi-Tenant Manager Isolation.
 
-Designed with an editorial, high-ticket visual aesthetic using the bespoke warm palette [`#CCD5AE`, `#E9EDC9`, `#FEFAE0`, `#FAEDCD`, `#D4A373`](https://coolors.co/palette/ccd5ae-e9edc9-fefae0-faedcd-d4a373).
+Designed with a modern, high-ticket white SaaS aesthetic (Slate / Pure White / Electric Blue `#2563eb`).
 
 ---
 
@@ -12,16 +12,17 @@ Designed with an editorial, high-ticket visual aesthetic using the bespoke warm 
 **QueueFlow** provides high-reliability queue telemetry and operational dispatch for enterprise counters, clinic lobbies, customer service desks, and intake centers.
 
 ### Key Highlights
-- **Atomic Token Generation & Sequencing**: Sequential numbering prefixes (e.g., `GEN-001`, `BIL-042`, `VIP-003`) allocated atomically inside database transactions.
+- **Atomic Token Generation & Sequencing**: Sequential numbering prefixes (e.g., `GEN-001`, `BIL-042`, `VIP-003`) allocated atomically inside transactions.
 - **Concurrency-Safe Dispatch ("Call Next")**: Guaranteed single-assignment under simultaneous manager requests with row compaction.
 - **Bi-Directional Waiting Queue Reordering**: Instant Move Up / Move Down repositioning strictly restricted to waiting customers.
 - **Full Service Lifecycle State Machine**: Enforces strict transitions:
   $$\text{WAITING} \longrightarrow \text{CALLED} \longrightarrow \text{SERVING} \longrightarrow \text{COMPLETED}$$
   with non-destructive cancellation and audit trail preservation.
-- **Zero-Latency Real-Time Synchronization**: Native Server-Sent Events (SSE) broadcaster keeps multiple tabs, desks, and waiting screens synchronized in under 5ms.
+- **Zero-Latency Real-Time Synchronization**: Native Server-Sent Events (SSE) broadcaster keeps multiple tabs, desks, and waiting screens synchronized in real time.
 - **Live Acoustic Chime**: Synthesized dual-tone harmonic lounge chime (F#5 $\to$ C#6) via the Web Audio API without external audio files.
 - **Database-Backed Analytics**: Real SQL aggregations for wait time ($\text{calledAt} - \text{createdAt}$), service duration ($\text{completedAt} - \text{serviceStartedAt}$), hourly throughput, and queue comparison.
-- **Multi-Tenant Manager Isolation**: Robust server-side verification ensuring managers can access only their authorized queues.
+- **Multi-Tenant Manager Isolation**: Strict server-side verification ensuring managers can access only their authorized queues.
+- **Zero-Config Resilient Fallback Engine**: Works out-of-the-box in serverless and containerized environments. When `DATABASE_URL` is configured, it automatically switches to PostgreSQL via Prisma.
 
 ---
 
@@ -54,8 +55,8 @@ Designed with an editorial, high-ticket visual aesthetic using the bespoke warm 
         ┌──────────────┴──────────────┐
         ▼                             ▼
 ┌───────────────┐             ┌───────────────┐
-│  PostgreSQL   │ (Production)│    SQLite     │ (Local Dev / CI)
-│  (Supabase /  │             │   (dev.db)    │
+│  PostgreSQL   │ (Production)│ Resilient DB  │ (Zero-Config Fallback)
+│  (Supabase /  │             │   Runtime     │
 │  Neon / RDS)  │             │               │
 └───────────────┘             └───────────────┘
 ```
@@ -64,78 +65,14 @@ Designed with an editorial, high-ticket visual aesthetic using the bespoke warm 
 | :--- | :--- |
 | **Frontend** | Next.js 14 (App Router), React 18, TypeScript Strict, Tailwind CSS, Lucide Icons, Recharts, Sonner Toaster |
 | **Backend** | Next.js Route Handlers, Jose JWT Sessions, Bcrypt.js, Zod Schema Validation |
-| **Database** | PostgreSQL (Production) / SQLite (Zero-config local), Prisma ORM |
+| **Database** | PostgreSQL (Production via Prisma) / Resilient Runtime Engine |
 | **Realtime** | Server-Sent Events (SSE) HTTP stream with auto-reconnect & heartbeats |
 | **Audio** | Web Audio API Synthesizer (Harmonic bell chime) |
-| **Testing** | Vitest 2, React Testing Library, Playwright E2E |
+| **Testing** | Vitest 2, React Testing Library, JSDOM |
 
 ---
 
-## 3. Database Schema Overview
-
-```prisma
-model User {
-  id           String       @id @default(cuid())
-  name         String
-  email        String       @unique
-  passwordHash String
-  role         String       @default("MANAGER")
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-  queues       Queue[]
-  events       QueueEvent[]
-}
-
-model Queue {
-  id              String       @id @default(cuid())
-  name            String
-  description     String?
-  queueCode       String
-  status          String       @default("ACTIVE")
-  ownerId         String
-  owner           User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  nextTokenNumber Int          @default(1)
-  capacity        Int?
-  tokens          Token[]
-  events          QueueEvent[]
-  @@unique([ownerId, queueCode])
-}
-
-model Token {
-  id                 String       @id @default(cuid())
-  queueId            String
-  queue              Queue        @relation(fields: [queueId], references: [id], onDelete: Cascade)
-  tokenNumber        String       // e.g. "GEN-001"
-  customerName       String
-  phone              String?
-  email              String?
-  notes              String?
-  status             String       @default("WAITING") // WAITING, CALLED, SERVING, COMPLETED, CANCELLED, SKIPPED
-  position           Int          @default(0)
-  cancellationReason String?
-  createdAt          DateTime     @default(now())
-  calledAt           DateTime?
-  serviceStartedAt   DateTime?
-  completedAt        DateTime?
-  cancelledAt        DateTime?
-  skippedAt          DateTime?
-  events             QueueEvent[]
-}
-
-model QueueEvent {
-  id        String   @id @default(cuid())
-  queueId   String
-  tokenId   String?
-  userId    String
-  eventType String
-  eventData String?
-  createdAt DateTime @default(now())
-}
-```
-
----
-
-## 4. Quick Start & Local Development
+## 3. Quick Start & Local Development
 
 ### Prerequisites
 - Node.js 18.17+ or 20.x
@@ -144,8 +81,8 @@ model QueueEvent {
 ### Installation
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-username/queueflow.git
-cd queueflow
+git clone https://github.com/akshayaaki/Queue.git
+cd Queue
 
 # 2. Install dependencies
 pnpm install
@@ -153,30 +90,23 @@ pnpm install
 # 3. Configure environment
 cp .env.example .env
 
-# 4. Initialize Database & Seed Sample Records
-node prisma/seed.js
-
-# 5. Start development server
+# 4. Start development server
 pnpm dev
 ```
 Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
 ---
 
-## 5. Seed Credentials (One-Click Demo Access)
+## 4. Manager Registration & Authentication
 
-The seed script creates two isolated manager accounts for testing tenant isolation:
-
-| Account | Email | Password | Role / Purpose |
-| :--- | :--- | :--- | :--- |
-| **Manager A** | `alex@queueflow.com` | `password123` | General Enquiry, Billing, VIP Concierge |
-| **Manager B** | `sarah@queueflow.com` | `password123` | Clinical & Specialist Desk |
-
-*(The login screen also includes convenient **One-Click Demo Fill** buttons for immediate testing).*
+1. Navigate to `/register` to create your initial manager account.
+2. Sign in at `/login` with your registered credentials.
+3. Once logged in, create your queues (e.g. `General Desk`, `Billing`, `VIP Lounge`) with custom prefix codes.
+4. Add customer tokens and use the **Call Next**, **Start Service**, **Complete**, or **Reorder** buttons to manage the live flow.
 
 ---
 
-## 6. Testing
+## 5. Testing
 
 ### Run Unit and Integration Tests
 ```bash
@@ -184,42 +114,30 @@ The seed script creates two isolated manager accounts for testing tenant isolati
 pnpm test
 ```
 
-### Run Playwright End-to-End Tests
-```bash
-# Run all 10 end-to-end scenarios
-pnpm test:e2e
-```
-
 ---
 
-## 7. Production Build & Deployment
+## 6. Production Deployment (Netlify / Vercel / Railway)
 
-### Production Build
-```bash
-pnpm build
-pnpm start
-```
-
-### PostgreSQL Deployment (Vercel + Supabase / Neon / Railway)
-1. Provision a PostgreSQL database instance on [Supabase](https://supabase.com), [Neon](https://neon.tech), or [Railway](https://railway.app).
+1. Connect your repository to Netlify or Vercel.
 2. Set your environment variables in your deployment dashboard:
    ```env
    DATABASE_URL="postgresql://user:password@host:5432/queueflow?sslmode=require"
-   AUTH_SECRET="your-32-character-secret-key"
-   NEXTAUTH_URL="https://your-domain.vercel.app"
+   AUTH_SECRET="your-32-character-secret-key-at-least-32-chars"
+   NEXTAUTH_URL="https://your-domain.netlify.app"
    ```
-3. Run database migrations:
+3. When `DATABASE_URL` is set, run database migrations:
    ```bash
-   pnpm prisma:deploy
+   pnpm prisma migrate deploy
    ```
+4. If `DATABASE_URL` is not yet configured, QueueFlow will seamlessly run on its resilient runtime storage engine without throwing 500 errors.
 
 ---
 
-## 8. API Reference
+## 7. API Reference
 
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
-| `/api/auth/register` | `POST` | Register a new manager and auto-provision default queue |
+| `/api/auth/register` | `POST` | Register a new manager |
 | `/api/auth/login` | `POST` | Sign in and receive secure session cookie |
 | `/api/auth/logout` | `POST` | Clear session cookie |
 | `/api/auth/me` | `GET` | Get authenticated manager profile |
@@ -239,11 +157,15 @@ pnpm start
 
 ---
 
-## 9. Design System Palette
+## 8. Design System
 
-- **Parchment / Ivory**: `#FEFAE0`
-- **Champagne Bisque**: `#FAEDCD`
-- **Soft Sage**: `#CCD5AE`
-- **Pale Celery**: `#E9EDC9`
-- **Warm Ochre / Cognac**: `#D4A373`
-- **High-Contrast Charcoal**: `#1F2421` (AAA accessibility compliant)
+- **Background**: `#FFFFFF` (Pure White) / `#F8FAFC` (Slate-50)
+- **Cards**: `#FFFFFF` with `#E2E8F0` (Slate-200) borders and soft depth shadows
+- **Primary Accent**: `#2563EB` (Electric Blue-600)
+- **Status Indicators**:
+  - Waiting: Amber (`#F59E0B`)
+  - Called: Pulsing Blue (`#2563EB`)
+  - Serving: Indigo (`#6366F1`)
+  - Completed: Emerald (`#10B981`)
+  - Cancelled: Rose (`#F43F5E`)
+  - Skipped: Slate (`#64748B`)

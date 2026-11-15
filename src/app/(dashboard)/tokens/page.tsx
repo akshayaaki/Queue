@@ -135,7 +135,7 @@ export default function TokenHistoryPage() {
             <select
               value={selectedQueueId}
               onChange={(e) => setSelectedQueueId(e.target.value)}
-              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-palette-ochre"
+              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 focus-visible:border-blue-600 transition-all shadow-xs"
             >
               <option value="ALL">All Queues</option>
               {queues.map((q) => (
@@ -151,7 +151,7 @@ export default function TokenHistoryPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-palette-ochre"
+              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 focus-visible:border-blue-600 transition-all shadow-xs"
             >
               <option value="ALL">All Statuses</option>
               <option value="COMPLETED">Completed</option>
@@ -166,7 +166,7 @@ export default function TokenHistoryPage() {
       </div>
 
       {/* Historical Ledger Table */}
-      <div className="rounded-2xl border border-border bg-card shadow-bespoke overflow-hidden">
+      <div className="rounded-2xl border border-border bg-card shadow-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
@@ -216,7 +216,7 @@ export default function TokenHistoryPage() {
                         {t.calledAt ? (
                           <div>
                             <div>{formatTime(t.calledAt)}</div>
-                            <div className="text-[10px] text-palette-ochreDark">
+                            <div className="text-[10px] text-blue-600 font-medium dark:text-blue-400">
                               waited {formatDuration(waitMs)}
                             </div>
                           </div>

@@ -109,18 +109,10 @@ export async function requireAuth(): Promise<UserSession> {
  * Tenant Isolation Guard: Ensures queue belongs to authenticated user.
  */
 export async function assertQueueOwnership(queueId: string, userId: string) {
-  const effectiveUserId =
-    userId === "demo-manager-alex" ? "usr_alex_vance" :
-    userId === "demo-manager-sarah" ? "usr_sarah_chen" :
-    userId;
-
   const queue = await prisma.queue.findFirst({
     where: {
       id: queueId,
-      OR: [
-        { ownerId: effectiveUserId },
-        { ownerId: userId },
-      ],
+      ownerId: userId,
     },
   });
 
@@ -135,17 +127,12 @@ export async function assertQueueOwnership(queueId: string, userId: string) {
  * Tenant Isolation Guard: Ensures token belongs to a queue owned by the authenticated user.
  */
 export async function assertTokenOwnership(tokenId: string, userId: string) {
-  const effectiveUserId =
-    userId === "demo-manager-alex" ? "usr_alex_vance" :
-    userId === "demo-manager-sarah" ? "usr_sarah_chen" :
-    userId;
-
   const token = await prisma.token.findUnique({
     where: { id: tokenId },
     include: { queue: true },
   });
 
-  if (!token || (token.queue.ownerId !== userId && token.queue.ownerId !== effectiveUserId)) {
+  if (!token || token.queue.ownerId !== userId) {
     throw new Error("TOKEN_NOT_FOUND_OR_FORBIDDEN");
   }
 

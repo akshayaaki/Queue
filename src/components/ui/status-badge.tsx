@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import { TokenStatus } from "@/types";
-import { Clock, Megaphone, Sparkles, CheckCircle2, XCircle, FastForward } from "lucide-react";
+import { Clock, Megaphone, CheckCircle2, XCircle, FastForward } from "lucide-react";
 
 interface StatusBadgeProps {
   status: TokenStatus | string;
@@ -20,8 +20,8 @@ export function StatusBadge({
 
   const sizeClasses = {
     sm: "px-2 py-0.5 text-[11px] gap-1",
-    default: "px-2.5 py-1 text-xs gap-1.5",
-    lg: "px-3.5 py-1.5 text-sm gap-2 font-semibold",
+    default: "px-2.5 py-0.5 text-xs gap-1.5",
+    lg: "px-3.5 py-1 text-sm gap-2 font-semibold",
   }[size];
 
   switch (normalized) {
@@ -29,12 +29,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-palette-bisque/90 text-[#7D5A25] border border-palette-ochre/30 dark:bg-[#342A1D] dark:text-[#E8C28A] dark:border-palette-ochre/20",
+            "inline-flex items-center font-medium rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-900/60",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <Clock className="w-3 h-3 text-palette-ochreDark" />}
+          {showIcon && <Clock className="w-3 h-3 text-amber-600 dark:text-amber-400" />}
           Waiting
         </span>
       );
@@ -43,12 +43,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-semibold rounded-full bg-palette-parchment text-[#805018] border-2 border-palette-ochre shadow-xs animate-pulse dark:bg-[#3E2F1E] dark:text-[#F3CE9B]",
+            "inline-flex items-center font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-200 shadow-xs animate-pulse dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-900",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <Megaphone className="w-3.5 h-3.5 text-palette-ochreDark animate-bounce" />}
+          {showIcon && <Megaphone className="w-3 h-3 text-blue-600 dark:text-blue-400" />}
           Called
         </span>
       );
@@ -57,15 +57,15 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-semibold rounded-full bg-palette-celery text-[#2A3E1B] border border-palette-sage shadow-xs dark:bg-[#27351D] dark:text-[#D1E2A5] dark:border-palette-sage/40",
+            "inline-flex items-center font-semibold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-xs dark:bg-indigo-950/50 dark:text-indigo-300 dark:border-indigo-900",
             sizeClasses,
             className
           )}
         >
           {showIcon && (
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#586938] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#425227]"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
             </span>
           )}
           Serving Now
@@ -76,12 +76,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-palette-sage/40 text-[#2C3B20] border border-palette-sage/60 dark:bg-[#202C1B] dark:text-[#C5D49E] dark:border-palette-sage/30",
+            "inline-flex items-center font-medium rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900/60",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <CheckCircle2 className="w-3.5 h-3.5 text-[#586938]" />}
+          {showIcon && <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />}
           Completed
         </span>
       );
@@ -90,12 +90,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-red-50 text-red-700 border border-red-200/80 dark:bg-red-950/40 dark:text-red-300 dark:border-red-900/60",
+            "inline-flex items-center font-medium rounded-full bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-900/60",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <XCircle className="w-3.5 h-3.5 text-red-500" />}
+          {showIcon && <XCircle className="w-3 h-3 text-rose-500" />}
           Cancelled
         </span>
       );
@@ -104,12 +104,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-stone-100 text-stone-600 border border-stone-200 dark:bg-stone-800 dark:text-stone-300 dark:border-stone-700",
+            "inline-flex items-center font-medium rounded-full bg-slate-100 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <FastForward className="w-3 h-3 text-stone-500" />}
+          {showIcon && <FastForward className="w-3 h-3 text-slate-500" />}
           Skipped
         </span>
       );
@@ -118,7 +118,7 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-muted text-muted-foreground border border-border",
+            "inline-flex items-center font-medium rounded-full bg-slate-100 text-slate-700 border border-slate-200",
             sizeClasses,
             className
           )}

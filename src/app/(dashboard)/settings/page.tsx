@@ -43,7 +43,7 @@ export default function SettingsPage() {
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground font-serif">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Terminal & Workspace Settings
         </h1>
         <p className="text-xs text-muted-foreground">
@@ -52,9 +52,9 @@ export default function SettingsPage() {
       </div>
 
       {/* Profile Card */}
-      <div className="rounded-3xl border border-border bg-card p-6 shadow-bespoke">
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
         <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-palette-bisque text-palette-ochreDark flex items-center justify-center border border-palette-ochre/30">
+          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 dark:bg-blue-950/40 dark:border-blue-900 dark:text-blue-400">
             <User className="w-5 h-5" />
           </div>
           <div>
@@ -76,9 +76,9 @@ export default function SettingsPage() {
       </div>
 
       {/* Audio & Counter Dispatch Settings */}
-      <div className="rounded-3xl border border-border bg-card p-6 shadow-bespoke">
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
         <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-palette-celery text-[#334620] flex items-center justify-center border border-palette-sage">
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 dark:bg-emerald-950/40 dark:border-emerald-900 dark:text-emerald-400">
             <Volume2 className="w-5 h-5" />
           </div>
           <div>
@@ -119,9 +119,9 @@ export default function SettingsPage() {
       </div>
 
       {/* Database & Production Health */}
-      <div className="rounded-3xl border border-border bg-card p-6 shadow-bespoke">
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
         <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-palette-parchment text-palette-ochreDark flex items-center justify-center border border-palette-ochre/30">
+          <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center border border-indigo-100 dark:bg-indigo-950/40 dark:border-indigo-900 dark:text-indigo-400">
             <Database className="w-5 h-5" />
           </div>
           <div>
@@ -148,7 +148,7 @@ export default function SettingsPage() {
 
           <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border">
             <span className="text-muted-foreground">Real-time Stream:</span>
-            <span className="font-mono text-palette-ochreDark font-semibold">
+            <span className="font-mono text-blue-600 font-semibold dark:text-blue-400">
               Server-Sent Events (SSE) Bus Active
             </span>
           </div>

@@ -87,7 +87,7 @@ export default function LiveQueuePage() {
   if (loading) {
     return (
       <div className="py-24 text-center">
-        <RefreshCw className="w-8 h-8 text-palette-ochre animate-spin mx-auto mb-3" />
+        <RefreshCw className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-3" />
         <p className="text-sm font-semibold text-foreground">Connecting to Live Queue...</p>
       </div>
     );
@@ -95,7 +95,7 @@ export default function LiveQueuePage() {
 
   if (error || !queue) {
     return (
-      <div className="p-8 max-w-lg mx-auto text-center rounded-3xl border border-border bg-card shadow-lg">
+      <div className="p-8 max-w-lg mx-auto text-center rounded-2xl border border-border bg-card shadow-card">
         <AlertCircle className="w-10 h-10 text-red-500 mx-auto mb-3" />
         <h2 className="text-lg font-bold text-foreground">Unable to Open Queue</h2>
         <p className="text-xs text-muted-foreground mt-1 mb-5">{error || "Queue not found"}</p>
@@ -120,14 +120,14 @@ export default function LiveQueuePage() {
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-md bg-palette-bisque text-palette-charcoal font-mono font-bold text-xs border border-palette-ochre/30 shadow-2xs dark:bg-palette-ochre/20 dark:text-palette-ochre">
+              <span className="px-2.5 py-0.5 rounded-md bg-blue-50 text-blue-700 font-mono font-bold text-xs border border-blue-200 shadow-2xs dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800">
                 {queue.queueCode}
               </span>
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-serif">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                 {queue.name}
               </h1>
-              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-palette-celery text-[#2A3E1B] border border-palette-sage">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#586938]" />
+              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Live
               </span>
             </div>

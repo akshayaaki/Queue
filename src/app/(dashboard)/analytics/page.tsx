@@ -66,13 +66,13 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-8">
       {/* Page Header & Filter Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-6 rounded-3xl border border-border bg-card shadow-bespoke">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-6 rounded-2xl border border-border bg-card shadow-card">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-palette-ochreDark mb-1">
+          <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-blue-600 mb-1">
             <BarChart3 className="w-4 h-4" />
             Operational Intelligence
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground font-serif">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
             Analytics & Queue Telemetry
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -87,7 +87,7 @@ export default function AnalyticsPage() {
             <select
               value={selectedQueueId}
               onChange={(e) => setSelectedQueueId(e.target.value)}
-              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-palette-ochre"
+              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 focus-visible:border-blue-600 transition-all shadow-xs"
             >
               <option value="">All My Queues</option>
               {queues.map((q) => (
@@ -172,7 +172,7 @@ export default function AnalyticsPage() {
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Chart A: Customer Traffic by Hour */}
-        <div className="rounded-3xl border border-border bg-card p-6 shadow-bespoke">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-base font-bold text-foreground">
@@ -182,7 +182,7 @@ export default function AnalyticsPage() {
                 Distribution of queue token arrivals across operating hours.
               </p>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-palette-bisque/60 text-palette-charcoal border border-palette-ochre/20">
+            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800">
               Hourly Influx
             </span>
           </div>
@@ -190,7 +190,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Chart B: Average Wait Time Trends */}
-        <div className="rounded-3xl border border-border bg-card p-6 shadow-bespoke">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-base font-bold text-foreground">
@@ -200,7 +200,7 @@ export default function AnalyticsPage() {
                 Daily average minutes from arrival until customer was called.
               </p>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-palette-sage/30 text-[#33441F] border border-palette-sage/40">
+            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800">
               Speed Trend
             </span>
           </div>
@@ -208,7 +208,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Chart C: Queue Performance Comparison */}
-        <div className="rounded-3xl border border-border bg-card p-6 shadow-bespoke">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-base font-bold text-foreground">
@@ -218,7 +218,7 @@ export default function AnalyticsPage() {
                 Comparison of served, active waiting, and cancelled tokens per queue.
               </p>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-muted text-muted-foreground">
+            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
               Counter Comparison
             </span>
           </div>
@@ -226,7 +226,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Chart D: Service Efficiency */}
-        <div className="rounded-3xl border border-border bg-card p-6 shadow-bespoke">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-base font-bold text-foreground">
@@ -236,7 +236,7 @@ export default function AnalyticsPage() {
                 Average service duration and total customers served per hour.
               </p>
             </div>
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-palette-celery/60 text-[#30411E] border border-palette-sage/40">
+            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800">
               Throughput
             </span>
           </div>

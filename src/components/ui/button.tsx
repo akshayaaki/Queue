@@ -3,32 +3,32 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]",
   {
     variants: {
       variant: {
         default:
-          "bg-palette-ochre text-[#241C14] font-semibold hover:bg-palette-ochreDark hover:text-white shadow-[0_1px_2px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.04)] active:shadow-none",
+          "bg-blue-600 text-white font-semibold hover:bg-blue-700 shadow-xs active:bg-blue-800",
         hero:
-          "bg-gradient-to-r from-palette-ochre via-[#DEB887] to-palette-ochreDark text-[#1C160E] font-bold shadow-[0_4px_14px_rgba(212,163,115,0.4)] hover:shadow-[0_6px_20px_rgba(212,163,115,0.5)] hover:scale-[1.01] active:scale-[0.98] border border-palette-bisque/60",
+          "bg-blue-600 text-white font-semibold shadow-sm hover:bg-blue-700 active:bg-blue-800 border border-blue-500/30",
         secondary:
-          "bg-palette-bisque/80 text-[#2C241B] hover:bg-palette-bisque font-medium border border-palette-ochre/20",
-        sage:
-          "bg-palette-sage text-[#202E1B] font-semibold hover:bg-[#BFCB9D] border border-palette-oliveDark/20 shadow-sm",
+          "bg-slate-100 text-slate-800 hover:bg-slate-200 font-medium border border-slate-200/80 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700",
         outline:
-          "border border-border bg-card text-foreground hover:bg-muted/70 hover:border-palette-ochre/40 shadow-xs",
+          "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-xs dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800",
         ghost:
-          "hover:bg-muted/80 text-foreground hover:text-foreground",
+          "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100",
         destructive:
           "bg-red-50 text-red-700 hover:bg-red-100 dark:bg-red-950/40 dark:text-red-300 dark:hover:bg-red-900/60 border border-red-200 dark:border-red-900",
+        success:
+          "bg-emerald-600 text-white font-semibold hover:bg-emerald-700 shadow-xs",
         link:
-          "text-palette-ochreDark underline-offset-4 hover:underline dark:text-palette-ochre",
+          "text-blue-600 underline-offset-4 hover:underline dark:text-blue-400",
       },
       size: {
-        default: "h-10 px-4 py-2",
+        default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-12 rounded-xl px-7 text-base font-semibold",
-        xl: "h-14 rounded-xl px-9 text-lg font-bold tracking-tight",
+        lg: "h-11 rounded-lg px-6 text-sm font-semibold",
+        xl: "h-12 rounded-lg px-7 text-base font-semibold tracking-tight",
         icon: "h-9 w-9",
         iconSm: "h-7 w-7 rounded-md",
       },

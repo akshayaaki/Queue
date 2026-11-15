@@ -30,12 +30,10 @@ export async function POST(req: NextRequest) {
         where: { email: email.toLowerCase() },
       });
     } catch (dbErr: any) {
-      const isMissingUrl = !process.env.DATABASE_URL;
+      console.error("[Register Database Error]:", dbErr.message);
       return NextResponse.json(
         {
-          error: isMissingUrl
-            ? "DATABASE_URL is not configured in Netlify environment variables. Please add your PostgreSQL DATABASE_URL to enable manager registration."
-            : `Database error: ${dbErr.message || "Failed to reach database"}.`,
+          error: "Database service unavailable. Please check your database connection or environment variables.",
         },
         { status: 500 }
       );
@@ -59,23 +57,11 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Automatically create a default queue for new managers
-    await prisma.queue.create({
-      data: {
-        name: "General Enquiry",
-        description: "Primary visitor registration and customer counter",
-        queueCode: "GEN",
-        status: "ACTIVE",
-        ownerId: user.id,
-        nextTokenNumber: 1,
-      },
-    });
-
     const sessionUser = {
       id: user.id,
       name: user.name,
       email: user.email,
-      role: user.role,
+      role: user.role || "MANAGER",
     };
 
     const token = await createSessionToken(sessionUser);

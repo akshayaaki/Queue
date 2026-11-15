@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { loginSchema } from "@/schemas";
 import {
-  hashPassword,
   comparePassword,
   createSessionToken,
   setSessionCookie,
@@ -24,67 +23,20 @@ export async function POST(req: NextRequest) {
     }
 
     const { email, password } = validated.data;
-    const isAlex = email.toLowerCase() === "alex@queueflow.com";
-    const isSarah = email.toLowerCase() === "sarah@queueflow.com";
-    const isDemoAccount = (isAlex || isSarah) && password === "password123";
 
     let user: any = null;
-    let dbConnected = true;
-
     try {
       user = await prisma.user.findUnique({
         where: { email: email.toLowerCase() },
       });
-
-      // Auto-provision demo manager if not found in database
-      if (!user && isDemoAccount) {
-        const passwordHash = await hashPassword("password123");
-        user = await prisma.user.create({
-          data: {
-            name: isAlex ? "Alex Vance" : "Dr. Sarah Chen",
-            email: email.toLowerCase(),
-            passwordHash,
-            role: "MANAGER",
-          },
-        });
-
-        // Create initial queue for demo manager
-        await prisma.queue.create({
-          data: {
-            name: isAlex ? "General Enquiry" : "Clinical Consultation",
-            description: isAlex ? "Front-desk general intake and visitor registration" : "Specialist appointments",
-            queueCode: isAlex ? "GEN" : "MED",
-            status: "ACTIVE",
-            ownerId: user.id,
-            nextTokenNumber: 1,
-          },
-        });
-      }
     } catch (dbError: any) {
-      console.warn("[Login Database Warning]:", dbError.message);
-      dbConnected = false;
-
-      // Resilient fallback: allow demo managers to log in even if PostgreSQL is pending connection
-      if (isDemoAccount) {
-        user = {
-          id: isAlex ? "usr_alex_vance" : "usr_sarah_chen",
-          name: isAlex ? "Alex Vance" : "Dr. Sarah Chen",
-          email: email.toLowerCase(),
-          passwordHash: null,
-          role: "MANAGER",
-        };
-      } else {
-        const isMissingUrl = !process.env.DATABASE_URL;
-        return NextResponse.json(
-          {
-            error: isMissingUrl
-              ? "DATABASE_URL is not configured in Netlify environment variables. Please configure DATABASE_URL in Netlify Site Configuration."
-              : `Database error: ${dbError.message || "Failed to reach database"}.`,
-            code: isMissingUrl ? "MISSING_DATABASE_URL" : "DB_CONNECTION_ERROR",
-          },
-          { status: 500 }
-        );
-      }
+      console.error("[Login Database Error]:", dbError.message);
+      return NextResponse.json(
+        {
+          error: "Database connection failed. Please ensure your environment is configured correctly.",
+        },
+        { status: 500 }
+      );
     }
 
     if (!user) {
@@ -94,22 +46,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Verify password if user has hashed password (demo fallback skips since password was already matched)
-    if (user.passwordHash) {
-      const isValid = await comparePassword(password, user.passwordHash);
-      if (!isValid) {
-        return NextResponse.json(
-          { error: "Invalid email or password" },
-          { status: 401 }
-        );
-      }
+    const isValid = await comparePassword(password, user.passwordHash);
+    if (!isValid) {
+      return NextResponse.json(
+        { error: "Invalid email or password" },
+        { status: 401 }
+      );
     }
 
     const sessionUser = {
       id: user.id,
       name: user.name,
       email: user.email,
-      role: user.role,
+      role: user.role || "MANAGER",
     };
 
     const token = await createSessionToken(sessionUser);
@@ -121,7 +70,6 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json({
       message: "Login successful",
       user: sessionUser,
-      dbStatus: dbConnected ? "connected" : "demo-mode",
     });
 
     const isHttps =

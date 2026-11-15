@@ -38,22 +38,22 @@ interface ServiceEffData {
   avgDurationMinutes: number;
 }
 
-// Custom Tooltip with luxury warm styling
+// Custom Tooltip with clean white SaaS styling
 function CustomChartTooltip({ active, payload, label }: any) {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-xl border border-border bg-card p-3 shadow-xl text-xs space-y-1">
-        <p className="font-bold text-foreground mb-1">{label}</p>
+      <div className="rounded-lg border border-slate-200 bg-white p-3 shadow-md text-xs space-y-1 dark:bg-slate-900 dark:border-slate-800">
+        <p className="font-semibold text-slate-900 dark:text-white mb-1">{label}</p>
         {payload.map((entry: any, index: number) => (
           <div key={`item-${index}`} className="flex items-center justify-between gap-4">
-            <span className="flex items-center gap-1.5 text-muted-foreground">
+            <span className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400">
               <span
                 className="w-2 h-2 rounded-full"
                 style={{ backgroundColor: entry.color }}
               />
               {entry.name}:
             </span>
-            <span className="font-mono font-bold text-foreground">
+            <span className="font-mono font-bold text-slate-900 dark:text-white">
               {entry.value}
             </span>
           </div>
@@ -67,7 +67,7 @@ function CustomChartTooltip({ active, payload, label }: any) {
 export function CustomerTrafficChart({ data }: { data: TrafficData[] }) {
   if (!data || data.length === 0) {
     return (
-      <div className="h-64 flex items-center justify-center text-xs text-muted-foreground italic">
+      <div className="h-64 flex items-center justify-center text-xs text-slate-400 italic">
         No traffic recorded during this period
       </div>
     );
@@ -77,15 +77,15 @@ export function CustomerTrafficChart({ data }: { data: TrafficData[] }) {
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.6} />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
           <XAxis
             dataKey="hour"
-            tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            tick={{ fontSize: 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
-            tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            tick={{ fontSize: 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
             allowDecimals={false}
@@ -93,9 +93,9 @@ export function CustomerTrafficChart({ data }: { data: TrafficData[] }) {
           <Tooltip content={<CustomChartTooltip />} />
           <Bar
             dataKey="count"
-            name="Tokens Created"
-            fill="#D4A373"
-            radius={[6, 6, 0, 0]}
+            name="Tokens Issued"
+            fill="#2563eb"
+            radius={[4, 4, 0, 0]}
           />
         </BarChart>
       </ResponsiveContainer>
@@ -106,7 +106,7 @@ export function CustomerTrafficChart({ data }: { data: TrafficData[] }) {
 export function WaitTimeTrendsChart({ data }: { data: WaitTrendData[] }) {
   if (!data || data.length === 0) {
     return (
-      <div className="h-64 flex items-center justify-center text-xs text-muted-foreground italic">
+      <div className="h-64 flex items-center justify-center text-xs text-slate-400 italic">
         Insufficient historical wait time records
       </div>
     );
@@ -118,19 +118,19 @@ export function WaitTimeTrendsChart({ data }: { data: WaitTrendData[] }) {
         <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="waitGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#CCD5AE" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#CCD5AE" stopOpacity={0.05} />
+              <stop offset="5%" stopColor="#2563eb" stopOpacity={0.25} />
+              <stop offset="95%" stopColor="#2563eb" stopOpacity={0.0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.6} />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            tick={{ fontSize: 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
-            tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            tick={{ fontSize: 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
             unit="m"
@@ -140,8 +140,8 @@ export function WaitTimeTrendsChart({ data }: { data: WaitTrendData[] }) {
             type="monotone"
             dataKey="avgWaitMinutes"
             name="Avg Wait (Minutes)"
-            stroke="#586938"
-            strokeWidth={2.5}
+            stroke="#2563eb"
+            strokeWidth={2}
             fillOpacity={1}
             fill="url(#waitGradient)"
           />
@@ -154,7 +154,7 @@ export function WaitTimeTrendsChart({ data }: { data: WaitTrendData[] }) {
 export function QueueComparisonChart({ data }: { data: QueueCompData[] }) {
   if (!data || data.length === 0) {
     return (
-      <div className="h-64 flex items-center justify-center text-xs text-muted-foreground italic">
+      <div className="h-64 flex items-center justify-center text-xs text-slate-400 italic">
         No queue data available
       </div>
     );
@@ -164,15 +164,15 @@ export function QueueComparisonChart({ data }: { data: QueueCompData[] }) {
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.6} />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
           <XAxis
             dataKey="queueCode"
-            tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            tick={{ fontSize: 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
-            tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            tick={{ fontSize: 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
             allowDecimals={false}
@@ -182,9 +182,9 @@ export function QueueComparisonChart({ data }: { data: QueueCompData[] }) {
             wrapperStyle={{ fontSize: 11, paddingTop: 10 }}
             iconType="circle"
           />
-          <Bar dataKey="completed" name="Served" fill="#586938" radius={[4, 4, 0, 0]} />
-          <Bar dataKey="waiting" name="Waiting" fill="#D4A373" radius={[4, 4, 0, 0]} />
-          <Bar dataKey="cancelled" name="Cancelled" fill="#D97706" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="completed" name="Served" fill="#10b981" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="waiting" name="Waiting" fill="#f59e0b" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="cancelled" name="Cancelled" fill="#ef4444" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -194,7 +194,7 @@ export function QueueComparisonChart({ data }: { data: QueueCompData[] }) {
 export function ServiceEfficiencyChart({ data }: { data: ServiceEffData[] }) {
   if (!data || data.length === 0) {
     return (
-      <div className="h-64 flex items-center justify-center text-xs text-muted-foreground italic">
+      <div className="h-64 flex items-center justify-center text-xs text-slate-400 italic">
         No completed services recorded yet
       </div>
     );
@@ -204,22 +204,22 @@ export function ServiceEfficiencyChart({ data }: { data: ServiceEffData[] }) {
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" opacity={0.6} />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
           <XAxis
             dataKey="hour"
-            tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            tick={{ fontSize: 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
-            tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+            tick={{ fontSize: 11, fill: "#64748b" }}
             axisLine={false}
             tickLine={false}
           />
           <Tooltip content={<CustomChartTooltip />} />
           <Legend wrapperStyle={{ fontSize: 11, paddingTop: 10 }} iconType="circle" />
-          <Bar dataKey="servedCount" name="Customers Served" fill="#CCD5AE" radius={[4, 4, 0, 0]} />
-          <Bar dataKey="avgDurationMinutes" name="Avg Service Duration (min)" fill="#D4A373" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="servedCount" name="Customers Served" fill="#6366f1" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="avgDurationMinutes" name="Avg Duration (min)" fill="#0ea5e9" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { QueueFlowLogo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,7 +10,6 @@ import { User, Mail, Lock, ArrowRight, AlertCircle, ShieldCheck } from "lucide-r
 import { toast } from "sonner";
 
 export default function RegisterPage() {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,25 +62,23 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-4 sm:p-6 bg-gradient-to-br from-[#FEFAE0]/40 via-background to-[#FAEDCD]/30 dark:from-[#1A1612] dark:to-[#141210]">
+    <div className="min-h-screen flex flex-col justify-center items-center p-4 sm:p-6 bg-slate-50 dark:bg-slate-950">
       <div className="w-full max-w-md">
         {/* Brand Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-block transition-transform hover:scale-105">
             <QueueFlowLogo size="lg" />
           </Link>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground font-serif mt-5">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 mt-5 dark:text-white">
             Register Manager Account
           </h2>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs text-slate-500 mt-1 dark:text-slate-400">
             Create your administrative workspace to deploy queues and call customers.
           </p>
         </div>
 
         {/* Register Card */}
-        <div className="rounded-3xl border border-border bg-card p-7 sm:p-8 shadow-bespoke relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-palette-sage via-palette-bisque to-palette-ochre" />
-
+        <div className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 shadow-card relative overflow-hidden dark:border-slate-800 dark:bg-slate-900">
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5 dark:bg-red-950/40 dark:text-red-300">
               <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
@@ -94,7 +90,7 @@ export default function RegisterPage() {
             <div>
               <Label htmlFor="name">Full Name</Label>
               <div className="relative mt-1.5">
-                <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <Input
                   id="name"
                   placeholder="e.g. Jordan Miller"
@@ -110,7 +106,7 @@ export default function RegisterPage() {
             <div>
               <Label htmlFor="email">Work Email</Label>
               <div className="relative mt-1.5">
-                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <Input
                   id="email"
                   type="email"
@@ -127,7 +123,7 @@ export default function RegisterPage() {
               <div>
                 <Label htmlFor="password">Password</Label>
                 <div className="relative mt-1.5">
-                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                   <Input
                     id="password"
                     type="password"
@@ -143,7 +139,7 @@ export default function RegisterPage() {
               <div>
                 <Label htmlFor="confirmPassword">Confirm</Label>
                 <div className="relative mt-1.5">
-                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                   <Input
                     id="confirmPassword"
                     type="password"
@@ -157,10 +153,10 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="pt-2">
-              <div className="p-3 rounded-xl bg-palette-sage/20 border border-palette-sage/40 text-[11px] text-[#34441F] flex items-center gap-2 dark:bg-palette-sage/10 dark:text-[#C5D5A0]">
-                <ShieldCheck className="w-4 h-4 shrink-0 text-[#586938]" />
-                <span>Default "General Enquiry" queue will be provisioned automatically.</span>
+            <div className="pt-1">
+              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 flex items-center gap-2 dark:bg-slate-800/50 dark:border-slate-800 dark:text-slate-400">
+                <ShieldCheck className="w-4 h-4 shrink-0 text-blue-600 dark:text-blue-400" />
+                <span>Isolated workspace with full cryptographic session security.</span>
               </div>
             </div>
 
@@ -169,7 +165,7 @@ export default function RegisterPage() {
               variant="default"
               size="lg"
               disabled={loading}
-              className="w-full mt-3 font-bold shadow-md"
+              className="w-full mt-3 font-semibold shadow-sm"
             >
               {loading ? "Creating Account..." : "Create Manager Workspace"}
               {!loading && <ArrowRight className="w-4 h-4 ml-2" />}
@@ -177,9 +173,9 @@ export default function RegisterPage() {
           </form>
         </div>
 
-        <p className="text-center text-xs text-muted-foreground mt-6">
+        <p className="text-center text-xs text-slate-500 mt-6 dark:text-slate-400">
           Already have an account?{" "}
-          <Link href="/login" className="font-bold text-palette-ochreDark hover:underline">
+          <Link href="/login" className="font-semibold text-blue-600 hover:underline">
             Sign In here
           </Link>
         </p>

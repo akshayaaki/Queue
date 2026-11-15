@@ -34,7 +34,7 @@ export function CreateQueueModal({
       return;
     }
     if (!queueCode.trim() || queueCode.trim().length < 2) {
-      setError("Queue code must be at least 2 characters (e.g. GEN, BIL)");
+      setError("Queue code must be at least 2 characters (e.g. CS, BIL)");
       return;
     }
 
@@ -78,7 +78,7 @@ export function CreateQueueModal({
       <DialogContent onClose={() => onOpenChange(false)}>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <div className="flex items-center gap-2 text-palette-ochreDark">
+            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
               <Layers className="w-5 h-5" />
               <DialogTitle>Create New Queue</DialogTitle>
             </div>
@@ -105,7 +105,6 @@ export function CreateQueueModal({
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
-                  // Auto-suggest code from first 3 letters if not typed
                   if (!queueCode && e.target.value.length >= 3) {
                     setQueueCode(e.target.value.slice(0, 3).toUpperCase());
                   }
@@ -123,14 +122,14 @@ export function CreateQueueModal({
                 </Label>
                 <Input
                   id="queueCode"
-                  placeholder="e.g. VIP, BIL, MED"
+                  placeholder="e.g. VIP, BIL, DOC"
                   maxLength={6}
                   value={queueCode}
                   onChange={(e) => setQueueCode(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))}
                   required
                   className="mt-1.5 uppercase font-mono"
                 />
-                <span className="text-[10px] text-muted-foreground mt-1 block">
+                <span className="text-[10px] text-slate-400 mt-1 block">
                   Prefix for tokens: {queueCode ? `${queueCode}-001` : "XXX-001"}
                 </span>
               </div>

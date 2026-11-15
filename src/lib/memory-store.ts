@@ -2,10 +2,12 @@
  * QueueFlow Zero-Config Resilient In-Memory & File Store
  *
  * Provides a production-grade fallback data engine when PostgreSQL is not yet
- * provisioned or during serverless demonstrations on platforms like Netlify.
+ * provisioned or during serverless operations. Starts clean with zero mock data.
  */
 
-import bcrypt from "bcryptjs";
+import fs from "fs";
+import path from "path";
+import os from "os";
 
 export interface StoredUser {
   id: string;
@@ -59,361 +61,83 @@ export interface StoredQueueEvent {
   createdAt: Date;
 }
 
+interface StoreState {
+  users: StoredUser[];
+  queues: StoredQueue[];
+  tokens: StoredToken[];
+  events: StoredQueueEvent[];
+  initialized: boolean;
+}
+
 // In-Memory Database Singleton on globalThis to persist across warm serverless invocations
 declare global {
   // eslint-disable-next-line no-var
-  var __queueflow_memory_db__: {
-    users: StoredUser[];
-    queues: StoredQueue[];
-    tokens: StoredToken[];
-    events: StoredQueueEvent[];
-    initialized: boolean;
-  } | undefined;
+  var __queueflow_memory_db__: StoreState | undefined;
 }
 
-function getInitialStore() {
-  const now = new Date();
-  const minutesAgo = (m: number) => new Date(now.getTime() - m * 60 * 1000);
+const STORAGE_FILE = path.join(os.tmpdir(), "queueflow_runtime_store.json");
 
-  // Pre-hashed for "password123"
-  const defaultHash = "$2a$10$wT/t7iZ2h14JzH.z0nCqI.yQ5gRkWk51N93rB30u0XqNqV3oJ1B1O";
-
-  const users: StoredUser[] = [
-    {
-      id: "usr_alex_vance",
-      name: "Alex Vance",
-      email: "alex@queueflow.com",
-      passwordHash: defaultHash,
-      role: "MANAGER",
-      createdAt: minutesAgo(120),
-      updatedAt: minutesAgo(120),
-    },
-    {
-      id: "usr_sarah_chen",
-      name: "Dr. Sarah Chen",
-      email: "sarah@queueflow.com",
-      passwordHash: defaultHash,
-      role: "MANAGER",
-      createdAt: minutesAgo(120),
-      updatedAt: minutesAgo(120),
-    },
-  ];
-
-  const queues: StoredQueue[] = [
-    {
-      id: "queue_gen_01",
-      name: "General Enquiry",
-      description: "Front-desk general intake and visitor registration",
-      queueCode: "GEN",
-      status: "ACTIVE",
-      capacity: 50,
-      nextTokenNumber: 8,
-      ownerId: "usr_alex_vance",
-      createdAt: minutesAgo(100),
-      updatedAt: minutesAgo(10),
-    },
-    {
-      id: "queue_bil_02",
-      name: "Billing Department",
-      description: "Invoice verification, payments and claims",
-      queueCode: "BIL",
-      status: "ACTIVE",
-      capacity: 30,
-      nextTokenNumber: 4,
-      ownerId: "usr_alex_vance",
-      createdAt: minutesAgo(90),
-      updatedAt: minutesAgo(8),
-    },
-    {
-      id: "queue_vip_03",
-      name: "Priority Concierge",
-      description: "High-touch priority assistance for premier accounts",
-      queueCode: "VIP",
-      status: "ACTIVE",
-      capacity: 10,
-      nextTokenNumber: 3,
-      ownerId: "usr_alex_vance",
-      createdAt: minutesAgo(80),
-      updatedAt: minutesAgo(5),
-    },
-    {
-      id: "queue_med_04",
-      name: "Clinical Consultation",
-      description: "Specialist medical consultations by appointment",
-      queueCode: "MED",
-      status: "ACTIVE",
-      capacity: 25,
-      nextTokenNumber: 5,
-      ownerId: "usr_sarah_chen",
-      createdAt: minutesAgo(110),
-      updatedAt: minutesAgo(12),
-    },
-  ];
-
-  const tokens: StoredToken[] = [
-    {
-      id: "tok_gen_01",
-      queueId: "queue_gen_01",
-      tokenNumber: "GEN-001",
-      customerName: "Rahul Sharma",
-      phone: "+1 555-0192",
-      email: "rahul.s@example.com",
-      notes: "Needs international billing certificate",
-      status: "COMPLETED",
-      position: 0,
-      createdAt: minutesAgo(85),
-      calledAt: minutesAgo(70),
-      serviceStartedAt: minutesAgo(68),
-      completedAt: minutesAgo(50),
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(50),
-    },
-    {
-      id: "tok_gen_02",
-      queueId: "queue_gen_01",
-      tokenNumber: "GEN-002",
-      customerName: "Elena Rostova",
-      phone: "+1 555-0144",
-      email: "elena.r@example.com",
-      notes: "Address update and account re-verification",
-      status: "COMPLETED",
-      position: 0,
-      createdAt: minutesAgo(65),
-      calledAt: minutesAgo(48),
-      serviceStartedAt: minutesAgo(47),
-      completedAt: minutesAgo(32),
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(32),
-    },
-    {
-      id: "tok_gen_03",
-      queueId: "queue_gen_01",
-      tokenNumber: "GEN-003",
-      customerName: "Marcus Aurelius Sterling",
-      phone: "+1 555-0811",
-      email: "marcus@sterling.co",
-      notes: "Customer had urgent meeting and departed counter",
-      status: "CANCELLED",
-      cancellationReason: "Customer departed queue voluntarily",
-      position: 0,
-      createdAt: minutesAgo(55),
-      calledAt: null,
-      serviceStartedAt: null,
-      completedAt: null,
-      cancelledAt: minutesAgo(40),
-      updatedAt: minutesAgo(40),
-    },
-    {
-      id: "tok_gen_04",
-      queueId: "queue_gen_01",
-      tokenNumber: "GEN-004",
-      customerName: "Amina Al-Mansoor",
-      phone: "+1 555-0329",
-      email: "amina.m@example.com",
-      notes: "Reviewing enterprise onboarding agreement",
-      status: "SERVING",
-      position: 0,
-      createdAt: minutesAgo(40),
-      calledAt: minutesAgo(12),
-      serviceStartedAt: minutesAgo(10),
-      completedAt: null,
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(10),
-    },
-    {
-      id: "tok_gen_05",
-      queueId: "queue_gen_01",
-      tokenNumber: "GEN-005",
-      customerName: "David K. O'Connor",
-      phone: "+1 555-0771",
-      email: "david.oc@example.com",
-      notes: "Passport verification document checks",
-      status: "WAITING",
-      position: 1,
-      createdAt: minutesAgo(28),
-      calledAt: null,
-      serviceStartedAt: null,
-      completedAt: null,
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(28),
-    },
-    {
-      id: "tok_gen_06",
-      queueId: "queue_gen_01",
-      tokenNumber: "GEN-006",
-      customerName: "Priya Patel",
-      phone: "+1 555-0453",
-      email: "priya.patel@example.com",
-      notes: "New account card collection",
-      status: "WAITING",
-      position: 2,
-      createdAt: minutesAgo(18),
-      calledAt: null,
-      serviceStartedAt: null,
-      completedAt: null,
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(18),
-    },
-    {
-      id: "tok_gen_07",
-      queueId: "queue_gen_01",
-      tokenNumber: "GEN-007",
-      customerName: "Liam Chen-Miller",
-      phone: "+1 555-0912",
-      email: "liam.cm@example.com",
-      notes: "Express dispute filing inquiry",
-      status: "WAITING",
-      position: 3,
-      createdAt: minutesAgo(7),
-      calledAt: null,
-      serviceStartedAt: null,
-      completedAt: null,
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(7),
-    },
-    // Billing Tokens
-    {
-      id: "tok_bil_01",
-      queueId: "queue_bil_02",
-      tokenNumber: "BIL-001",
-      customerName: "Sophia Loren Martinez",
-      phone: "+1 555-9011",
-      email: null,
-      notes: null,
-      status: "SERVING",
-      position: 0,
-      createdAt: minutesAgo(30),
-      calledAt: minutesAgo(8),
-      serviceStartedAt: minutesAgo(7),
-      completedAt: null,
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(7),
-    },
-    {
-      id: "tok_bil_02",
-      queueId: "queue_bil_02",
-      tokenNumber: "BIL-002",
-      customerName: "Kenji Takahashi",
-      phone: "+1 555-4421",
-      email: null,
-      notes: null,
-      status: "WAITING",
-      position: 1,
-      createdAt: minutesAgo(15),
-      calledAt: null,
-      serviceStartedAt: null,
-      completedAt: null,
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(15),
-    },
-    {
-      id: "tok_bil_03",
-      queueId: "queue_bil_02",
-      tokenNumber: "BIL-003",
-      customerName: "Chloe Dupont",
-      phone: "+1 555-6612",
-      email: null,
-      notes: null,
-      status: "WAITING",
-      position: 2,
-      createdAt: minutesAgo(4),
-      calledAt: null,
-      serviceStartedAt: null,
-      completedAt: null,
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(4),
-    },
-    // Medical Tokens
-    {
-      id: "tok_med_01",
-      queueId: "queue_med_04",
-      tokenNumber: "MED-001",
-      customerName: "Grace Hopper",
-      phone: "+1 555-7788",
-      email: "grace@navy.mil",
-      notes: "Cardiology follow-up",
-      status: "SERVING",
-      position: 0,
-      createdAt: minutesAgo(45),
-      calledAt: minutesAgo(15),
-      serviceStartedAt: minutesAgo(14),
-      completedAt: null,
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(14),
-    },
-    {
-      id: "tok_med_02",
-      queueId: "queue_med_04",
-      tokenNumber: "MED-002",
-      customerName: "Alan Turing",
-      phone: "+1 555-9922",
-      email: "alan@bletchley.uk",
-      notes: "Neurology consultation",
-      status: "WAITING",
-      position: 1,
-      createdAt: minutesAgo(20),
-      calledAt: null,
-      serviceStartedAt: null,
-      completedAt: null,
-      cancelledAt: null,
-      cancellationReason: null,
-      updatedAt: minutesAgo(20),
-    },
-  ];
-
-  const events: StoredQueueEvent[] = [
-    {
-      id: "ev_1",
-      queueId: "queue_gen_01",
-      tokenId: "tok_gen_01",
-      userId: "usr_alex_vance",
-      eventType: "TOKEN_COMPLETED",
-      eventData: JSON.stringify({ tokenNumber: "GEN-001" }),
-      createdAt: minutesAgo(50),
-    },
-    {
-      id: "ev_2",
-      queueId: "queue_gen_01",
-      tokenId: "tok_gen_02",
-      userId: "usr_alex_vance",
-      eventType: "TOKEN_COMPLETED",
-      eventData: JSON.stringify({ tokenNumber: "GEN-002" }),
-      createdAt: minutesAgo(32),
-    },
-    {
-      id: "ev_3",
-      queueId: "queue_gen_01",
-      tokenId: "tok_gen_03",
-      userId: "usr_alex_vance",
-      eventType: "TOKEN_CANCELLED",
-      eventData: JSON.stringify({ reason: "Customer departed queue voluntarily" }),
-      createdAt: minutesAgo(40),
-    },
-    {
-      id: "ev_4",
-      queueId: "queue_gen_01",
-      tokenId: "tok_gen_04",
-      userId: "usr_alex_vance",
-      eventType: "SERVICE_STARTED",
-      eventData: JSON.stringify({ tokenNumber: "GEN-004" }),
-      createdAt: minutesAgo(10),
-    },
-  ];
-
-  return { users, queues, tokens, events, initialized: true };
+function saveToDisk(store: StoreState) {
+  try {
+    fs.writeFileSync(STORAGE_FILE, JSON.stringify(store), "utf-8");
+  } catch {
+    // Disk write may fail in restricted serverless environments, ignore safely
+  }
 }
 
-export function getMemoryDB() {
+function loadFromDisk(): StoreState | null {
+  try {
+    if (fs.existsSync(STORAGE_FILE)) {
+      const data = fs.readFileSync(STORAGE_FILE, "utf-8");
+      const parsed = JSON.parse(data);
+      // Rehydrate Dates
+      parsed.users = (parsed.users || []).map((u: any) => ({
+        ...u,
+        createdAt: new Date(u.createdAt),
+        updatedAt: new Date(u.updatedAt),
+      }));
+      parsed.queues = (parsed.queues || []).map((q: any) => ({
+        ...q,
+        createdAt: new Date(q.createdAt),
+        updatedAt: new Date(q.updatedAt),
+      }));
+      parsed.tokens = (parsed.tokens || []).map((t: any) => ({
+        ...t,
+        createdAt: new Date(t.createdAt),
+        updatedAt: new Date(t.updatedAt),
+        calledAt: t.calledAt ? new Date(t.calledAt) : null,
+        serviceStartedAt: t.serviceStartedAt ? new Date(t.serviceStartedAt) : null,
+        completedAt: t.completedAt ? new Date(t.completedAt) : null,
+        cancelledAt: t.cancelledAt ? new Date(t.cancelledAt) : null,
+      }));
+      parsed.events = (parsed.events || []).map((e: any) => ({
+        ...e,
+        createdAt: new Date(e.createdAt),
+      }));
+      parsed.initialized = true;
+      return parsed;
+    }
+  } catch {
+    // Ignore read errors
+  }
+  return null;
+}
+
+function getInitialStore(): StoreState {
+  const diskState = loadFromDisk();
+  if (diskState) {
+    return diskState;
+  }
+  return {
+    users: [],
+    queues: [],
+    tokens: [],
+    events: [],
+    initialized: true,
+  };
+}
+
+export function getMemoryDB(): StoreState {
   if (!globalThis.__queueflow_memory_db__) {
     globalThis.__queueflow_memory_db__ = getInitialStore();
   }
@@ -454,6 +178,7 @@ export const memoryPrisma = {
         updatedAt: new Date(),
       };
       db.users.push(newUser);
+      saveToDisk(db);
       return { ...newUser };
     },
   },
@@ -496,7 +221,7 @@ export const memoryPrisma = {
         id: `queue_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
         name: args.data.name,
         description: args.data.description || null,
-        queueCode: args.data.queueCode.toUpperCase(),
+        queueCode: (args.data.queueCode || "Q").toUpperCase(),
         status: args.data.status || "ACTIVE",
         capacity: args.data.capacity || null,
         nextTokenNumber: args.data.nextTokenNumber || 1,
@@ -505,6 +230,7 @@ export const memoryPrisma = {
         updatedAt: new Date(),
       };
       db.queues.push(newQueue);
+      saveToDisk(db);
       return { ...newQueue };
     },
 
@@ -517,6 +243,7 @@ export const memoryPrisma = {
         ...args.data,
         updatedAt: new Date(),
       };
+      saveToDisk(db);
       return { ...db.queues[idx] };
     },
 
@@ -528,6 +255,7 @@ export const memoryPrisma = {
         // cascade tokens
         db.tokens = db.tokens.filter((t) => t.queueId !== args.where.id);
         db.events = db.events.filter((e) => e.queueId !== args.where.id);
+        saveToDisk(db);
         return { ...deleted };
       }
       return null;
@@ -615,6 +343,7 @@ export const memoryPrisma = {
         updatedAt: new Date(),
       };
       db.tokens.push(newToken);
+      saveToDisk(db);
       return { ...newToken };
     },
 
@@ -627,6 +356,7 @@ export const memoryPrisma = {
         ...args.data,
         updatedAt: new Date(),
       };
+      saveToDisk(db);
       return { ...db.tokens[idx] };
     },
 
@@ -634,7 +364,9 @@ export const memoryPrisma = {
       const db = getMemoryDB();
       const idx = db.tokens.findIndex((x) => x.id === args.where.id);
       if (idx !== -1) {
-        return db.tokens.splice(idx, 1)[0];
+        const deleted = db.tokens.splice(idx, 1)[0];
+        saveToDisk(db);
+        return deleted;
       }
       return null;
     },
@@ -653,6 +385,7 @@ export const memoryPrisma = {
         createdAt: args.data.createdAt || new Date(),
       };
       db.events.push(ev);
+      saveToDisk(db);
       return { ...ev };
     },
     findMany: async (args?: { where?: any; orderBy?: any; take?: number }) => {
@@ -667,10 +400,12 @@ export const memoryPrisma = {
       if (!args?.where) {
         const count = db.events.length;
         db.events = [];
+        saveToDisk(db);
         return { count };
       }
       const before = db.events.length;
       db.events = db.events.filter((e) => !matchWhere(e, args.where));
+      saveToDisk(db);
       return { count: before - db.events.length };
     },
   },

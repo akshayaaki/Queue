@@ -116,16 +116,16 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 sm:p-8 rounded-3xl border border-border bg-gradient-to-br from-[#FEFAE0]/80 via-card to-[#FAEDCD]/50 shadow-bespoke relative overflow-hidden dark:from-[#231E18] dark:to-[#1C1814]">
-        <div className="space-y-1.5 z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-palette-sage/30 border border-palette-sage/50 text-[11px] font-semibold text-[#30401C] dark:text-[#C5D5A0]">
-            <span className="w-2 h-2 rounded-full bg-[#586938]" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 sm:p-7 rounded-2xl border border-slate-200 bg-white shadow-xs dark:border-slate-800 dark:bg-slate-900">
+        <div className="space-y-1 z-10">
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-300">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             Live Queue Command Center
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground font-serif">
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
             Queue Performance Overview
           </h1>
-          <p className="text-xs sm:text-sm text-muted-foreground max-w-xl">
+          <p className="text-xs sm:text-sm text-slate-500 max-w-xl dark:text-slate-400">
             Real-time multi-counter status, live token sequence generation, and atomic queue dispatch.
           </p>
         </div>
@@ -136,16 +136,16 @@ export default function DashboardPage() {
             onClick={() => setCreateQueueOpen(true)}
             className="gap-2 text-xs font-semibold"
           >
-            <PlusCircle className="w-4 h-4 text-palette-ochreDark" />
+            <PlusCircle className="w-4 h-4 text-blue-600" />
             New Queue
           </Button>
 
           {primaryQueue && (
             <Button
-              variant="hero"
+              variant="default"
               disabled={callingNext || (primaryQueue.metrics?.waitingCount ?? 0) === 0}
               onClick={() => handleQuickCallNext(primaryQueue.id)}
-              className="gap-2 text-xs font-bold shadow-md"
+              className="gap-2 text-xs font-semibold shadow-xs"
             >
               <Megaphone className="w-4 h-4" />
               <span>Call Next ({primaryQueue.queueCode})</span>
@@ -213,7 +213,7 @@ export default function DashboardPage() {
           </div>
           <Link
             href="/queues"
-            className="text-xs font-bold text-palette-ochreDark hover:underline flex items-center gap-1"
+            className="text-xs font-semibold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
           >
             <span>Manage All Queues</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -221,10 +221,10 @@ export default function DashboardPage() {
         </div>
 
         {queues.length === 0 ? (
-          <div className="p-12 text-center rounded-3xl border border-dashed border-border bg-card">
-            <Layers className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
-            <h3 className="text-base font-bold text-foreground">No Queues Configured</h3>
-            <p className="text-xs text-muted-foreground max-w-sm mx-auto mt-1 mb-4">
+          <div className="p-12 text-center rounded-2xl border border-dashed border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+            <Layers className="w-10 h-10 text-slate-300 mx-auto mb-3 dark:text-slate-700" />
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">No Queues Configured</h3>
+            <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4 dark:text-slate-400">
               Create your first service queue to begin adding customers and issuing numbered tokens.
             </p>
             <Button onClick={() => setCreateQueueOpen(true)} variant="default">
