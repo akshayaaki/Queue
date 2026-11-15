@@ -54,11 +54,11 @@ export default function SettingsPage() {
       {/* Profile Card */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
         <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 dark:bg-blue-950/40 dark:border-blue-900 dark:text-blue-400">
-            <User className="w-5 h-5" />
+          <div className="w-9 h-9 rounded-xl bg-brand-gold/15 text-brand-navy flex items-center justify-center border border-brand-gold/30">
+            <User className="w-5 h-5 text-brand-navy" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-foreground">Manager Profile</h2>
+            <h2 className="text-base font-bold text-foreground font-serif">Manager Profile</h2>
             <p className="text-xs text-muted-foreground">Verified administrator identity</p>
           </div>
         </div>
@@ -78,11 +78,11 @@ export default function SettingsPage() {
       {/* Audio & Counter Dispatch Settings */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
         <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100 dark:bg-emerald-950/40 dark:border-emerald-900 dark:text-emerald-400">
+          <div className="w-9 h-9 rounded-xl bg-brand-navy text-brand-gold flex items-center justify-center border border-brand-navy">
             <Volume2 className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-foreground">Audio & Dispatch Chime</h2>
+            <h2 className="text-base font-bold text-foreground font-serif">Audio & Dispatch Chime</h2>
             <p className="text-xs text-muted-foreground">Synthesized Web Audio API lounge bell</p>
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function SettingsPage() {
               variant={sound ? "default" : "outline"}
               size="sm"
               onClick={handleToggleSound}
-              className="text-xs"
+              className="text-xs font-semibold"
             >
               {sound ? "Enabled" : "Muted"}
             </Button>
@@ -121,11 +121,11 @@ export default function SettingsPage() {
       {/* Database & Production Health */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-card">
         <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border">
-          <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center border border-indigo-100 dark:bg-indigo-950/40 dark:border-indigo-900 dark:text-indigo-400">
+          <div className="w-9 h-9 rounded-xl bg-brand-platinum text-brand-navy flex items-center justify-center border border-border">
             <Database className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-foreground">Database & Health Check</h2>
+            <h2 className="text-base font-bold text-foreground font-serif">Database & Health Check</h2>
             <p className="text-xs text-muted-foreground">Persistent connection diagnostics</p>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function SettingsPage() {
 
           <div className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border">
             <span className="text-muted-foreground">Real-time Stream:</span>
-            <span className="font-mono text-blue-600 font-semibold dark:text-blue-400">
+            <span className="font-mono text-brand-gold font-bold">
               Server-Sent Events (SSE) Bus Active
             </span>
           </div>

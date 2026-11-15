@@ -78,8 +78,8 @@ export function CreateQueueModal({
       <DialogContent onClose={() => onOpenChange(false)}>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
-              <Layers className="w-5 h-5" />
+            <div className="flex items-center gap-2 text-brand-navy dark:text-brand-gold">
+              <Layers className="w-5 h-5 text-brand-gold" />
               <DialogTitle>Create New Queue</DialogTitle>
             </div>
             <DialogDescription>

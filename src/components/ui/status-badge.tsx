@@ -21,7 +21,7 @@ export function StatusBadge({
   const sizeClasses = {
     sm: "px-2 py-0.5 text-[11px] gap-1",
     default: "px-2.5 py-0.5 text-xs gap-1.5",
-    lg: "px-3.5 py-1 text-sm gap-2 font-semibold",
+    lg: "px-3.5 py-1 text-sm gap-2 font-bold",
   }[size];
 
   switch (normalized) {
@@ -29,12 +29,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-900/60",
+            "inline-flex items-center font-semibold rounded-full bg-brand-gold/15 text-brand-navy border border-brand-gold/50 dark:bg-brand-gold/20 dark:text-brand-gold",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <Clock className="w-3 h-3 text-amber-600 dark:text-amber-400" />}
+          {showIcon && <Clock className="w-3 h-3 text-brand-navy dark:text-brand-gold" />}
           Waiting
         </span>
       );
@@ -43,12 +43,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-200 shadow-xs animate-pulse dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-900",
+            "inline-flex items-center font-bold rounded-full bg-brand-navy text-brand-gold border border-brand-navyDark shadow-xs animate-pulse dark:bg-brand-navyLight dark:text-brand-gold",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <Megaphone className="w-3 h-3 text-blue-600 dark:text-blue-400" />}
+          {showIcon && <Megaphone className="w-3 h-3 text-brand-gold" />}
           Called
         </span>
       );
@@ -57,15 +57,15 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-semibold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 shadow-xs dark:bg-indigo-950/50 dark:text-indigo-300 dark:border-indigo-900",
+            "inline-flex items-center font-bold rounded-full bg-brand-gold text-brand-navy border border-brand-goldHover shadow-xs",
             sizeClasses,
             className
           )}
         >
           {showIcon && (
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-navy opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-navy"></span>
             </span>
           )}
           Serving Now
@@ -76,7 +76,7 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900/60",
+            "inline-flex items-center font-semibold rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900/60",
             sizeClasses,
             className
           )}
@@ -104,12 +104,12 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-slate-100 text-slate-600 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700",
+            "inline-flex items-center font-medium rounded-full bg-brand-platinum text-brand-navy/70 border border-brand-platinum dark:bg-brand-navy dark:text-brand-platinum/70 dark:border-brand-navyLight",
             sizeClasses,
             className
           )}
         >
-          {showIcon && <FastForward className="w-3 h-3 text-slate-500" />}
+          {showIcon && <FastForward className="w-3 h-3 text-brand-navy/60 dark:text-brand-platinum/60" />}
           Skipped
         </span>
       );
@@ -118,7 +118,7 @@ export function StatusBadge({
       return (
         <span
           className={cn(
-            "inline-flex items-center font-medium rounded-full bg-slate-100 text-slate-700 border border-slate-200",
+            "inline-flex items-center font-medium rounded-full bg-brand-platinum text-brand-navy border border-brand-platinum",
             sizeClasses,
             className
           )}

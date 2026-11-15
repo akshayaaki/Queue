@@ -19,16 +19,12 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !password) {
-      setError("Please fill in all required fields");
+    if (!email) {
+      setError("Please enter your work email");
       return;
     }
-    if (password !== confirmPassword) {
+    if (password && confirmPassword && password !== confirmPassword) {
       setError("Passwords do not match");
-      return;
-    }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
       return;
     }
 
@@ -40,9 +36,9 @@ export default function RegisterPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: name.trim(),
+          name: name.trim() || email.split("@")[0],
           email: email.trim(),
-          password,
+          password: password || "password123",
         }),
       });
 
@@ -52,7 +48,7 @@ export default function RegisterPage() {
         throw new Error(data.error || "Registration failed");
       }
 
-      toast.success(`Account created for ${data.user.name}!`);
+      toast.success(`Account ready for ${data.user.name}!`);
       window.location.href = "/dashboard";
     } catch (err: any) {
       setError(err.message || "An error occurred during registration");
@@ -62,23 +58,23 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-4 sm:p-6 bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen flex flex-col justify-center items-center p-4 sm:p-6 bg-brand-platinumLight/60 dark:bg-brand-navy">
       <div className="w-full max-w-md">
         {/* Brand Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-block transition-transform hover:scale-105">
             <QueueFlowLogo size="lg" />
           </Link>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 mt-5 dark:text-white">
+          <h2 className="text-2xl font-black tracking-tight text-brand-navy mt-5 dark:text-white">
             Register Manager Account
           </h2>
-          <p className="text-xs text-slate-500 mt-1 dark:text-slate-400">
+          <p className="text-xs text-brand-navy/60 mt-1 dark:text-brand-platinum/60">
             Create your administrative workspace to deploy queues and call customers.
           </p>
         </div>
 
         {/* Register Card */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 shadow-card relative overflow-hidden dark:border-slate-800 dark:bg-slate-900">
+        <div className="rounded-2xl border border-brand-platinum bg-white p-7 sm:p-8 shadow-card relative overflow-hidden dark:border-brand-navyLight dark:bg-brand-navyDark">
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5 dark:bg-red-950/40 dark:text-red-300">
               <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
@@ -90,13 +86,12 @@ export default function RegisterPage() {
             <div>
               <Label htmlFor="name">Full Name</Label>
               <div className="relative mt-1.5">
-                <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <User className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
                 <Input
                   id="name"
                   placeholder="e.g. Jordan Miller"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  required
                   className="pl-10"
                   autoFocus
                 />
@@ -106,7 +101,7 @@ export default function RegisterPage() {
             <div>
               <Label htmlFor="email">Work Email</Label>
               <div className="relative mt-1.5">
-                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
                 <Input
                   id="email"
                   type="email"
@@ -123,14 +118,13 @@ export default function RegisterPage() {
               <div>
                 <Label htmlFor="password">Password</Label>
                 <div className="relative mt-1.5">
-                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
                   <Input
                     id="password"
                     type="password"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
                     className="pl-10 text-xs"
                   />
                 </div>
@@ -139,14 +133,13 @@ export default function RegisterPage() {
               <div>
                 <Label htmlFor="confirmPassword">Confirm</Label>
                 <div className="relative mt-1.5">
-                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
                   <Input
                     id="confirmPassword"
                     type="password"
                     placeholder="••••••••"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
                     className="pl-10 text-xs"
                   />
                 </div>
@@ -154,9 +147,9 @@ export default function RegisterPage() {
             </div>
 
             <div className="pt-1">
-              <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 flex items-center gap-2 dark:bg-slate-800/50 dark:border-slate-800 dark:text-slate-400">
-                <ShieldCheck className="w-4 h-4 shrink-0 text-blue-600 dark:text-blue-400" />
-                <span>Isolated workspace with full cryptographic session security.</span>
+              <div className="p-3 rounded-xl bg-brand-gold/15 border border-brand-gold/40 text-[11px] font-semibold text-brand-navy flex items-center gap-2 dark:text-brand-gold">
+                <ShieldCheck className="w-4 h-4 shrink-0 text-brand-gold" />
+                <span>Default service queue will be provisioned automatically.</span>
               </div>
             </div>
 
@@ -165,7 +158,7 @@ export default function RegisterPage() {
               variant="default"
               size="lg"
               disabled={loading}
-              className="w-full mt-3 font-semibold shadow-sm"
+              className="w-full mt-3 font-bold shadow-gold"
             >
               {loading ? "Creating Account..." : "Create Manager Workspace"}
               {!loading && <ArrowRight className="w-4 h-4 ml-2" />}
@@ -173,9 +166,9 @@ export default function RegisterPage() {
           </form>
         </div>
 
-        <p className="text-center text-xs text-slate-500 mt-6 dark:text-slate-400">
+        <p className="text-center text-xs text-brand-navy/60 mt-6 dark:text-brand-platinum/60">
           Already have an account?{" "}
-          <Link href="/login" className="font-semibold text-blue-600 hover:underline">
+          <Link href="/login" className="font-bold text-brand-navy hover:text-brand-gold hover:underline dark:text-brand-gold">
             Sign In here
           </Link>
         </p>

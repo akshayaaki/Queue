@@ -4,70 +4,70 @@
 
 @layer base {
   :root {
-    /* Pure Modern White SaaS Theme (Linear / Stripe aesthetic) */
-    --background: 210 40% 98%; /* #f8fafc slate-50 container */
-    --foreground: 222.2 47.4% 11.2%; /* #0f172a slate-900 */
+    /* Palette: #000000 (Black), #14213d (Oxford Navy), #fca311 (Amber Gold), #e5e5e5 (Platinum), #ffffff (White) */
+    --background: 0 0% 100%; /* #ffffff pure white */
+    --foreground: 221 51% 16%; /* #14213d oxford navy */
 
     --card: 0 0% 100%; /* #ffffff pure white card */
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card-foreground: 221 51% 16%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 221 51% 16%;
 
-    /* Primary: Electric Indigo-Blue #2563EB */
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary: Amber Gold #fca311 */
+    --primary: 37 98% 53%;
+    --primary-foreground: 221 51% 16%; /* High-contrast navy text on gold */
 
-    /* Secondary: Soft Slate #f1f5f9 */
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary: Oxford Navy #14213d */
+    --secondary: 221 51% 16%;
+    --secondary-foreground: 0 0% 100%;
 
-    /* Muted: Subtle slate #f1f5f9 */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%; /* #64748b */
+    /* Muted: Platinum #e5e5e5 / #f4f4f5 */
+    --muted: 0 0% 94%;
+    --muted-foreground: 221 25% 42%;
 
-    /* Accent: Soft sky tint #eff6ff */
-    --accent: 214 95% 93%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent: Subtle warm tint */
+    --accent: 37 98% 95%;
+    --accent-foreground: 221 51% 16%;
 
     --destructive: 0 84.2% 60.2%; /* #ef4444 */
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%; /* #e2e8f0 crisp border */
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --border: 0 0% 90%; /* #e5e5e5 platinum border */
+    --input: 0 0% 90%;
+    --ring: 37 98% 53%; /* #fca311 focus ring */
 
     --radius: 0.625rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%; /* #020817 */
-    --foreground: 210 40% 98%;
+    --background: 221 51% 7%; /* Deepest Navy-Black #0a1120 */
+    --foreground: 0 0% 98%;
 
-    --card: 222.2 84% 7.5%; /* #090e1a */
-    --card-foreground: 210 40% 98%;
+    --card: 221 51% 11%; /* #0f192e */
+    --card-foreground: 0 0% 98%;
 
-    --popover: 222.2 84% 7.5%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 221 51% 11%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 37 98% 53%; /* #fca311 */
+    --primary-foreground: 221 51% 16%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 221 51% 20%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 221 40% 18%;
+    --muted-foreground: 221 20% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 221 51% 18%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --border: 221 40% 22%;
+    --input: 221 40% 22%;
+    --ring: 37 98% 53%;
   }
 }
 
@@ -76,35 +76,22 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground antialiased font-sans selection:bg-blue-100 selection:text-blue-900;
+    @apply bg-background text-foreground antialiased font-sans selection:bg-brand-gold/30 selection:text-brand-navy;
   }
 }
 
-/* Modern Card utility */
-.saas-card {
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.saas-card:hover {
-  border-color: rgba(37, 99, 235, 0.3);
-  box-shadow: 0 4px 12px 0 rgba(15, 23, 42, 0.07);
-}
-
-/* Custom scrollbars */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
+  background: #e5e5e5;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
+  background: #cbd5e1;
 }

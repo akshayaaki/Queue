@@ -82,8 +82,8 @@ export function AddCustomerModal({
       <DialogContent onClose={() => onOpenChange(false)}>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
-              <UserPlus className="w-5 h-5" />
+            <div className="flex items-center gap-2 text-brand-navy dark:text-brand-gold">
+              <UserPlus className="w-5 h-5 text-brand-gold" />
               <DialogTitle>Add Customer to Queue</DialogTitle>
             </div>
             <DialogDescription>
@@ -92,14 +92,14 @@ export function AddCustomerModal({
           </DialogHeader>
 
           {/* Token Preview Banner */}
-          <div className="mb-5 p-3 rounded-lg bg-blue-50/80 border border-blue-200/80 flex items-center justify-between dark:bg-blue-950/40 dark:border-blue-900">
+          <div className="mb-5 p-3 rounded-lg bg-brand-gold/15 border border-brand-gold/40 flex items-center justify-between dark:bg-brand-gold/10">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-              <span className="text-xs font-semibold text-blue-900 dark:text-blue-300 uppercase tracking-wider">
+              <Sparkles className="w-4 h-4 text-brand-gold" />
+              <span className="text-xs font-bold text-brand-navy dark:text-brand-gold uppercase tracking-wider">
                 Assigned Token Preview
               </span>
             </div>
-            <span className="px-2.5 py-0.5 rounded-md bg-white text-blue-700 font-mono font-bold text-xs border border-blue-200 shadow-xs dark:bg-slate-900 dark:text-blue-300 dark:border-blue-800">
+            <span className="px-2.5 py-0.5 rounded-md bg-brand-navy text-brand-gold font-mono font-bold text-xs border border-brand-navyDark shadow-xs">
               {previewToken}
             </span>
           </div>

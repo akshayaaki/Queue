@@ -98,10 +98,10 @@ export default function QueuesPage() {
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 statusFilter === st
-                  ? "bg-blue-600 text-white shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300"
+                  ? "bg-brand-gold text-brand-navy shadow-xs font-bold"
+                  : "bg-brand-platinum text-brand-navy/70 hover:bg-brand-platinum/80 hover:text-brand-navy"
               }`}
             >
               {st}

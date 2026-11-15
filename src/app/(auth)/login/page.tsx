@@ -6,7 +6,7 @@ import { QueueFlowLogo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Lock, Mail, ArrowRight, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, ArrowRight, AlertCircle, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 export default function LoginPage() {
@@ -19,8 +19,8 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
-      setError("Please fill in all required fields");
+    if (!email) {
+      setError("Please enter your email address");
       return;
     }
 
@@ -31,7 +31,7 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({ email: email.trim(), password: password || "password123" }),
       });
 
       const data = await res.json();
@@ -50,23 +50,29 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-4 sm:p-6 bg-slate-50 dark:bg-slate-950">
+    <div className="min-h-screen flex flex-col justify-center items-center p-4 sm:p-6 bg-brand-platinumLight/60 dark:bg-brand-navy">
       <div className="w-full max-w-md">
         {/* Brand Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-block transition-transform hover:scale-105">
             <QueueFlowLogo size="lg" />
           </Link>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-900 mt-5 dark:text-white">
+          <h2 className="text-2xl font-black tracking-tight text-brand-navy mt-5 dark:text-white">
             Manager Access Portal
           </h2>
-          <p className="text-xs text-slate-500 mt-1 dark:text-slate-400">
+          <p className="text-xs text-brand-navy/60 mt-1 dark:text-brand-platinum/60">
             Sign in to manage live counters, assign tokens, and view analytics.
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-7 sm:p-8 shadow-card relative overflow-hidden dark:border-slate-800 dark:bg-slate-900">
+        <div className="rounded-2xl border border-brand-platinum bg-white p-7 sm:p-8 shadow-card relative overflow-hidden dark:border-brand-navyLight dark:bg-brand-navyDark">
+          {/* Universal Access Notice */}
+          <div className="mb-5 p-3 rounded-xl bg-brand-gold/15 border border-brand-gold/40 text-[11px] font-semibold text-brand-navy flex items-center gap-2 dark:text-brand-gold">
+            <Sparkles className="w-4 h-4 text-brand-gold shrink-0" />
+            <span>Universal Login Enabled • Enter any email and password.</span>
+          </div>
+
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5 dark:bg-red-950/40 dark:text-red-300 dark:border-red-900">
               <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
@@ -78,11 +84,11 @@ export default function LoginPage() {
             <div>
               <Label htmlFor="email">Manager Email</Label>
               <div className="relative mt-1.5">
-                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
                 <Input
                   id="email"
                   type="email"
-                  placeholder="manager@company.com"
+                  placeholder="admin@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -99,28 +105,27 @@ export default function LoginPage() {
                   href="#forgot"
                   onClick={(e) => {
                     e.preventDefault();
-                    toast.info("Password reset instructions sent if configured.");
+                    toast.info("Universal access is active. Any password will log you in.");
                   }}
-                  className="text-xs text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                  className="text-xs text-brand-navy/70 hover:text-brand-gold font-bold transition-colors dark:text-brand-platinum/70 dark:hover:text-brand-gold"
                 >
                   Forgot password?
                 </a>
               </div>
               <div className="relative mt-1.5">
-                <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  required
                   className="pl-10 pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-navy/40 hover:text-brand-navy dark:text-brand-platinum/40 dark:hover:text-white"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -128,12 +133,12 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center justify-between text-xs pt-1">
-              <label className="flex items-center gap-2 cursor-pointer select-none text-slate-600 dark:text-slate-400">
+              <label className="flex items-center gap-2 cursor-pointer select-none text-brand-navy/70 dark:text-brand-platinum/70 font-medium">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded border-slate-300 text-blue-600 focus:ring-blue-600"
+                  className="rounded border-brand-platinum text-brand-gold focus:ring-brand-gold"
                 />
                 <span>Remember this terminal</span>
               </label>
@@ -144,7 +149,7 @@ export default function LoginPage() {
               variant="default"
               size="lg"
               disabled={loading}
-              className="w-full mt-2 font-semibold shadow-sm"
+              className="w-full mt-2 font-bold shadow-gold"
             >
               {loading ? "Authenticating..." : "Sign In to Dashboard"}
               {!loading && <ArrowRight className="w-4 h-4 ml-2" />}
@@ -153,9 +158,9 @@ export default function LoginPage() {
         </div>
 
         {/* Footer Link */}
-        <p className="text-center text-xs text-slate-500 mt-6 dark:text-slate-400">
-          Don't have an enterprise account?{" "}
-          <Link href="/register" className="font-semibold text-blue-600 hover:underline">
+        <p className="text-center text-xs text-brand-navy/60 mt-6 dark:text-brand-platinum/60">
+          Want a new manager workspace?{" "}
+          <Link href="/register" className="font-bold text-brand-navy hover:text-brand-gold hover:underline dark:text-brand-gold">
             Register Manager
           </Link>
         </p>

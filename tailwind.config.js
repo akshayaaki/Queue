@@ -49,6 +49,19 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Coolors Palette 000000-14213d-fca311-e5e5e5-ffffff
+        brand: {
+          black: "#000000",
+          navy: "#14213d",
+          navyDark: "#0d1629",
+          navyLight: "#1c2d52",
+          gold: "#fca311",
+          goldHover: "#e5920b",
+          goldLight: "#fef3c7",
+          platinum: "#e5e5e5",
+          platinumLight: "#f4f4f5",
+          white: "#ffffff",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -70,9 +83,10 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-        card: "0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.06)",
-        "card-hover": "0 4px 12px 0 rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06)",
-        dropdown: "0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05)",
+        card: "0 1px 3px 0 rgba(20, 33, 61, 0.07), 0 1px 2px -1px rgba(20, 33, 61, 0.04)",
+        "card-hover": "0 4px 12px 0 rgba(20, 33, 61, 0.1), 0 2px 4px -2px rgba(20, 33, 61, 0.06)",
+        dropdown: "0 10px 25px -5px rgba(20, 33, 61, 0.12), 0 8px 10px -6px rgba(20, 33, 61, 0.08)",
+        gold: "0 4px 14px 0 rgba(252, 163, 17, 0.35)",
       },
     },
   },

@@ -135,7 +135,7 @@ export default function TokenHistoryPage() {
             <select
               value={selectedQueueId}
               onChange={(e) => setSelectedQueueId(e.target.value)}
-              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 focus-visible:border-blue-600 transition-all shadow-xs"
+              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/40 focus-visible:border-brand-gold transition-all shadow-xs"
             >
               <option value="ALL">All Queues</option>
               {queues.map((q) => (
@@ -151,7 +151,7 @@ export default function TokenHistoryPage() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 focus-visible:border-blue-600 transition-all shadow-xs"
+              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/40 focus-visible:border-brand-gold transition-all shadow-xs"
             >
               <option value="ALL">All Statuses</option>
               <option value="COMPLETED">Completed</option>
@@ -216,7 +216,7 @@ export default function TokenHistoryPage() {
                         {t.calledAt ? (
                           <div>
                             <div>{formatTime(t.calledAt)}</div>
-                            <div className="text-[10px] text-blue-600 font-medium dark:text-blue-400">
+                            <div className="text-[10px] text-brand-gold font-bold">
                               waited {formatDuration(waitMs)}
                             </div>
                           </div>
@@ -229,7 +229,7 @@ export default function TokenHistoryPage() {
                           <div>
                             <div>{formatTime(t.completedAt)}</div>
                             {svcMs !== null && (
-                              <div className="text-[10px] text-[#586938]">
+                              <div className="text-[10px] text-emerald-600 font-medium">
                                 served in {formatDuration(svcMs)}
                               </div>
                             )}

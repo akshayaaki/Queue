@@ -147,12 +147,12 @@ export function LiveTokenTable({
   const FILTERS = ["ALL", "WAITING", "SERVING", "CALLED", "COMPLETED", "CANCELLED", "SKIPPED"];
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white shadow-xs overflow-hidden dark:bg-slate-900 dark:border-slate-800">
+    <div className="rounded-xl border border-brand-platinum bg-white shadow-card overflow-hidden dark:bg-brand-navy dark:border-brand-navyLight">
       {/* Controls Bar: Search + Status Filter Pills */}
-      <div className="p-4 border-b border-slate-200 bg-white flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between dark:bg-slate-900 dark:border-slate-800">
+      <div className="p-4 border-b border-brand-platinum bg-white flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between dark:bg-brand-navy dark:border-brand-navyLight">
         {/* Search Input */}
         <div className="relative w-full md:w-72">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-brand-navy/40 dark:text-brand-platinum/40" />
           <Input
             placeholder="Search token # or name..."
             value={search}
@@ -163,17 +163,17 @@ export function LiveTokenTable({
 
         {/* Filter Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1 hidden sm:inline">
+          <span className="text-[11px] font-bold text-brand-navy/50 uppercase tracking-wider mr-1 hidden sm:inline dark:text-brand-platinum/50">
             Status:
           </span>
           {FILTERS.map((f) => (
             <button
               key={f}
               onClick={() => setStatusFilter(f)}
-              className={`px-2.5 py-1 rounded-md text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-2.5 py-1 rounded-md text-xs font-bold whitespace-nowrap transition-all ${
                 statusFilter === f
-                  ? "bg-blue-600 text-white shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                  ? "bg-brand-gold text-brand-navy shadow-xs border border-brand-gold"
+                  : "bg-brand-platinum text-brand-navy hover:bg-brand-platinumLight dark:bg-brand-navyDark dark:text-brand-platinum dark:hover:bg-brand-navyLight"
               }`}
             >
               {f === "ALL" ? "All Tokens" : f.charAt(0) + f.slice(1).toLowerCase()}
@@ -186,7 +186,7 @@ export function LiveTokenTable({
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm border-collapse">
           <thead>
-            <tr className="border-b border-slate-200 bg-slate-50/60 text-[11px] uppercase tracking-wider text-slate-500 font-semibold dark:bg-slate-800/40 dark:border-slate-800">
+            <tr className="border-b border-brand-platinum bg-brand-platinumLight/60 text-[11px] uppercase tracking-wider text-brand-navy/70 font-bold dark:bg-brand-navyDark/60 dark:border-brand-navyLight dark:text-brand-platinum/70">
               <th className="py-3 px-4 w-16 text-center">Order</th>
               <th className="py-3 px-4">Token</th>
               <th className="py-3 px-4">Customer</th>

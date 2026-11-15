@@ -24,7 +24,7 @@ export function QueueFlowLogo({
     <div className={cn("inline-flex items-center gap-2.5 select-none", className)}>
       <div
         className={cn(
-          "relative flex items-center justify-center rounded-lg bg-blue-600 text-white shadow-xs p-1.5",
+          "relative flex items-center justify-center rounded-lg bg-brand-navy text-brand-gold shadow-xs p-1.5 border border-brand-navyDark",
           iconSizes
         )}
       >
@@ -35,7 +35,7 @@ export function QueueFlowLogo({
           className="w-full h-full"
         >
           {/* Modern Flow Lines */}
-          <rect x="3" y="14" width="4" height="7" rx="1.5" fill="currentColor" fillOpacity="0.5" />
+          <rect x="3" y="14" width="4" height="7" rx="1.5" fill="currentColor" fillOpacity="0.4" />
           <rect x="10" y="9" width="4" height="12" rx="1.5" fill="currentColor" fillOpacity="0.8" />
           <rect x="17" y="4" width="4" height="17" rx="1.5" fill="currentColor" />
         </svg>
@@ -43,17 +43,19 @@ export function QueueFlowLogo({
       <div className="flex flex-col">
         <span
           className={cn(
-            "font-bold tracking-tight text-slate-900 dark:text-white leading-none flex items-center gap-1",
+            "font-extrabold tracking-tight text-brand-navy dark:text-white leading-none flex items-center gap-1",
             textSizes
           )}
         >
           <span>Queue</span>
-          <span className="text-blue-600">Flow</span>
-          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200/60 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-900">
+          <span className="text-brand-gold">Flow</span>
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-brand-gold/20 text-brand-navy border border-brand-gold/50 dark:text-brand-gold">
             PRO
           </span>
         </span>
-        <span className="text-[10px] text-slate-400 font-medium tracking-wider uppercase mt-0.5">Enterprise</span>
+        <span className="text-[10px] text-brand-navy/60 font-semibold tracking-wider uppercase mt-0.5 dark:text-brand-platinum/60">
+          Enterprise
+        </span>
       </div>
     </div>
   );

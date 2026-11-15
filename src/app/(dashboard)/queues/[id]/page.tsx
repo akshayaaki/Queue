@@ -87,7 +87,7 @@ export default function LiveQueuePage() {
   if (loading) {
     return (
       <div className="py-24 text-center">
-        <RefreshCw className="w-8 h-8 text-blue-600 animate-spin mx-auto mb-3" />
+        <RefreshCw className="w-8 h-8 text-brand-gold animate-spin mx-auto mb-3" />
         <p className="text-sm font-semibold text-foreground">Connecting to Live Queue...</p>
       </div>
     );
@@ -120,7 +120,7 @@ export default function LiveQueuePage() {
 
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-md bg-blue-50 text-blue-700 font-mono font-bold text-xs border border-blue-200 shadow-2xs dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800">
+              <span className="px-2.5 py-0.5 rounded-md bg-brand-navy text-brand-gold font-mono font-bold text-xs border border-brand-navy shadow-2xs">
                 {queue.queueCode}
               </span>
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">

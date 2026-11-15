@@ -181,6 +181,19 @@ export const memoryPrisma = {
       saveToDisk(db);
       return { ...newUser };
     },
+    deleteMany: async (args?: { where?: any }) => {
+      const db = getMemoryDB();
+      if (!args?.where) {
+        const count = db.users.length;
+        db.users = [];
+        saveToDisk(db);
+        return { count };
+      }
+      const before = db.users.length;
+      db.users = db.users.filter((u) => !matchWhere(u, args.where));
+      saveToDisk(db);
+      return { count: before - db.users.length };
+    },
   },
 
   queue: {
@@ -259,6 +272,25 @@ export const memoryPrisma = {
         return { ...deleted };
       }
       return null;
+    },
+
+    deleteMany: async (args?: { where?: any }) => {
+      const db = getMemoryDB();
+      if (!args?.where) {
+        const count = db.queues.length;
+        db.queues = [];
+        db.tokens = [];
+        db.events = [];
+        saveToDisk(db);
+        return { count };
+      }
+      const before = db.queues.length;
+      const toDelete = db.queues.filter((q) => matchWhere(q, args.where)).map((q) => q.id);
+      db.queues = db.queues.filter((q) => !toDelete.includes(q.id));
+      db.tokens = db.tokens.filter((t) => !toDelete.includes(t.queueId));
+      db.events = db.events.filter((e) => !toDelete.includes(e.queueId));
+      saveToDisk(db);
+      return { count: before - db.queues.length };
     },
   },
 
@@ -370,6 +402,20 @@ export const memoryPrisma = {
       }
       return null;
     },
+
+    deleteMany: async (args?: { where?: any }) => {
+      const db = getMemoryDB();
+      if (!args?.where) {
+        const count = db.tokens.length;
+        db.tokens = [];
+        saveToDisk(db);
+        return { count };
+      }
+      const before = db.tokens.length;
+      db.tokens = db.tokens.filter((t) => !matchWhere(t, args.where));
+      saveToDisk(db);
+      return { count: before - db.tokens.length };
+    },
   },
 
   queueEvent: {
@@ -453,15 +499,25 @@ function matchWhere(item: any, where: any): boolean {
       if (op.contains && typeof itemVal === "string") {
         if (!itemVal.toLowerCase().includes(String(op.contains).toLowerCase())) return false;
       }
-      if (op.gte) {
-        const d1 = new Date(itemVal).getTime();
-        const d2 = new Date(op.gte).getTime();
+      if (op.gte !== undefined) {
+        const d1 = itemVal instanceof Date ? itemVal.getTime() : (typeof itemVal === "number" ? itemVal : new Date(itemVal).getTime());
+        const d2 = op.gte instanceof Date ? op.gte.getTime() : (typeof op.gte === "number" ? op.gte : new Date(op.gte).getTime());
         if (d1 < d2) return false;
       }
-      if (op.lte) {
-        const d1 = new Date(itemVal).getTime();
-        const d2 = new Date(op.lte).getTime();
+      if (op.gt !== undefined) {
+        const d1 = itemVal instanceof Date ? itemVal.getTime() : (typeof itemVal === "number" ? itemVal : new Date(itemVal).getTime());
+        const d2 = op.gt instanceof Date ? op.gt.getTime() : (typeof op.gt === "number" ? op.gt : new Date(op.gt).getTime());
+        if (d1 <= d2) return false;
+      }
+      if (op.lte !== undefined) {
+        const d1 = itemVal instanceof Date ? itemVal.getTime() : (typeof itemVal === "number" ? itemVal : new Date(itemVal).getTime());
+        const d2 = op.lte instanceof Date ? op.lte.getTime() : (typeof op.lte === "number" ? op.lte : new Date(op.lte).getTime());
         if (d1 > d2) return false;
+      }
+      if (op.lt !== undefined) {
+        const d1 = itemVal instanceof Date ? itemVal.getTime() : (typeof itemVal === "number" ? itemVal : new Date(itemVal).getTime());
+        const d2 = op.lt instanceof Date ? op.lt.getTime() : (typeof op.lt === "number" ? op.lt : new Date(op.lt).getTime());
+        if (d1 >= d2) return false;
       }
       if (op.not !== undefined) {
         if (op.not === null && itemVal === null) return false;

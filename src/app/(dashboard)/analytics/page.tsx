@@ -68,11 +68,11 @@ export default function AnalyticsPage() {
       {/* Page Header & Filter Bar */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-6 rounded-2xl border border-border bg-card shadow-card">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-blue-600 mb-1">
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-gold mb-1">
             <BarChart3 className="w-4 h-4" />
             Operational Intelligence
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground font-serif">
             Analytics & Queue Telemetry
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -87,7 +87,7 @@ export default function AnalyticsPage() {
             <select
               value={selectedQueueId}
               onChange={(e) => setSelectedQueueId(e.target.value)}
-              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 focus-visible:border-blue-600 transition-all shadow-xs"
+              className="flex h-9 w-full rounded-lg border border-border bg-card px-3 py-1.5 text-xs text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/40 focus-visible:border-brand-gold transition-all shadow-xs"
             >
               <option value="">All My Queues</option>
               {queues.map((q) => (
@@ -113,8 +113,8 @@ export default function AnalyticsPage() {
                   onClick={() => setPeriod(p)}
                   className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                     period === p
-                      ? "bg-card text-foreground shadow-xs font-bold"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-brand-gold text-brand-navy shadow-xs font-bold"
+                      : "text-muted-foreground hover:text-foreground font-medium"
                   }`}
                 >
                   {labels[p]}
@@ -182,7 +182,7 @@ export default function AnalyticsPage() {
                 Distribution of queue token arrivals across operating hours.
               </p>
             </div>
-            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-navy text-brand-gold border border-brand-navy">
               Hourly Influx
             </span>
           </div>
@@ -200,7 +200,7 @@ export default function AnalyticsPage() {
                 Daily average minutes from arrival until customer was called.
               </p>
             </div>
-            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-gold/15 text-brand-navy border border-brand-gold/30">
               Speed Trend
             </span>
           </div>
@@ -218,7 +218,7 @@ export default function AnalyticsPage() {
                 Comparison of served, active waiting, and cancelled tokens per queue.
               </p>
             </div>
-            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
+            <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-platinum text-brand-navy">
               Counter Comparison
             </span>
           </div>
