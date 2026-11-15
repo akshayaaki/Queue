@@ -25,7 +25,7 @@ export default function SettingsPage() {
     fetch("/api/health")
       .then((r) => r.json())
       .then((d) => setHealth(d))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const handleToggleSound = () => {
